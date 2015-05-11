@@ -9,37 +9,45 @@
 @model IEnumerable<Cats.Areas.Finance.Models.TransporterPaymentRequestViewModel>
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    int index = 0;
+    var transportOrderViewModel = ViewBag.TransportOrderViewModel;
+    ViewBag.PageTitle = " Payment Request";
+    ViewBag.PageTitleDescription = " of " + @transportOrderViewModel.Transporter + " Transporter";
 }
 
 @section Toolbar
 {
-    <div class="btn-group" style="right: 100px">
-        
-        <button class="btn"> @Html.Translate("Action")</button>
+    
+   <div id="dashboard-report-range" class="pull-right tooltips" data-placement="top" data-original-title="Actions Toolbar">
+    <div class="btn-group">
+        @*<button class="btn"> @Html.Translate("Action")</button>*@
         @{
             if (ViewBag.ApprovedPRCount > 0)
             {
-                <button class="btn dropdown-toggle " data-toggle="dropdown">
-                    <span class="caret"></span>
+                <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Action") <i class="fa fa-angle-down"></i>
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" data-ng-click="loadCollectiveChequeInfo(@ViewBag.TransportOrderViewModel.TransporterID,'@ViewBag.ReferenceNo')"> @Html.Translate("Generate Cheque")</a></li>
+                <ul class="dropdown-menu pull-right">
+                    <li><a class="btn green-haze-stripe" href="#" data-ng-click="loadCollectiveChequeInfo(@ViewBag.TransportOrderViewModel.TransporterID,'@ViewBag.ReferenceNo');"> @Html.Translate("Generate Cheque")</a></li>
                     <li>@*<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>*@</li>
                 </ul>
             }
             else
             {
-                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
+                @*<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Action") <i class="fa fa-angle-down"></i>
+                    </button>*@
+                <ul class="dropdown-menu pull-right">
                     <li>@*<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>*@</li>
                 </ul>
             }
         }
         @*<button style="margin-left: 4px;" class="btn" onclick="print_payment_request()">Print</button>*@
     </div>
+</div>
+
     <script type="text/javascript">
         function print_payment_request() {
             var refNo = $("#filter").val();
@@ -51,25 +59,45 @@
     </script>
 }
 @{
-    int index = 0;
-    var transportOrderViewModel = ViewBag.TransportOrderViewModel;
+    
 }
 <html data-ng-app="PaymentRequestManagementModule">
     <head>
         <style>
-            .errorText
-            {
+            .errorText {
                 color: red;
             }
+
             #messageboxPayDeduct {
                 color: springgreen;
                 font-weight: bold;
                 font-size: 16px;
             }
+
             #messageboxPayDeductCheque {
                 color: springgreen;
                 font-weight: bold;
                 font-size: 16px;
+            }
+
+            .form-control {
+                font-weight: bold;
+            }
+
+            .k-header {
+                height: auto;
+            }
+
+            .k-window-titlebar {
+                height: auto;
+            }
+
+            .margin-bottom-0 {
+                margin-bottom: 0px;
+            }
+
+            #paymentrequesttable.table > tbody > tr > td, #paymentrequesttable.table > tbody > tr > th, #paymentrequesttable.table > tfoot > tr > td, #paymentrequesttable.table > tfoot > tr > th, #paymentrequesttable .table > thead > tr > td, #paymentrequesttable.table > thead > tr > th {
+                white-space: nowrap;
             }
         </style>
     </head>
@@ -77,497 +105,297 @@
         @*<div id='dialogDiv' class='modal hide fade in'>
             
         </div>*@
-        <div id="modalCollectiveChequeInfo" class="form-horizontal" style="margin-top:30px;width:580px;height:480px;">
-            @using (Html.BeginForm("EditCollectiveChequeInfo", "ValidatedPaymentRequest", FormMethod.Post))
-            {
-                <input type="text" name="transporterID" id="transporterID" value="@ViewBag.TransporterID" style="display: none"/>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="Transporter"> @Html.Translate("Transporter")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" name="Transporter" id="Transporter" value="{{SelectedCheckInfo.Transporter}}" data-ng-model="SelectedCheckInfo.Transporter" 
-                                    disabled="disabled"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequestsList"> @Html.Translate("Approved Payment Request List")</label>
-                            </div>
-                            <div class="controls">
-                                <textarea name="PaymentRequestsList" id="PaymentRequestsList" data-ng-model="SelectedCheckInfo.PaymentRequestsList" disabled="disabled">
-                                    {{SelectedCheckInfo.PaymentRequestList}}
-                                </textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="CheckNo"> @Html.Translate("Check No.")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.CheckNo}}" name="CheckNo" id="CheckNo" 
-                                       data-ng-model="SelectedCheckInfo.CheckNo"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentVoucherNo"> @Html.Translate("Payment Voucher No.")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="PaymentVoucherNo" id="PaymentVoucherNo" 
-                                       data-ng-model="SelectedCheckInfo.PaymentVoucherNo"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="BankName"> @Html.Translate("Bank Name")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.BankName}}" name="BankName" id="BankName" 
-                                       data-ng-model="SelectedCheckInfo.BankName"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="Amount"> @Html.Translate("Amount")</label>
-                            </div>
-                            <div class="controls">
-                                @*<input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
-                                       data-ng-model="SelectedCheckInfo.Amount"/>*@
-                                <input type="text" name="Amount" id="Amount" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount" style="display: none"/>
-                                <input type="text" name="AmountView" id="AmountView" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount" disabled="disabled"/>&nbsp;<span id="errmsgCollectiveCheckInfo_Amount" class="errorText"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PreparedBy"> @Html.Translate("Prepared By")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="PreparedBy" id="PreparedBy" 
-                                       data-ng-model="SelectedCheckInfo.PreparedBy" disabled="disabled"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span6   " style="width: 400px;">
-                        <div class="control-group message-box" style="float: left;" id="messageboxCollectiveCheque"></div>
-                        <div class="control-group" style="float: right;">
-                            <button id="btnSaveCollectiveCheque" class="btn" type="submit"> @Html.Translate("Save")</button>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-        <script>
-            var wndCollectiveChequeInfo;
-            $(document).ready(function () {
-                wndCollectiveChequeInfo = $("#modalCollectiveChequeInfo").kendoWindow({
-                    title: "Generate Cheque",
-                    modal: true,
-                    visible: false,
-                    resizable: false,
-                    width: 600,
-                    height: 520
-                }).data("kendoWindow");
-            });
-        </script>
-        <div id="modalLabourCostInfo" class="form-horizontal" style="margin-top:30px;width:520px;height:380px;">
-            @using (Html.BeginForm("EditLabourCostInfo", "ValidatedPaymentRequest", FormMethod.Post))
-            {
-                 <input type="text" value="{{SelectedLabourInfo.PaymentRequestID}}" name="PaymentRequestID" id="PaymentRequestID" 
-                                       data-ng-model="SelectedLabourInfo.PaymentRequestID" style="display: none"/>
-                <div class="">
-                    <div class="span5">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequest_ReferenceNo"> @Html.Translate("Referrence No.")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedLabourInfo.ReferenceNo}}" name="ReferenceNo" id="PaymentRequest_ReferenceNo" 
-                                       data-ng-model="SelectedLabourInfo.ReferenceNo" disabled="disabled"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span5">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequest_TransportedQuantityInQtl"> @Html.Translate("Transported Quanitity in QTL")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedLabourInfo.TransportedQuantityInQtl}}" name="TransportedQuantityInQtl" id="PaymentRequest_TransportedQuantityInQtl" 
-                                       data-ng-model="SelectedLabourInfo.TransportedQuantityInQtl" disabled="disabled"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span5">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequest_LabourCostRate"> @Html.Translate("Labour Cost Rate (per QTL)")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" name="LabourCostRate" id="PaymentRequest_LabourCostRate" value="{{SelectedLabourInfo.LabourCostRate}}"  data-ng-change="labourCostRateKeyPressed()" data-ng-model="SelectedLabourInfo.LabourCostRate"/>&nbsp;<span id="errmsgPaymentRequest_LabourCostRate" class="errorText"></span>
-                                @*<input type="text" value="{{SelectedLabourInfo.LabourCostRate}}" name="PaymentRequest.LabourCostRate" id="PaymentRequest_LabourCostRate" 
-                                   data-ng-model="SelectedLabourInfo.LabourCostRate" data-ng-change="labourCostRateKeyPressed()"/>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span5">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequest_LabourCost"> @Html.Translate("Labour Cost")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedLabourInfo.LabourCost}}" name="LabourCost" id="PaymentRequest_LabourCost1" 
-                                       data-ng-model="SelectedLabourInfo.LabourCost" style="display: none"/>
-                                <input type="text" value="{{SelectedLabourInfo.LabourCost}}" name="LabourCost" id="PaymentRequest_LabourCost" 
-                                       data-ng-model="SelectedLabourInfo.LabourCost" disabled="disabled"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span5">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequest_RejectedAmount"> @Html.Translate("Rejected Amount")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" name="RejectedAmount" id="PaymentRequest_RejectedAmount" value="{{SelectedLabourInfo.RejectedAmount}}" data-ng-model="SelectedLabourInfo.RejectedAmount"/>&nbsp;<span id="errmsgPaymentRequest_RejectedAmount" class="errorText"></span>
-                                @*<input type="text" value="{{SelectedLabourInfo.RejectedAmount}}" name="PaymentRequest.RejectedAmount" id="PaymentRequest_RejectedAmount" 
-                                   data-ng-model="SelectedLabourInfo.RejectedAmount"/>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span5">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="PaymentRequest_RejectionReason"> @Html.Translate("Rejection Reason")</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedLabourInfo.RejectionReason}}" name="RejectionReason" id="PaymentRequest_RejectionReason" 
-                                       data-ng-model="SelectedLabourInfo.RejectionReason"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="span5" style="width: 400px;">
-                        <div class="control-group message-box" style="float: left;" id="messageboxPayDeduct"></div>
-                        <div class="control-group" style="float: right;">
-                            <button id="btnSavePaymentDeductions" class="btn" type="submit"> @Html.Translate("Save")</button>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-        <script>
-            var wndLabourCostInfo;
-            $(document).ready(function () {
-                wndLabourCostInfo = $("#modalLabourCostInfo").kendoWindow({
-                    title: "Edit Payment Deductions",
-                    modal: true,
-                    visible: false,
-                    resizable: false,
-                    width: 525,
-                    height: 420
-                }).data("kendoWindow");
-            });
-        </script>
-        
-        <div class="control-group form-horizontal well">
-            <div class="row">
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("Transport Order No.")
-                        </div>
-                        <div class="controls">
-                            <a href="@Url.Action("TransportOrderDetail", "ValidatedPaymentRequest", new { transportOrderID = transportOrderViewModel.TransportOrderID })">
-                                @transportOrderViewModel.TransportOrderNo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("Transporter")
-                        </div>
-                        <div class="controls">
-                            <a href="@Url.Action("TransporterDetail", "ValidatedPaymentRequest", new { transporterID = transportOrderViewModel.TransporterID })">
-                                @transportOrderViewModel.Transporter
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.Translate("Contract N0.")
-                        </div>
-                        <div class="controls">
-                            <input id="ContractNumber" name="ContractNumber" value="@transportOrderViewModel.ContractNumber" disabled="disabled" />
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("Order Date")
-                        </div>
-                        <div class="controls">
-                            <input id="OrderDateET" name="OrderDateET" value="@transportOrderViewModel.OrderDateET" disabled="disabled" />
-                        </div>
+       
 
-                    </div>
+        <div class="portlet light bordered ">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-truck font-green-sharp"></i> Transporter Details
+                </div>
+                <div class="tools">
+                    <a href="#" class="collapse" data-original-title="" title="">
+                    </a>
                 </div>
             </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("Requested Dispatch Date")
-                        </div>
-                        <div class="controls">
-                            <input id="RequestedDispatchDateET" name="RequestedDispatchDateET" value="@transportOrderViewModel.RequestedDispatchDateET" disabled="disabled" />
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("Order Expiry Date")
-                        </div>
-                        <div class="controls">
-                            <input id="OrderExpiryDateET" name="OrderExpiryDateET" value="@transportOrderViewModel.OrderExpiryDateET" disabled="disabled" />
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("Start Date")
-                        </div>
-                        <div class="controls">
-                            <input id="StartDate" name="StartDate" value="@transportOrderViewModel.StartDate" disabled="disabled" />
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="control-group">
-                        <div class="control-label">
-                             @Html.Translate("End Date")
-                        </div>
-                        <div class="controls">
-                            <input id="EndDate" name="EndDate" value="@transportOrderViewModel.EndDate" disabled="disabled" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h3> @Html.Translate("Payment Request")</h3>
-        
-        <label for="filter" class="filter_label"><strong> @Html.Translate("Reference No.")</strong></label>
-        <input type="text" name="filter" value="" id="filter" />
-        
-@*        <label for="program_filter" class="filter_label"><strong>Program</strong></label>
-        <select id="program_filter" name="program_filter">
-            <option value="All" selected >All</option>
-            <option value="Relief">Relief</option>
-            <option value="PSNP">PSNP</option>
-            <option value="IDPs">IDPs</option>
-        </select>*@
-
-        <table class="table table-striped" id="paymentrequesttable">
-            <thead>
-                <tr>
-                    <th> @Html.Translate("SNo.")</th>
-                    <th> @Html.Translate("Reference No.")</th>
-                    <th> @Html.Translate("Program")</th>
-                    <th> @Html.Translate("Requisition")</th>
-                    <th> @Html.Translate("Issue No.")</th>
-                    <th> @Html.Translate("G.R.N.")</th>
-                    <th> @Html.Translate("Commodity")</th>
-                    <th> @Html.Translate("Source")</th>
-                    <th> @Html.Translate("Destination")</th>
-                    <th> @Html.Translate("Received Qty.")</th>
-                    <th> @Html.Translate("Tarrif")</th>
-                    <th> @Html.Translate("Shortage Qty.")</th>
-                    <th> @Html.Translate("Shortage Birr")</th>
-                    <th> @Html.Translate("Freight Charge")</th>
-                    <th> @Html.Translate("Status")</th>
-                    <th> @Html.Translate("Actions")</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{int sno = 0;}
-                @foreach (TransporterPaymentRequestViewModel item in Model)
-                {
-                    index++;
-                    sno++;
-                    var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
-                    //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
-                    //{
-                    
-                    <tr>
-                         <td>
-                            @sno
-                        </td>
-                        <td>
-                            @item.ReferenceNo
-                        </td>
-                        <td>
-                            @item.Program.Name
-                        </td>
-                        <td>
-                            @item.RequisitionNo
-                        </td>
-                        <td>
-                            @item.GIN
-                        </td>
-                        <td>
-                            @item.GRN
-                        </td>
-                        <td>
-                            @item.Commodity
-                        </td>
-                        <td>
-                            @item.Source
-                        </td>
-                        <td>
-                            @item.Destination
-                        </td>
-                        <td class="item_receivedqty num">
-                            @item.ReceivedQty
-                        </td>
-                        <td class="num">
-                            @item.Tarrif.ToString("0.00")
-                        </td>
-                        <td class="item_shortageqty num">
-                            @item.ShortageQty
-                        </td>
-                        <td class="item_shortagebirr num">
-                            @item.ShortageBirr
-                        </td>
-                        <td class="item_freightcharge num">
-                            @item.FreightCharge.ToString("0.00")
-                        </td>
-                        <td>
-                            @if (state.Name == "Submitted to Finance")
-                            {
-                                <text>Submitted from Logistics</text>
-                            }
-                            else
-                            {
-                                @state.Name
-                            }
-                        </td>
-                        <td>
-                            <button class="btn" style="padding: 0px;" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">@Html.Translate("Payment Deductions")</button>
-                            @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
-                        </td>
-                        <td>
-                            @if (item.LabourCostRate != null && state.StateNo < 3)
-                            {
-                                <div class="btn-group">
-                                    <button class="btn edit_button" id="action_@index">@Html.Translate("Workflow")</button>
-                                    <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
-                                        {
-                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate(@actions.Name)</a></li>
-                                        }
-                                        <li class="divider"></li>
-                                        <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">@Html.Translate("History")</a></li>
-                                    </ul>
+            <div class="portlet-body form">
+                <div class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">@Html.Translate("Transport Order No.")</label>
+                                    <div class="col-md-4">
+                                        <a class="form-control" href="@Url.Action("TransportOrderDetail", "ValidatedPaymentRequest", new {transportOrderID = transportOrderViewModel.TransportOrderID})">
+                                            @transportOrderViewModel.TransportOrderNo
+                                        </a>
+                                    </div>
                                 </div>
-                            }
-                            @if (item.LabourCostRate == null && state.StateNo < 3)
-                            {
-                                foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
-                                {
-                                    if (actions.Name == "Rejected by Finance")
-                                    {
-                                        <text><a class="btn" href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate("Reject")</a></text>
-                                    }
-                                    
-                                }
-                            }
-                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">@Html.Translate("Transporter")</label>
+                                    <div class="col-md-6">
+                                        <a id="transporterName" class="form-control tooltips" data-placement="bottom" data-original-title="@transportOrderViewModel.Transporter" href="@Url.Action("TransporterDetail", "ValidatedPaymentRequest", new {transporterID = transportOrderViewModel.TransporterID})">@transportOrderViewModel.Transporter</a>
+                                        <script>
+                                            $(function () {
+                                                var transName = $("#transporterName").html();
+                                                if (transName.length >= 40) {
+                                                    transName = transName.substr(0, 35) + "...";
+                                                    $("#transporterName").html(transName);
+                                                }
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        </td>
-                    </tr> 
-                    //}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">@Html.Translate("Contract N0.")</label>
+                                    <div class="col-md-7">
+                                        <label class="form-control" id="ContractNumber">@transportOrderViewModel.ContractNumber</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">@Html.Translate("Order Date")</label>
+                                    <div class="col-md-3">
+                                        <label class="form-control" id="OrderDateET">@transportOrderViewModel.OrderDateET</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                }
-            </tbody>
-            <tfoot>
-                <tr style="background-color: rgba(220, 220, 220, 0.47);">
-                        <td colspan="7"></td>
-                        <td style="text-align: center"><b>@Html.Translate("Total:")</b></td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">@Html.Translate("Requested Dispatch Date")</label>
+                                    <div class="col-md-3">
+                                        <label class="form-control" id="RequestedDispatchDateET">@transportOrderViewModel.RequestedDispatchDateET</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">@Html.Translate("Order Expiry Date")</label>
+                                    <div class="col-md-3">
+                                        <label class="form-control" id="OrderExpiryDateET">@transportOrderViewModel.OrderExpiryDateET</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <td><b><span id="view_receivedqty">0.0</span>@*@Model.Sum(a => a.ReceivedQty)*@</b></td>
-                        <td><b>@*@Model.Sum(a => a.Tarrif).ToString("0.00")*@</b> </td>
-                        <td><b><span id="view_shortageqty">0.0</span>@*@Model.Sum(a => a.ShortageQty)*@</b></td>
-                        <td><b><span id="view_shortagebirr">0.0</span>@*@Model.Sum(a => a.ShortageBirr)*@</b> </td>
-                        <td><b><span id="view_freightcharge">0.0</span>@*@Model.Sum(a => a.FreightCharge).ToString("0.00")*@ </b></td>
-                        <td></td>
-                        <td></td><td></td>
-                    </tr>
-             </tfoot>
-            
-        </table>
-        
-        <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">@Html.Translate("Start Date")</label>
+                                    <div class="col-md-3">
+                                        <label class="form-control" id="StartDate">@transportOrderViewModel.StartDate</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">@Html.Translate("End Date")</label>
+                                    <div class="col-md-3">
+                                        <label class="form-control" id="EndDate">@transportOrderViewModel.EndDate</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
-            <div class="modal-body" id="modalHistoryBody">@Html.Translate("History")</div>
-
         </div>
+
+        <div class="portlet light bordered ">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-credit-card font-green-sharp"></i> @Html.Translate("Payment Requests")
+                </div>
+                <div class="tools">
+                    <a href="#" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                
+                    <div class="table-responsive">
+                        <div class="table-toolbar">
+                            <label for="filter" class="filter_label"><strong> @Html.Translate("Reference No.")</strong></label>
+                            <input type="text" name="filter" value="" id="filter" />
+                        </div>
+                        <table class="table table-striped table-condensed" id="paymentrequesttable">
+                            <thead>
+                                <tr>
+                                    <th> @Html.Translate("SNo.")</th>
+                                    <th> @Html.Translate("Reference No.")</th>
+                                    <th> @Html.Translate("Program")</th>
+                                    <th> @Html.Translate("Requisition")</th>
+                                    <th> @Html.Translate("Issue No.")</th>
+                                    <th> @Html.Translate("G.R.N.")</th>
+                                    <th> @Html.Translate("Commodity")</th>
+                                    <th> @Html.Translate("Source")</th>
+                                    <th> @Html.Translate("Destination")</th>
+                                    <th> @Html.Translate("Received Qty.")</th>
+                                    <th> @Html.Translate("Tarrif")</th>
+                                    <th> @Html.Translate("Shortage Qty.")</th>
+                                    <th> @Html.Translate("Shortage Birr")</th>
+                                    <th> @Html.Translate("Freight Charge")</th>
+                                    <th> @Html.Translate("Status")</th>
+                                    <th> @Html.Translate("Actions")</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int sno = 0;}
+                                @foreach (TransporterPaymentRequestViewModel item in Model)
+                                {
+                                    index++;
+                                    sno++;
+                                    var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+                                    //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
+                                    //{
+
+                                    <tr>
+                                        <td>
+                                            @sno
+                                        </td>
+                                        <td>
+                                            @item.ReferenceNo
+                                        </td>
+                                        <td>
+                                            @item.Program.Name
+                                        </td>
+                                        <td>
+                                            @item.RequisitionNo
+                                        </td>
+                                        <td>
+                                            @item.GIN
+                                        </td>
+                                        <td>
+                                            @item.GRN
+                                        </td>
+                                        <td>
+                                            @item.Commodity
+                                        </td>
+                                        <td>
+                                            @item.Source
+                                        </td>
+                                        <td>
+                                            @item.Destination
+                                        </td>
+                                        <td class="item_receivedqty num">
+                                            @item.ReceivedQty
+                                        </td>
+                                        <td class="num">
+                                            @item.Tarrif.ToString("0.00")
+                                        </td>
+                                        <td class="item_shortageqty num">
+                                            @item.ShortageQty
+                                        </td>
+                                        <td class="item_shortagebirr num">
+                                            @item.ShortageBirr
+                                        </td>
+                                        <td class="item_freightcharge num">
+                                            @item.FreightCharge.ToString("0.00")
+                                        </td>
+                                        <td>
+                                            @if (state.Name == "Submitted to Finance")
+                                            {
+                                                <text>Submitted from Logistics</text>
+                                            }
+                                            else
+                                            {
+                                                @state.Name
+                                            }
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default btn-xs green-meadow-stripe" style="" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">@Html.Translate("Payment Deductions")</button>
+                                            @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
+                                        </td>
+                                        <td>
+                                            @if (item.LabourCostRate != null && state.StateNo < 3)
+                                            {
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default dropdown-toggle btn-xs green-stripe" data-toggle="dropdown">
+                                                        <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Workflow") <i class="fa fa-angle-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                                        {
+                                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate(@actions.Name)</a></li>
+                                                        }
+                                                        <li class="divider"></li>
+                                                        <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">@Html.Translate("History")</a></li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                            @if (item.LabourCostRate == null && state.StateNo < 3)
+                                            {
+                                                foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                                {
+                                                    if (actions.Name == "Rejected by Finance")
+                                                    {
+                                                        <text><a class="btn btn-danger btn-xs " href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate("Reject")</a></text>
+                                                    }
+
+                                                }
+                                            }
+
+
+                                        </td>
+                                    </tr>
+                                    //}
+
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: rgba(220, 220, 220, 0.47);">
+                                    <td colspan="8"></td>
+                                    <td style="text-align: center"><b>@Html.Translate("Total:")</b></td>
+
+                                    <td><b><span id="view_receivedqty">0.0</span>@*@Model.Sum(a => a.ReceivedQty)*@</b></td>
+                                    <td><b>@*@Model.Sum(a => a.Tarrif).ToString("0.00")*@</b> </td>
+                                    <td><b><span id="view_shortageqty">0.0</span>@*@Model.Sum(a => a.ShortageQty)*@</b></td>
+                                    <td><b><span id="view_shortagebirr">0.0</span>@*@Model.Sum(a => a.ShortageBirr)*@</b> </td>
+                                    <td><b><span id="view_freightcharge">0.0</span>@*@Model.Sum(a => a.FreightCharge).ToString("0.00")*@ </b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        
+                    </div>
+                
+            </div>
+        </div>
+
+    <div id="modalHistory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
+                </div>
+                <div class="modal-body" id="modalHistoryBody">@Html.Translate("History")</div>
+
+            </div>
+        </div>
+    </div>
+
         @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+    
         <script>
             var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
@@ -587,7 +415,7 @@
                 //alert("nextstate: " + nextstate);
                 if (nextstate == "2021") {
                     //alert("nextstate: " + nextstate);
-                                                                                                                        @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                     window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;*@
                     
                 }
@@ -776,17 +604,17 @@
                     query = $.trim(query); //trim white space
                     query = query.replace(/ /gi, '|'); //add OR for regex query
                     var program = $('#program_filter').val();
-                    
+
                     $(selector).each(function () {
                         if (program == "All") {
-                            ($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
-                        }
-                        else {
-                            (($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) || ($(this).find("td:nth-child(2)").text().search(new RegExp(program, "i")) < 0)) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                            ($(this).find("td:nth-child(2)").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                        } else {
+                            (($(this).find("td:nth-child(2)").text().search(new RegExp(query, "i")) < 0) || ($(this).find("td:nth-child(2)").text().search(new RegExp(program, "i")) < 0)) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
                         }
                     });
                     view_total();
                 }
+
                 // visible at first
                 $('table tbody tr').addClass('visible');
                 // visible total at first
@@ -797,6 +625,7 @@
                 $('#program_filter').change(function (e) {
                     filter('table>tbody>tr', $('#filter').val());
                 });
+
                 function view_total() {
                     var receivedqty = 0.00, shortageqty = 0.00, shortagebirr = 0.00, freightcharge = 0.00;
                     // select all visible rows
@@ -816,25 +645,199 @@
 
 
         </script>
-        
-        <style>
-            .table thead tr {
-                background: #DDD;
-            }
-            .table>thead>tr>th {
-                padding: 7px;
-            }
-            .filter_label {
-                display: initial;
-                padding-left: 10px;
-            }
-            #program_filter {
-                width: 100px;
-            }
-            #paymentrequesttable tfoot>tr>td, #paymentrequesttable tbody>tr>td.num {
-                text-align: right;
-            }
-        </style>
-        
+
+    <style>
+        .table thead tr {
+            background: #DDD;
+        }
+
+        .table > thead > tr > th {
+            padding: 7px;
+        }
+
+        .filter_label {
+            display: initial;
+            padding-left: 10px;
+        }
+
+        #program_filter {
+            width: 100px;
+        }
+
+        #paymentrequesttable tfoot > tr > td, #paymentrequesttable tbody > tr > td.num {
+            text-align: right;
+        }
+    </style>
+
+        <div id="modalCollectiveChequeInfo" class="form-horizontal" @*style="margin-top: 30px; "*@>
+            <div class="portlet margin-bottom-0  ">
+                <div class="portlet-body form">
+                    @using (Html.BeginForm("EditCollectiveChequeInfo", "ValidatedPaymentRequest", FormMethod.Post))
+                    {
+                        <input type="text" name="transporterID" id="transporterID" value="@ViewBag.TransporterID" style="display: none" />
+
+                        <div class="form-body" ng-cloak>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="Transporter"> @Html.Translate("Transporter")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" name="Transporter" id="Transporter" value="{{SelectedCheckInfo.Transporter}}" data-ng-model="SelectedCheckInfo.Transporter"
+                                           disabled="disabled" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="PaymentRequestsList"> @Html.Translate("Approved Payment Request List")</label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" name="PaymentRequestsList" id="PaymentRequestsList" data-ng-model="SelectedCheckInfo.PaymentRequestsList" disabled="disabled">
+                                        {{SelectedCheckInfo.PaymentRequestList}}
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="CheckNo"> @Html.Translate("Check No.")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedCheckInfo.CheckNo}}" name="CheckNo" id="CheckNo"
+                                           data-ng-model="SelectedCheckInfo.CheckNo" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="PaymentVoucherNo"> @Html.Translate("Payment Voucher No.")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="PaymentVoucherNo" id="PaymentVoucherNo"
+                                           data-ng-model="SelectedCheckInfo.PaymentVoucherNo" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="BankName"> @Html.Translate("Bank Name")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedCheckInfo.BankName}}" name="BankName" id="BankName"
+                                           data-ng-model="SelectedCheckInfo.BankName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="Amount"> @Html.Translate("Amount")</label>
+                                <div class="col-md-6">
+                                    @*<input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount"
+                                    data-ng-model="SelectedCheckInfo.Amount"/>*@
+                                    <input class="form-control" type="text" name="Amount" id="Amount" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount" style="display: none" />
+                                    <input class="form-control" type="text" name="AmountView" id="AmountView" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount" disabled="disabled" />&nbsp;<span id="errmsgCollectiveCheckInfo_Amount" class="errorText"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="PreparedBy"> @Html.Translate("Prepared By")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="PreparedBy" id="PreparedBy"
+                                           data-ng-model="SelectedCheckInfo.PreparedBy" disabled="disabled" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions right" style="padding: 10px 10px;">
+                            <div class="row">
+                                <div class="control-group message-box" style="float: left;" id="messageboxCollectiveCheque"></div>
+                                @*<div class="control-group" style="float: right;"></div>*@
+                            </div>
+                            <button id="btnSaveCollectiveCheque" class="btn blue" type="submit"> @Html.Translate("Save")</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <script>
+            var wndCollectiveChequeInfo;
+            $(document).ready(function () {
+                wndCollectiveChequeInfo = $("#modalCollectiveChequeInfo").kendoWindow({
+                    title: "Generate Cheque",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 600
+                }).data("kendoWindow");
+            });
+        </script>
+
+        <div id="modalLabourCostInfo" class="form-horizontal" role="form">
+            <div class="portlet margin-bottom-0 ">
+                <div class="portlet-body form">
+                    @using (Html.BeginForm("EditLabourCostInfo", "ValidatedPaymentRequest", FormMethod.Post))
+                    {
+                        <input type="text" value="{{SelectedLabourInfo.PaymentRequestID}}" name="PaymentRequestID" id="PaymentRequestID"
+                               data-ng-model="SelectedLabourInfo.PaymentRequestID" style="display: none" />
+
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="PaymentRequest_ReferenceNo"> @Html.Translate("Referrence No.")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedLabourInfo.ReferenceNo}}" name="ReferenceNo" id="PaymentRequest_ReferenceNo"
+                                           data-ng-model="SelectedLabourInfo.ReferenceNo" disabled="disabled" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="PaymentRequest_TransportedQuantityInQtl"> @Html.Translate("Transported Quanitity in QTL")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedLabourInfo.TransportedQuantityInQtl}}" name="TransportedQuantityInQtl" id="PaymentRequest_TransportedQuantityInQtl"
+                                           data-ng-model="SelectedLabourInfo.TransportedQuantityInQtl" disabled="disabled" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="PaymentRequest_LabourCostRate"> @Html.Translate("Labour Cost Rate (per QTL)")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" name="LabourCostRate" id="PaymentRequest_LabourCostRate" value="{{SelectedLabourInfo.LabourCostRate}}" data-ng-change="labourCostRateKeyPressed()" data-ng-model="SelectedLabourInfo.LabourCostRate" />&nbsp;<span id="errmsgPaymentRequest_LabourCostRate" class="errorText"></span>
+                                    @*<input type="text" value="{{SelectedLabourInfo.LabourCostRate}}" name="PaymentRequest.LabourCostRate" id="PaymentRequest_LabourCostRate"
+                                    data-ng-model="SelectedLabourInfo.LabourCostRate" data-ng-change="labourCostRateKeyPressed()"/>*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="PaymentRequest_LabourCost"> @Html.Translate("Labour Cost")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedLabourInfo.LabourCost}}" name="LabourCost" id="PaymentRequest_LabourCost1"
+                                           data-ng-model="SelectedLabourInfo.LabourCost" style="display: none" />
+                                    <input class="form-control" type="text" value="{{SelectedLabourInfo.LabourCost}}" name="LabourCost" id="PaymentRequest_LabourCost"
+                                           data-ng-model="SelectedLabourInfo.LabourCost" disabled="disabled" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="PaymentRequest_RejectedAmount"> @Html.Translate("Rejected Amount")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" name="RejectedAmount" id="PaymentRequest_RejectedAmount" value="{{SelectedLabourInfo.RejectedAmount}}" data-ng-model="SelectedLabourInfo.RejectedAmount" />&nbsp;<span id="errmsgPaymentRequest_RejectedAmount" class="errorText"></span>
+                                    @*<input type="text" value="{{SelectedLabourInfo.RejectedAmount}}" name="PaymentRequest.RejectedAmount" id="PaymentRequest_RejectedAmount"
+                                    data-ng-model="SelectedLabourInfo.RejectedAmount"/>*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-5 control-label" for="PaymentRequest_RejectionReason"> @Html.Translate("Rejection Reason")</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" value="{{SelectedLabourInfo.RejectionReason}}" name="RejectionReason" id="PaymentRequest_RejectionReason"
+                                           data-ng-model="SelectedLabourInfo.RejectionReason" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions right" style="padding: 10px 10px;">
+                            <div class="row">
+                                <div class="control-group message-box" style="float: left;" id="messageboxPayDeduct"></div>
+                                @*<div class="col-md-offset-3 col-md-9">
+                                    <button id="btnSavePaymentDeductions" class="btn btn-default" type="submit"> @Html.Translate("Save")</button>
+                                </div>*@
+                            </div>
+                            <button id="btnSavePaymentDeductions" class="btn blue" type="submit"> @Html.Translate("Save")</button>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        <script>
+            var wndLabourCostInfo;
+            $(document).ready(function () {
+                wndLabourCostInfo = $("#modalLabourCostInfo").kendoWindow({
+                    title: "Edit Payment Deductions",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 600
+                    //height: 420
+                }).data("kendoWindow");
+            });
+        </script>
+
     </body>
 </html>

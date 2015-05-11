@@ -7,108 +7,125 @@
 
 @{
     ViewBag.Title = Html.Translate("Details");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Transport Order Details";
+    ViewBag.PageTitleDescription = "";
 }
 @section Toolbar
-{ 
-    <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
+{
+    <div id="dashboard-report-range" class="pull-right tooltips" data-placement="top" data-original-title="Back to List">
+        <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new {Area = "Finance", transporterID = Model.TransporterID})" class="btn btn-fit-height grey-salt" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i>&nbsp;&nbsp; Back to List</a>
+    </div>
 }
-<div class="control-group form-horizontal well">
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Transport Order No"))
-
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.TransportOrderNo, new { Disabled = true })
-                </div>
-            </div>
+<div class="portlet light bordered ">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-truck font-green-sharp"></i> Transporter Order Header
         </div>
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Transporter"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
-                </div>
-            </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title="">
+            </a>
         </div>
     </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Contract Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
-                </div>
-            </div>
-        </div>
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Order Date ET"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.OrderDateET, new { Disabled = true })
-                </div>
+    <div class="portlet-body form">
 
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Transport Order No"), new {@class = "col-md-5 control-label"})
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(m => m.TransportOrderNo, new {Disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Transporter"), new {@class = "col-md-4 control-label"})
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Transporter, new {Disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Requested Dispatch Date ET"), new { @class = "cats-date-pref" })
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Contract Number"), new {@class = "col-md-5 control-label"})
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.ContractNumber, new {Disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
                 </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.RequestedDispatchDateET, new { Disabled = true })
-                </div>
-            </div>
-        </div>
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Order ExpiryDate ET"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.OrderExpiryDateET, new { Disabled = true })
-                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Order Date ET"), new {@class = "col-md-4 control-label"})
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.OrderDateET, new {Disabled = true, @class = "form-control"})
+                        </div>
 
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Start Date"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.StartDate, new { Disabled = true })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Html.Translate("End Date"), new { @class = "cats-date-pref" })
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Requested Dispatch Date ET"), new {@class = "col-md-5 control-label cats-date-pref"})
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.RequestedDispatchDateET, new {Disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
                 </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.EndDate, new { Disabled = true })
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Order ExpiryDate ET"), new {@class = "col-md-4 control-label cats-date-pref"})
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.OrderExpiryDateET, new {Disabled = true, @class = "form-control"})
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(Html.Translate("Start Date"), new {@class = "col-md-5 control-label cats-date-pref"})
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.StartDate, new {Disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label(@Html.Translate("End Date"), new {@class = "col-md-4 control-label cats-date-pref"})
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.EndDate, new {Disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i> Transport Order Details
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title="">
+            </a>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body form" style="height: auto;">
 
-@(Html.Kendo().Grid((IEnumerable<TransportOrderDetailViewModel>)ViewData["Transport.order.detail.ViewModel"])
+        @(Html.Kendo().Grid((IEnumerable<TransportOrderDetailViewModel>)ViewData["Transport.order.detail.ViewModel"])
 .Name("Grid").Columns(columns =>
                           {
                               columns.Bound(trd => trd.Woreda).Title(@Html.Translate("Woreda"));
@@ -120,18 +137,28 @@
                               columns.Bound(trd => trd.TotalAmount).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
 
                           })
-                          //.Pageable()
-                          .DataSource(
-                          model => model.Ajax()
-                              .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
-                              .Aggregates(aggregates =>aggregates.Add(p => p.TariffPerQtl).Sum())
-                              .Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
-                                       )
-                          )
-)
+        //.Pageable()
+                                                            .DataSource(
+                                                            model => model.Ajax()
+                                                                .Aggregates(aggregates => aggregates.Add(p => p.QuantityQtl).Sum())
+                                                                .Aggregates(aggregates => aggregates.Add(p => p.TariffPerQtl).Sum())
+                                                                .Aggregates(aggregates => aggregates.Add(p => p.TotalAmount).Sum())
+                                                                         )
+        )
+    </div>
+</div>
 <style type="text/css">
     .k-footer-template td {
         background: #DDD;
         border-width: 0;
     }
 </style>
+
+@* BirukT: The code bellow is added to make the kendo grid responsive  *@
+<script type="text/javascript">
+    $(function () {
+        $('table').addClass("table table-striped table-condensed noborder");
+        var tableData = $('#Grid').html();
+        $('#Grid').html("<div class='table-responsive'>" + tableData + "</div>");
+    });
+</script>

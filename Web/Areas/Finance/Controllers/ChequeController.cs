@@ -93,6 +93,7 @@ namespace Cats.Areas.Finance.Controllers
         {
             ViewBag.TargetController = "Cheque";
             ViewBag.TransporterID = transporterID;
+            ViewBag.TransporterName = _transporterService.FindById(transporterID).Name;
             //var transporterCheques = _transporterChequeService.Get(t=>t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequest.TransportOrder.TransporterID == transporterID).OrderByDescending(t => t.IssueDate);
             var transporterCheques =
                 _transporterChequeDetailService.Get(

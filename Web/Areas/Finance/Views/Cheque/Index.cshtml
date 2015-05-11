@@ -6,12 +6,30 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Cheque";
+    ViewBag.PageTitleDescription = "";
+
 }
 
-<h3>Transporters having active order</h3>
 
-@(Html.Kendo().Grid<TransporterViewModel>()
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i> Transporters List
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title="">
+            </a>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body form" style="height: auto;">
+        @(Html.Kendo().Grid<TransporterViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
@@ -21,14 +39,27 @@
         columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
         //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
     })
-    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+                //.Editable(editable => editable.Mode(GridEditMode.InCell))
     .Scrollable()
     .Sortable()
     .Filterable()
     .DataSource(dataSource => dataSource
-            .Ajax()
-            //.PageSize(8)
-            //.Model(model => model.Id(p => p.WoredaHubID))
+                    .Ajax().Sort(sort => sort.Add("TransporterName").Ascending())
+        //.PageSize(8)
+        //.Model(model => model.Id(p => p.WoredaHubID))
             .Read(read => read.Action("BidWinningTransporters_read", "Cheque"))
     )
-)
+        )
+    </div>
+</div>
+
+
+
+@* BirukT: The code bellow is added to make the kendo grid responsive  *@
+<script type="text/javascript">
+    //$(function () {
+    //    $('table').addClass("table table-striped table-condensed noborder");
+    //    var tableData = $('#grid').html();
+    //    $('#grid').html("<div class='table-responsive'>" + tableData + "</div>");
+    //});
+</script>
