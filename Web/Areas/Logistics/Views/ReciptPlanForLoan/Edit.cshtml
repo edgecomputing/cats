@@ -135,7 +135,16 @@
         </tr>
     </table>
     
-    <div class="modal-footer"> <button class="btn btn-primary" type="submit">@Html.Translate("Save Changes")</button>
+    <div class="modal-footer">
+        
+        <div class="controls" style="float: left">
+            @Html.CheckBoxFor(m => m.IsFalseGRN,  new { @checked = Model.IsFalseGRN })
+        </div>
+        <div class="control-label" style="float: left">
+            @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("False GRN"))
+        </div>
+
+        <button class="btn btn-primary" type="submit">@Html.Translate("Save Changes")</button>
         <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
        
     </div>

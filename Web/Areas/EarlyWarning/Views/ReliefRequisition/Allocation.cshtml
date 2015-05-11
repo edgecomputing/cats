@@ -161,11 +161,12 @@ Requistions
 
                                                columns.Bound(p => p.BenficiaryNo).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
 
-                                               columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-                                               if (Model.ProgramID == 2 && Model.RegionID == 2) // Contengency is ONLY for Afar
+                                               columns.Bound(p => p.Total).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                                               if (Model.ProgramID == 2 ) // Contengency is ONLY for Afar
                                                {
                                                    columns.Bound(p => p.Contingency).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                                                }
+                                               columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" }).Title("(Amount + Contengency)");
                                                columns.Bound(p => p.RationAmount).Hidden(true);
                                            })
                               .ToolBar(toolbar => toolbar.Save())
@@ -178,6 +179,7 @@ Requistions
                               .DataSource(dataSource => dataSource
                                                             .Ajax()
                                                             .Aggregates(aggregates => aggregates.Add(p => p.BenficiaryNo).Sum())
+                                                            .Aggregates(aggregates => aggregates.Add(p => p.Total).Sum())
                                                             .Aggregates(aggregates => aggregates.Add(p => p.Amount).Sum())
                                                             .Aggregates(aggregates => aggregates.Add(p => p.Contingency).Sum())
                                                             .Events(events => events.Change("onGridKeydown"))

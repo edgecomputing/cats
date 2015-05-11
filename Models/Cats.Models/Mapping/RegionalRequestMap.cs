@@ -30,6 +30,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Round).HasColumnName("Round");
             this.Property(t => t.PlanID).HasColumnName("PlanID");
             this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+            this.Property(t => t.Contingency).HasColumnName("Contingency");
             // Relationships
             this.HasRequired(t => t.Program)
                 .WithMany(t => t.RegionalRequests)

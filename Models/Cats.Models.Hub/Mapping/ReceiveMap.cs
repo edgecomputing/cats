@@ -77,6 +77,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.PurchaseOrder).HasColumnName("PurchaseOrder");
             this.Property(t => t.SupplierName).HasColumnName("SupplierName");
             this.Property(t => t.ReceiptAllocationID).HasColumnName("ReceiptAllocationID");
+            this.Property(t => t.FromReceiptAllocationID).HasColumnName("FromReceiptAllocationID");
 
             // Relationships
             this.HasRequired(t => t.CommoditySource)

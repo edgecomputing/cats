@@ -241,6 +241,7 @@ namespace Cats.Services.EarlyWarning
                         if (lastPsnpRequest != null)
                         {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                            result.HRDPSNPPlan.Contingency = lastPsnpRequest.Contingency;
                             var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).Count;
                             var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
                                                           where
@@ -253,6 +254,9 @@ namespace Cats.Services.EarlyWarning
                         else
                         {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                            result.HRDPSNPPlan.Contingency =
+                                psnpplan.RegionalPSNPPlanDetails.Any(
+                                    t => t.StartingMonth == result.HRDPSNPPlan.Month && t.Contingency);
                             beneficiaryInfos = PSNPToRequest(psnpplan, plan.RegionID, plan.Month);
                         }
 
@@ -277,9 +281,7 @@ namespace Cats.Services.EarlyWarning
                                     r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
                             var numberOfRequestsPerRegion = requests.Count;
                             var applicableWoredas = (from detail in hrd.HRDDetails
-                                                     where
-                                                         detail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID &&
-                                                         detail.DurationOfAssistance > numberOfRequestsPerRegion
+                                                     where detail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID //&& detail.DurationOfAssistance > numberOfRequestsPerRegion
                                                      select detail.WoredaID).ToList();
                             beneficiaryInfos = LastReliefRequest(lastRequest, applicableWoredas);
                             // var lastRequestDetail = LastReliefRequest(lastRequest);
@@ -507,6 +509,23 @@ namespace Cats.Services.EarlyWarning
         public List<VWRegionalRequest> GetRegionalRequestRpt(int id)
         {
             return _unitOfWork.VWRegionalRequestRepository.FindBy(m=>m.RegionalRequestID==id);
+        }
+
+        public bool DeleteRegionalRequest(int id)
+        {
+            var regionalRequest = _unitOfWork.RegionalRequestRepository.FindById(id);
+            var regionalRequestDetails = _unitOfWork.RegionalRequestDetailRepository.FindBy(r=>r.RegionalRequestID ==id);
+            if (regionalRequestDetails != null)
+            {
+                foreach (var regionalRequestDetail in regionalRequestDetails)
+                {
+                    _unitOfWork.RegionalRequestDetailRepository.Delete(regionalRequestDetail);
+                }
+                _unitOfWork.RegionalRequestRepository.Delete(regionalRequest);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
         }
     }
 }

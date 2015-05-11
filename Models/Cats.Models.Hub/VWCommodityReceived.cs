@@ -25,5 +25,6 @@ namespace Cats.Models.Hubs
         public decimal Expected { get; set; }
         public decimal Commited { get; set; }
         public decimal Dispatched { get; set; }
+        
     }
 }

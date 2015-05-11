@@ -72,6 +72,7 @@ namespace Cats.Areas.PSNP.Controllers
                         woreda.FoodRatio = pd.FoodRatio;
                         woreda.Item3Ratio = pd.Item3Ratio;
                         woreda.Item4Ratio = pd.Item4Ratio;
+                        woreda.Contingency = pd.Contingency;
                     }
                 }
                 ret.Add(woreda);
@@ -249,13 +250,14 @@ namespace Cats.Areas.PSNP.Controllers
                                  FoodRatio = fdb.FoodRatio,
                                  CashRatio = fdb.CashRatio,
                                  RegionName = woreda.AdminUnit2.AdminUnit2.Name,
-                                 SartingMonth = fdb.StartingMonth
+                                 SartingMonth = fdb.StartingMonth,
+                                 Contingency = fdb.Contingency
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditAjax([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<PSNPPlanDetailView> items)
         {
             int planId = 0;
@@ -282,7 +284,7 @@ namespace Cats.Areas.PSNP.Controllers
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
-                       
+                        bm.Contingency = item.Contingency;
                         _regionalPSNPPlanDetailService.UpdateRegionalPSNPPlanDetail(bm);
                     }
                     else
@@ -294,6 +296,7 @@ namespace Cats.Areas.PSNP.Controllers
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
+                        bm.Contingency = item.Contingency;
                         bm.StartingMonth = 1;  //set default month January
                         if (item.SartingMonth!=0)
                         {

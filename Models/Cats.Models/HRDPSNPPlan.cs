@@ -21,6 +21,8 @@ namespace Cats.Models
         [Required]
         public int Month { get; set; }
 
+        public bool Contingency { get; set; }
+
         [Required]
         [Display(Name="Region")]
         public int RegionID { get; set; }

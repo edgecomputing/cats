@@ -35,7 +35,8 @@ namespace Cats.Models.Hubs
         public Nullable<int> DonorID { get; set; }
         public Nullable<int> CommoditySourceID { get; set; }
         public Nullable<int> GiftTypeID { get; set; }
-        public Nullable<int> PlanId { get; set; } 
+        public Nullable<int> PlanId { get; set; }
+        public bool IsFalseGRN { get; set; }
 
         public virtual Commodity Commodity { get; set; }
         public virtual Commodity Commodity1 { get; set; }
@@ -49,5 +50,7 @@ namespace Cats.Models.Hubs
         public virtual Store Store { get; set; }
         public virtual TransactionGroup TransactionGroup { get; set; }
         public virtual Unit Unit { get; set; }
+
+        
     }
 }

@@ -52,6 +52,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.SupplierName).HasColumnName("SupplierName");
             this.Property(t => t.SourceHubID).HasColumnName("SourceHubID");
             this.Property(t => t.OtherDocumentationRef).HasColumnName("OtherDocumentationRef");
+            this.Property(t => t.IsFalseGRN).HasColumnName("IsFalseGRN");
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships

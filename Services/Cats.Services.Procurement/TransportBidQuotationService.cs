@@ -101,7 +101,7 @@ namespace Cats.Services.Procurement
             }
             
             //DRMFSS
-            var drmfssTransporters = GetDrmfssTransporters();
+            var drmfssTransporters = GetDrmfssTransporters().Where(m=>m.TransporterID!=transporterId);
             foreach (var transporter in drmfssTransporters)
             {
 

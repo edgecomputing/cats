@@ -268,8 +268,8 @@ namespace Cats.Areas.Hub.Controllers
         }
 
         //GIN unique validation
-
-        public virtual ActionResult NotUnique(string gin, string dispatchID)
+        [HttpGet]
+        public  JsonResult NotUnique(string gin, string dispatchID)
         {
 
             var dispatch = _dispatchService.GetDispatchByGIN(gin);
@@ -285,7 +285,7 @@ namespace Cats.Areas.Hub.Controllers
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            return Json(dispatch.HubID == user.DefaultHub.Value ?
+            return Json(user.DefaultHub != null && dispatch.HubID == user.DefaultHub.Value ?
                 string.Format("{0} is invalid, there is an existing record with the same GIN", gin) :
                 string.Format("{0} is invalid, there is an existing record with the same GIN at another Warehouse", gin),
                 JsonRequestBehavior.AllowGet);

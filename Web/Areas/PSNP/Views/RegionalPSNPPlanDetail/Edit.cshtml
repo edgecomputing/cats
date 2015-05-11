@@ -66,58 +66,82 @@
         //columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" }).Title(Html.Translate("No of Beneficiary"));
         columns.ForeignKey(p => p.SartingMonth, (IEnumerable)ViewData["Month"], "Id", "Name").Title(Html.Translate("Starting Month"));
+        columns.Template(@<text></text>).ClientTemplate("<input type='checkbox' #= Contingency ? checked='checked':'' # class='chkbx' />").Title("Contingency");
+                   
+       
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right", @class = "FoodRatio" }).Title(Html.Translate("Food Ratio"));
-        columns.Template(c => { }).Title("Cash Ratio").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=calculateCashRatio(data)# </span>").HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });     
-      //  columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
-       // columns.Template(c => { }).Title("").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
+        columns.Template(c => { }).Title("Cash Ratio").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=calculateCashRatio(data)# </span>").HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
+        //  columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
+        // columns.Template(c => { }).Title("").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
 
-        
+
     })
-    .DataSource(dataSource => dataSource
+        .DataSource(dataSource => dataSource
 
-        .Ajax()
-        .Batch(true)
-        .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
-        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
-        .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
-        .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
-        .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
-        .Model(model =>
-        {
-            model.Field(p => p.ZoneName).Editable(false);
-            model.Field(p => p.WoredaName).Editable(false);
-            model.Field(p => p.CashRatio).Editable(false);
-            //model.Field(p => p.FDPName).Editable(false);
-            //if(ViewBag.plan_user != ViewBag.current_user )
-            //{
-                model.Field(p => p.BeneficiaryCount).Editable(true  );
+            .Ajax()
+            .Batch(true)
+            .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+            .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+            .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+            .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+            .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
+            .Model(model =>
+            {
+                model.Field(p => p.ZoneName).Editable(false);
+                model.Field(p => p.WoredaName).Editable(false);
+                model.Field(p => p.CashRatio).Editable(false);
+                //model.Field(p => p.FDPName).Editable(false);
+                //if(ViewBag.plan_user != ViewBag.current_user )
+                //{
+                model.Field(p => p.BeneficiaryCount).Editable(true);
                 model.Field(p => p.StartingMonthName).Editable(true);
                 model.Field(p => p.FoodRatio).Editable(true);
-            //}
-        })
-         .Group(group =>
-           {
-               group.Add(m => m.RegionName);
-               group.Add(m => m.ZoneName);
-           })
-        )
-    
-    .HtmlAttributes(new { style = "width:100%; height:450px;" })
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
-        .Selectable(selectable => selectable
-            //.Mode(GridSelectionMode.Single)
-                .Type(GridSelectionType.Cell)
-                )
-   .Events(events => events.DataBound("onDataBound"))
-    .Sortable()
-    .Scrollable()
-    .Filterable()
-   .Groupable()
-   .Navigatable()
-   
+                //}
+            })
+             .Group(group =>
+             {
+                 group.Add(m => m.RegionName);
+                 group.Add(m => m.ZoneName);
+             })
+            )
 
-)
-<script type="text/javascript">
+        .HtmlAttributes(new { style = "width:100%; height:450px;" })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+            .Selectable(selectable => selectable
+                //.Mode(GridSelectionMode.Single)
+                    .Type(GridSelectionType.Cell)
+                    )
+       .Events(events => events.DataBound("onDataBound"))
+        .Sortable()
+        .Scrollable()
+        .Filterable()
+       .Groupable()
+       .Navigatable()
+
+
+    )
+<script type="text/javascript">    
+
+    $(function () {
+        $('#grid').on('click', '.chkbx', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#grid').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('Contingency', checked);
+        })
+    })
+
+    function checkAll(ele) {
+        var state = $(ele).is(':checked');
+        var grid = $('#grid').data().kendoGrid;
+        $.each(grid.dataSource.view(), function () {
+            if (this['Contingency'] != state) 
+                this.dirty=true;
+            this['Contingency'] = state;
+        });
+        grid.refresh();
+    }
+
     var duration="@duration";   
     var rowCount=0;
     var gridData=[];
@@ -146,7 +170,7 @@
     function onDataBound(e) 
     {
         rowCount=0;
-       // gridData=[];
+        // gridData=[];
         console.log("onDataBound");
         var grid = $("#grid").data("kendoGrid");
         // $("[role='row']").css("color","#F00");
@@ -167,7 +191,7 @@
                     gridData[rowCount].CashRatio=CashRatio;
 
                     console.log("change",{rowCount:rowCount,CashRatio:CashRatio,data: gridData[rowCount]});
-                   // console.log("onDataBound",{data:$('#grid').data().kendoGrid.dataSource.data()})
+                    // console.log("onDataBound",{data:$('#grid').data().kendoGrid.dataSource.data()})
                 });
             }
         });
@@ -222,7 +246,7 @@
                 firstItem.set('CashRatio',duration -FoodRatio);
             }
         });*/
-     }
+    }
     var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })"
     function deleteRecord(e) {
         e.preventDefault();
@@ -234,13 +258,13 @@
             var post_values={id:id};
             
             $.post(
-                    deleteURL
-                    ,post_values
-                    ,function (data)
-                    {
-                        $("#grid").data("kendoGrid").dataSource.read();
-                    }
-                 );
+                deleteURL
+                ,post_values
+                ,function (data)
+                {
+                    $("#grid").data("kendoGrid").dataSource.read();
+                }
+            );
 
         }
     }
@@ -267,7 +291,7 @@
         $("#grid").data("kendoGrid").dataSource.cancelChanges();
     }
     
-    //function makeBlank(arg) {
+//function makeBlank(arg) {
     //    // alert("Hey");
     //    alert($(arg).text() + "VALUE");
     //}

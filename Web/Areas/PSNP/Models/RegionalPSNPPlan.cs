@@ -108,6 +108,9 @@ namespace Cats.Models.PSNP
 
          [Display(Name = "Starting Month")]
         public string StartingMonthName { get; set; }
+
+        [Display(Name = "Contingency")]
+        public bool Contingency { get; set; }
     }
     public class RegionalPSNPPlanDetailViewModel
     {

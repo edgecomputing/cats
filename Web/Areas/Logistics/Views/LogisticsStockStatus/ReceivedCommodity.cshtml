@@ -25,7 +25,15 @@
             @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
         </div>
     </div>
-
+    
+    <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("False GRN")
+        </div>
+        <div class="">
+            @Html.CheckBox("IsFalseGRN",false,new {@class="controls span11"})
+        </div>
+    </div>
 </div>
 @(Html.Kendo().Grid<VWCommodityReceived>().Name("grid").Columns(col =>
                                                        {
@@ -37,7 +45,8 @@
                                                            col.Bound(t => t.Program).Title(Html.Translate("Program"));
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Donor All"));
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
-                                                           col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
+                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
+                                                           //col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
                                                            col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
 
                                                            col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
@@ -63,7 +72,8 @@
 
         return {
             hubId: $("#SelectHubID").val(),
-            programId: $("#SelectProgramID").val()
+            programId: $("#SelectProgramID").val(),
+            falseGrn: $("IsFalseGRN").val()
         };
     }
 
@@ -73,6 +83,10 @@
             grid.dataSource.read();
         });
         $("#SelectProgramID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#IsFalseGRN").change(function () {
             var grid = $("#grid").data("kendoGrid");
             grid.dataSource.read();
         });

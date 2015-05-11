@@ -292,25 +292,30 @@ namespace Cats.Areas.Hub.Controllers
 
                 #endregion
 
+
+                //check if it is loan and not a false GRN
+                if (viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOAN && !viewModel.IsFalseGRN)// this means it is the orginal GRN
+                {
+                    _transactionService.ReceiptTransactionForLoanFromNGOs(viewModel);
+                    return RedirectToAction("Index", "Receive");
+                }
+
                 //Save transaction 
                 if (viewModel.ReceiveId != Guid.Empty)
                 {
                     //reverse the transaction
                     Receive prevmodel = _receiveService.FindById((viewModel.ReceiveId));
-                    
+
                     _transactionService.ReceiptTransaction(ModeltoNewView(prevmodel), true);
 
                 }
                 _transactionService.ReceiptTransaction(viewModel);
-                
+
                 return RedirectToAction("Index", "Receive");
             }
-            else
-            {
-                viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
-                viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
-                ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
-            }
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+            viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+            ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
             viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
             viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
             return View(viewModel);
@@ -351,6 +356,21 @@ namespace Cats.Areas.Hub.Controllers
                              Name = c.Name
                          }), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetGRNList()
+        {
+            var GRNs = new List<GRNViewModel>();
+            GRNs.AddRange(_receiveService.FindBy(f => f.ReceiptAllocation.IsFalseGRN).Select(s => new GRNViewModel
+                                                                                                    {
+                                                                                                        Name = s.GRN,
+                                                                                                        Id=s.ReceiveID
+                                                                                                    }));
+
+
+            return Json(GRNs, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult GetStacks(int? storeId)
         {

@@ -164,5 +164,7 @@ namespace Cats.Services.Hub
            Expression<Func<Transaction, bool>> filter = null,
            Func<IQueryable<Transaction>, IOrderedQueryable<Transaction>> orderBy = null,
            string includeProperties = "");
+
+       bool ReceiptTransactionForLoanFromNGOs(ReceiveNewViewModel viewModel, Boolean reverse = false);
     }
 }

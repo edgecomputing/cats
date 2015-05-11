@@ -325,10 +325,10 @@ namespace Cats.Services.Logistics
 
            String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ShippingInstructionID siCodeId, ShippingInstruction.Value SIcode, SOH.HubID as HubId, Hub.Name HubName 
                                                         from (SELECT SUM(QuantityInMT) QuantityInMT , ShippingInstructionID, HubID from [Transaction] 
-					                                        WHERE LedgerID = {0} and CommodityID = {2} and HubID IN({3})
+					                                        WHERE LedgerID = {0} and CommodityChildID = {2} and HubID IN({3})
 					                                        GROUP BY HubID, ShippingInstructionID) AS SOH
 	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ShippingInstructionID, HubID from [Transaction]
-					                                        WHERE LedgerID = {1} and CommodityID = {2} and HubID IN ({3})
+					                                        WHERE LedgerID = {1} and CommodityChildID = {2} and HubID IN ({3})
 					                                        GROUP By HubID, ShippingInstructionID) AS Commited	
 		                                            ON SOH.ShippingInstructionID = Commited.ShippingInstructionID and SOH.HubId = Commited.HubId
 	                                            JOIN ShippingInstruction 

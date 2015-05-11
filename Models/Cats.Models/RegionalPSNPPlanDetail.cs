@@ -54,5 +54,7 @@ namespace Cats.Models
         [Display(Name = "Starting Month")]
         public int StartingMonth { get; set; }
 
+        public bool Contingency { get; set; }
+
     }
 }

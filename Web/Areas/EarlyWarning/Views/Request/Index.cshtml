@@ -79,6 +79,7 @@ Requistions
                          .ClientTemplate("# if (StatusID == 1 || StatusID==5) { #" +
                              "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
                          "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  " +
+                         "<a onclick=\"return confirmDelete()\" href='" + Url.Action("Delete", "Request", new { id = "#=RegionalRequestID#" }) + " '>Delete</a>  " +
                           "# } else { #" +
                            "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; "+
                            "# } #"
@@ -196,4 +197,10 @@ Requistions
         var gridData = $("#RequestListGrid").data("kendoGrid");
         gridData.dataSource.filter({});
     }
+
+    
+    function confirmDelete() {
+        return confirm("Are you sure you wish to delete ?");
+    }
+    
 </script>
