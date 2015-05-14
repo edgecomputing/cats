@@ -42,7 +42,7 @@
         <!-- BEGIN HORIZANTAL MENU -->
         <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
         <!-- DOC: This is desktop version of the horizontal menu. The mobile version is defined(duplicated) sidebar menu below. So the horizontal menu has 2 seperate versions -->
-        <li class="hor-menu hidden-sm hidden-xs">
+        <div class="hor-menu hidden-sm hidden-xs">
             <ul class="nav navbar-nav">
 
                 @if (currentUser.IsAdmin)
@@ -751,7 +751,7 @@
 
                     <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
                     <li class="classic-menu-dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="megamenu-dropdown" data-close-others="true">@Html.Translate2(PAGE_NAME, " Payment Request")<i class="fa fa-angle-down"></i></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Payment Request")<i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu pull-left">
                             @* <li>
                                     <a href="@Url.Action("Index","ValidatedPaymentRequest",new{Area="Finance"})">Validated Payment Requests</a>
