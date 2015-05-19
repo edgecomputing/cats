@@ -3,26 +3,51 @@
 @using Cats.Helpers
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Edit Transporter";
+    ViewBag.PageTitleDescription = "";
 }
-@section LeftBar
-{
-    @Html.Partial("_TransporterLeftBar")
-}
+@*@section LeftBar
+    {
+        @Html.Partial("_TransporterLeftBar")
+    }*@
 @section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_transporter"></a>
+    {
+    @*<a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_transporter"></a>*@
+    <div class="pull-right tooltips" data-placement="top" data-original-title="Back to List">
+        <a href="@Url.Action("Index", "Transporter")" class="btn btn-fit-height grey-salt" data-buttontype="btn_back_to_list" ><i class="icon-list"></i>&nbsp; @Html.Translate("Back to List")</a>
+    </div>
 }
 
 <div class="form-horizontal">
-@using (Html.BeginForm("Edit", "Transporter", FormMethod.Post, new { id = "frm_edit_transporter" }))
-{
-    @Html.ValidationSummary(true)
-    @Html.Partial("EditPartial")
-}
+    @using (Html.BeginForm("Edit", "Transporter", FormMethod.Post, new { id = "frm_edit_transporter" }))
+    {
+        @Html.ValidationSummary(true)
+    <div class="portlet light bordered" style="display: block;">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <i class="fa fa-truck font-green-sharp"></i>
+                <span class="caption-subject bold uppercase"> @Model.Name @Html.Translate("Details")</span>
+                <span class="caption-helper">  </span>
+            </div>
+            @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+            <div class="actions">
+                <a class="btn btn-circle btn-default btn-sm blue-stripe toolbar-btn loading-btn" data-loading-text="Saving..." data-buttontype="btn_save" data-submittedform="frm_edit_transporter"><i class="fa fa-save"></i> @Html.Translate("Save")</a>
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            @Html.Partial("EditPartial")
+        </div>
     </div>
+    }
+</div>
 <div>
-   <!-- @Html.ActionLink("Back to List", "Index")-->
+    <!-- @Html.ActionLink("Back to List", "Index")-->
 </div>
 
 <script>
