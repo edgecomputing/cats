@@ -100,7 +100,7 @@ namespace Cats.Services.Logistics
                var fdp = _unitOfWork.FDPRepository.FindBy(m => m.HubID == transfer.DestinationHubID).FirstOrDefault();
                if (fdp != null)
                {
-
+                   List<LedgerService.AvailableShippingCodes> availableSINumbers=new List<LedgerService.AvailableShippingCodes>();
                    var relifRequisition = new ReliefRequisition()
                        {
 
@@ -146,7 +146,15 @@ namespace Cats.Services.Logistics
                    //relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
                    relifRequisition.RequisitionNo = transfer.ReferenceNumber;
                    relifRequisition.Status = (int)ReliefRequisitionStatus.HubAssigned;
-                   List<LedgerService.AvailableShippingCodes> availableSINumbers = GetFreeSICodesByCommodity(transfer.SourceHubID, transfer.CommodityID);
+                   if(transfer.Commodity.ParentID==null)
+                   {
+                       availableSINumbers = GetFreeSICodesByCommodity(transfer.SourceHubID, transfer.CommodityID);
+                   }
+                   else
+                   {
+                       availableSINumbers = GetFreeSICodesByCommodityChild(transfer.SourceHubID, transfer.CommodityID);
+                   }
+                  
                    var siNumberExist = availableSINumbers.Any(availableShippingCode => availableShippingCode.siCodeId == transfer.ShippingInstructionID);
 
                    if (!siNumberExist)
@@ -325,6 +333,33 @@ namespace Cats.Services.Logistics
 
            String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ShippingInstructionID siCodeId, ShippingInstruction.Value SIcode, SOH.HubID as HubId, Hub.Name HubName 
                                                         from (SELECT SUM(QuantityInMT) QuantityInMT , ShippingInstructionID, HubID from [Transaction] 
+					                                        WHERE LedgerID = {0} and CommodityID = {2} and HubID IN({3})
+					                                        GROUP BY HubID, ShippingInstructionID) AS SOH
+	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ShippingInstructionID, HubID from [Transaction]
+					                                        WHERE LedgerID = {1} and CommodityID = {2} and HubID IN ({3})
+					                                        GROUP By HubID, ShippingInstructionID) AS Commited	
+		                                            ON SOH.ShippingInstructionID = Commited.ShippingInstructionID and SOH.HubId = Commited.HubId
+	                                            JOIN ShippingInstruction 
+		                                            ON SOH.ShippingInstructionID = ShippingInstruction.ShippingInstructionID 
+                                                JOIN Hub
+                                                    ON Hub.HubID = SOH.HubID
+                                                WHERE 
+                                                 SOH.QuantityInMT - ISNULL(Commited.QuantityInMT, 0) > 0    
+                                                ", Ledger.Constants.GOODS_ON_HAND, Ledger.Constants.COMMITED_TO_FDP, commodityId, hubId);
+
+           var availableShippingCodes = _unitOfWork.Database.SqlQuery<LedgerService.AvailableShippingCodes>(query);
+
+           return availableShippingCodes.ToList();
+       }
+
+       private List<LedgerService.AvailableShippingCodes> GetFreeSICodesByCommodityChild(int hubId, int commodityId)
+       {
+           var hubs = _unitOfWork.HubAllocationRepository.GetAll().Select(m => m.HubID).Distinct();
+           var listHubs = string.Join(", ", from item in hubs select item);
+           String HubFilter = (hubId > 0) ? string.Format(" And HubID IN ({0},{1},{2})", 1, 2, 3) : "";
+
+           String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ShippingInstructionID siCodeId, ShippingInstruction.Value SIcode, SOH.HubID as HubId, Hub.Name HubName 
+                                                        from (SELECT SUM(QuantityInMT) QuantityInMT , ShippingInstructionID, HubID from [Transaction] 
 					                                        WHERE LedgerID = {0} and CommodityChildID = {2} and HubID IN({3})
 					                                        GROUP BY HubID, ShippingInstructionID) AS SOH
 	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ShippingInstructionID, HubID from [Transaction]
@@ -343,7 +378,7 @@ namespace Cats.Services.Logistics
 
            return availableShippingCodes.ToList();
        }
-       
+
        public void Dispose()
        {
            _unitOfWork.Dispose();

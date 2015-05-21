@@ -534,7 +534,11 @@ namespace Cats.Services.Transaction
                 transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-                transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                if (allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest!=null)
+                {
+                    transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                }
+                
                 transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
 
@@ -607,7 +611,11 @@ namespace Cats.Services.Transaction
                 transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-                transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                if (allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest != null)
+                {
+                    transaction2.PlanId =
+                        allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                }
                 transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)

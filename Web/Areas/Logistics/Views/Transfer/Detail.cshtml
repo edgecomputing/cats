@@ -23,7 +23,7 @@
             <li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Dispatch")</a></li>*@
              @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
        {
-        <li><a id="btnEdit" href="@Url.Action("Edit", "Transfer", new {id = Model.TransferID})">@Html.Translate( "Edit")</a></li>
+        <li><a id="btnEdit" href="@Url.Action("Edit", "Transfer", new {id = Model.TransferID})">@Html.Translate( "  Edit  ")</a></li>
         <li><a id="btnApprove" href="@Url.Action("Approve", "Transfer", new {id = Model.TransferID})">@Html.Translate("Approve(Send to Hub)")</a></li>
       }
     </ul>
