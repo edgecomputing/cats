@@ -1,4 +1,5 @@
-﻿@using Cats.Helpers
+﻿@using System.Collections.Concurrent
+@using Cats.Helpers
 @using Kendo.Mvc.UI;
 @using Cats.Models;
 @using Cats.Models.PSNP;
@@ -7,71 +8,87 @@
 
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Regional PSNP Plan Detail";
+    ViewBag.PageTitleDescription = "";
     var RegionalPSNPPlanID = 0;
     //var index = 0;
     var plan = ViewBag.PsnpPlan;
     StateTemplate state = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
-   // const string pageName = "PSNP.RegionalPSNPPlanDetail.Index";
+    // const string pageName = "PSNP.RegionalPSNPPlanDetail.Index";
     ViewBag.TargetController = "RegionalPSNPPlan";
+}
+@section Styles{
+<style type="text/css">
+    .k-window-titlebar {
+        height: auto;
+    }
+
+    .margin-bottom-0 {
+        margin-bottom: 0px;
+    }
+
+    #theGrid.table > tbody > tr > td, #theGrid.table > tbody > tr > th, #theGrid.table > tfoot > tr > td, #theGrid.table > tfoot > tr > th, #theGrid .table > thead > tr > td, #theGrid.table > thead > tr > th {
+        white-space: nowrap;
+    }
+</style>
 }
 
 @*@section LeftBar
-{
-    @Html.Partial("_PSNPDetailLeftBar")
-}*@
-  <script>
-      $(function () {
-          var printurl = " @Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })";
-          $("#toolbar_button_print").attr("href", printurl);
-      });
+    {
+        @Html.Partial("_PSNPDetailLeftBar")
+    }*@
+<script>
+    $(function () {
+        var printurl = " @Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
 
-  </script>
+</script>
 @section Toolbar
 {
     @* If the user logged in the one that creates the plan, he/she can have access to the action buttons. *@
-  @*  @if(ViewBag.plan_user == ViewBag.current_user )
-    {
-        *@<div class="btn-group">
-            <button class="btn edit_button" id="action">@Html.Translate("Workflow")</button>
-            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+    @*  @if(ViewBag.plan_user == ViewBag.current_user )
+        {
+    *@
+    @*<div class="btn-group">
+        <button class="btn edit_button" id="action">@Html.Translate("Workflow")</button>
+        <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
                 {
-                   
-                   
-                        <li class="edit_button"><a href="javascript:promot_workflow(@plan.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@plan.RegionalPSNPPlanID)" title="@actions.Name">@Html.Translate(@actions.Name)</a></li>
-                    
+
+
+                <li class="edit_button"><a href="javascript:promot_workflow(@plan.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@plan.RegionalPSNPPlanID)" title="@actions.Name">@Html.Translate(@actions.Name)</a></li>
+
                 }
-                <li class="divider"></li>
-                <li class="edit_button"><a href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">@Html.Translate("History")</a></li>
-            </ul>
-        </div>
-    
-        <div class="btn-group">
-            <button class="btn">@Html.Translate("Action")</button>
+            <li class="divider"></li>
+            <li class="edit_button"><a href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">@Html.Translate("History")</a></li>
+        </ul>
+    </div>*@
+
+    @*<div class="btn-group">
+        <button class="btn">@Html.Translate("Action")</button>
 
 
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
+        <button class="btn dropdown-toggle " data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
 
-            <ul class="dropdown-menu">
-                @if (state.AllowedAccessLevel >= 2)
+        <ul class="dropdown-menu">
+            @if (state.AllowedAccessLevel >= 2)
                 {
-                  
-                    
-                    <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">Edit</a></li>
+
+
+                <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">Edit</a></li>
                 }
-@*@if (state.AllowedAccessLevel <= 1)
-            {
-                <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate("Delete")</a></li>
-            }*@
+               
             </ul>
-        </div>
-    @*}*@
-     <a class="btn toolbar-btn" href="#" style="display:none1;" target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+        </div>*@
+        @*}*@
+        @*<a class="btn toolbar-btn" href="#" style="display:none1;" target="_blank" id="toolbar_button_print" title="Print"><i class="icon-print"></i></a>*@
+        <a class="btn  grey-salt toolbar-btn " data-buttontype="" href="@Url.Action("Index", "RegionalPSNPPlan")"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
 
 }
 
@@ -94,88 +111,156 @@
 
 
     int i = 0;
-    <div>
-        <h4><b>@Html.Translate("PSNP Plan")</b>:  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
-        <b>@Html.Translate("Summary of People Needing Food Assistance")</b>
-        <table style="width: 100%" class="table table-striped table-bordered">
-            <tr>
-                @foreach (var r in regionalBenCount)
-                {
-                    i++; 
-                    <td>@Html.Translate("Month")-@i</td>
-                
-                }
-            </tr>
-            <tr>
-                @foreach (var r in regionalBenCount)
-                {
-                    <td>@r</td>
-               
-                }
-            </tr>
-        </table>
 
+    <div class="portlet light bordered bg-inverse">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <i class="fa fa-file font-green-sharp"></i>
+                <span id="bar-title" class="caption-subject bold uppercase"> <b>@Html.Translate("PSNP Plan")</b>:  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</span>
+                <span class="caption-helper">  @Html.Translate("Summary of People Needing Food Assistance")</span>
+            </div>
+            <div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                @*<a href="javascript:;" class="remove" data-original-title="" title=""></a>*@
+            </div>
+            <div class="actions">
+                <div class="btn-group">
+                    <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Workflow") <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        @foreach (FlowTemplate actions in state.InitialStateFlowTemplates){
+                            <li class="edit_button">
+                                <a class="btn green-haze-stripe" href="javascript:promot_workflow(@plan.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@plan.RegionalPSNPPlanID)" title="@actions.Name">@Html.Translate(@actions.Name)</a>
+                            </li>
+                        }
+                        <li class="divider"></li>
+                        <li class="edit_button">
+                            <a class="btn green-haze-stripe" href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">@Html.Translate("History")</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Action") <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        @if (state.AllowedAccessLevel >= 2)
+                        {
+                            <li><a class="btn green-haze-stripe" data-original-title="" title="" href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new {Area = "PSNP", id = plan.RegionalPSNPPlanID})">Edit</a></li>
+                        }
+                        @*@if (state.AllowedAccessLevel <= 1)
+                {
+                    <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate("Delete")</a></li>
+                }*@</ul>
+                </div>
+                <a class="btn green dropdown-toggle toolbar-btn" href="#" target="_blank" id="toolbar_button_print" title="Print"><i class="fa fa-print"></i> @Html.Translate("Print")</a>
+                @*<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>*@
+            </div>
+        </div>
+        <div class="portlet-body ">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-condensed">
+                    <tr>
+                        @foreach (var r in regionalBenCount)
+                        {
+                            i++;
+                            <td>@Html.Translate("Month")-@i</td>
+
+                        }
+                    </tr>
+                    <tr>
+                        @foreach (var r in regionalBenCount)
+                        {
+                            <td>@r</td>
+
+                        }
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 }
-@(Html.Kendo().Grid(Model)
-    .Name("grid")
-    .Columns(columns =>
-    {
-        foreach (System.Data.DataColumn column in Model.Columns)
-        {
-            if (column.DataType == typeof(decimal))
-            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
-            else if (column.DataType == typeof(int))
-            {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
-            }
-            else
-            {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
-            }
-            
 
-        }
-    })
-    .HtmlAttributes(new { style = "height: 550px" })
-    .Sortable()
-    .Scrollable()
-    .Groupable()
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body ">
+        @(Html.Kendo().Grid(Model)
+          .Name("grid")
+          .Columns(columns =>
+          {
+              foreach (System.Data.DataColumn column in Model.Columns)
+              {
+                  if (column.DataType == typeof(decimal))
+                  {
+                      columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
+                  }
+                  else if (column.DataType == typeof(int))
+                  {
+                      columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+                  }
+                  else
+                  {
+                      columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
+                  }
 
 
-    )
+              }
+          })
+          .HtmlAttributes(new { style = "height: 550px" })
+          .Sortable()
+          .Scrollable()
+          .Groupable()
 
-@*@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.RegionName).Title(@Html.Translate2(pageName, "Region"));
-        columns.Bound(p => p.ZoneName);
-        columns.Bound(p => p.WoredaName);
-        //columns.Bound(p => p.FDPName);
-        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "right" });
-        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "right" });
-        columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "right" });
-        columns.Bound(p => p.StartingMonthName);
-    })
-    .DataSource(
-        dataSource => dataSource
-        .Ajax()
-         .Group(g => g.Add(m => m.RegionName))
-        .Group(g => g.Add(m => m.ZoneName))
-        .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
-        .Read(read => read.Action("GetDataListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+
         )
+    </div>
+</div>
 
-    .HtmlAttributes(new { style = "width:100%; max-height:450px;" })
-    .Sortable()
-    .Scrollable()
-    .Filterable()
-    .HtmlAttributes(new { style = "width:100%; height:550px;" })
-    .Groupable()
+        @*@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
+                .Name("grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.RegionName).Title(@Html.Translate2(pageName, "Region"));
+                    columns.Bound(p => p.ZoneName);
+                    columns.Bound(p => p.WoredaName);
+                    //columns.Bound(p => p.FDPName);
+                    columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "right" });
+                    columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "right" });
+                    columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "right" });
+                    columns.Bound(p => p.StartingMonthName);
+                })
+                .DataSource(
+                    dataSource => dataSource
+                    .Ajax()
+                     .Group(g => g.Add(m => m.RegionName))
+                    .Group(g => g.Add(m => m.ZoneName))
+                    .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+                    .Read(read => read.Action("GetDataListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+                    )
 
-)*@
-<script>
+                .HtmlAttributes(new { style = "width:100%; max-height:450px;" })
+                .Sortable()
+                .Scrollable()
+                .Filterable()
+                .HtmlAttributes(new { style = "width:100%; height:550px;" })
+                .Groupable()
+
+            )*@
+        <script>
     @*var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })";
     $(function()
     {
@@ -190,7 +275,7 @@
         if(confirm("Are you sure you want to delete this record? " + id)==true)
         {
             var post_values={id:id};
-            
+
             $.post(
                     deleteURL
                     ,post_values
@@ -205,59 +290,64 @@
     function filterInfo() {
         return {id:@ViewBag.PsnpPlan.RegionalPSNPPlanID};
     }*@
-    function saverecords() {
-        $("#grid").data("kendoGrid").dataSource.update();
-    }
-    function reloadrecords() {
-        $("#grid").data("kendoGrid").dataSource.read();
-    }
+            function saverecords() {
+                $("#grid").data("kendoGrid").dataSource.update();
+            }
+            function reloadrecords() {
+                $("#grid").data("kendoGrid").dataSource.read();
+            }
 
-</script>
-<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width: 600px;">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
-    </div>
-    <div class="modal-body" id="modalHistoryBody">@Html.Translate("History")</div>
-    <div class="modal-footer">
-        <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">@Html.Translate("View In New Window")</a>
+        </script>
+<div id="modalHistory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
+            </div>
+            <div class="modal-body" id="modalHistoryBody">@Html.Translate("History")</div>
+            <div class="modal-footer">
+                <a class="btn btn-default green-sharp-stripe btn-xs" href="@Url.Action("Details", "BusinessProcess", new {Area = "WorkflowManager", id = "0"})">@Html.Translate("View In New Window")</a>
+            </div>
+        </div>
     </div>
 </div>
-@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+        @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 
 
 
-<script>
-    
+        <script>
 
-    var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
-    function promot_workflow(BusinessProcessID, nextstate, actionname) {
-       
-        if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
-           
-            alert("Plan can not be rejected! Requests have already been requested.\nPlease revert the requests under this plan first.");
-        } else {
-            $('#ParentBusinessProcessID').val(BusinessProcessID);
-            $('#stateID').val(nextstate);
-            $('#modalPromotionLabel').html(actionname);
+            var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
-            $('#modalPromotion').modal();
-        }
-    }
-    function workflow_history(BusinessProcessID) {
-        $('#modalHistory').modal();
-        $.post(history_link + BusinessProcessID, {},
-            function (data) {
-                $("#modalHistoryBody").html(data);
+            function promot_workflow(BusinessProcessID, nextstate, actionname) {
+
+                if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
+
+                    alert("Plan can not be rejected! Requests have already been requested.\nPlease revert the requests under this plan first.");
+                } else {
+                    $('#ParentBusinessProcessID').val(BusinessProcessID);
+                    $('#stateID').val(nextstate);
+                    $('#modalPromotionLabel').html(actionname);
+
+                    $('#modalPromotion').modal();
+                }
             }
-        );
+            function workflow_history(BusinessProcessID) {
+                $('#modalHistory').modal();
+                $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
+                $.post(history_link + BusinessProcessID, {},
+                    function (data) {
+                        $("#modalHistoryBody").html(data);
+                    }
+                );
 
-    }
+            }
 
-   @* $(function () {
+            @* $(function () {
         var printurl = " @Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })";
         $("#toolbar_button_print").attr("href", printurl);
     });*@
-    
-</script>
+
+        </script>
