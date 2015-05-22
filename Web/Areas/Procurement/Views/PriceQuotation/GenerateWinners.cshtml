@@ -1,70 +1,85 @@
 ﻿@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Generate Winners";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Generate Winners";
+    ViewBag.PageTitleDescription = "";
 }
-@section Toolbar    {
-    
-     <a data-toggle="modal" data-target="#myModal" class="btn toolbar-btn " >Generate</a>       
-         
-}
+@*@section Toolbar    {
 
-<div class="container">
-<div class="row">
+        <a data-toggle="modal" data-target="#myModal" class="btn toolbar-btn "><i class="fa fa-asterisk"></i> @Html.Translate("Generate")</a>
+
+    }*@
+
+
+<div class="well">
     <h4>Identify Winner Transporters</h4>
-</div>
-<div class="row">
     @Html.Partial("_GenerateWinnersIgnitor")
 </div>
 
-<h3>Approved bid proposals to identify winners from </h3>
-<div class="row">
-    @(Html.Kendo().Grid<TransportBidQuotationHeaderViewModel>()
-          .Name("grid")
-          .Columns(columns =>
+<div class="portlet light bordered">
+    <div class="portlet-title tabbable-line">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Approved bid proposals to identify winners from ")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-default green-sharp-stripe toolbar-btn " data-toggle="modal" data-target="#myModal"><i class="fa fa-asterisk"></i> @Html.Translate("Generate")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        @(Html.Kendo().Grid<TransportBidQuotationHeaderViewModel>()
+              .Name("grid")
+              .Columns(columns =>
               {
                   //columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }) + " '>#=BidNumber#</a>  "); ;
-                 
+
                   columns.Bound(p => p.Transporter);
                   //columns.Bound(p => p.Region);
                   columns.Bound(p => p.BidBondAmount);
                   columns.Bound(p => p.OffersCount);
                   //columns.Bound(p => p.Status);
               })
-          .Scrollable()
-          .Filterable()
-          //.Groupable()
-          //.Events(events => events.DataBound("onDataBound"))
-          .HtmlAttributes(new { style = "height:430px;" })
-          .DataSource(dataSource => dataSource
-                                        .Ajax()
-                                        //.Group(group =>
-                                        //    {
-                                        //        group.Add(m => m.Zone);
-                                        //        group.Add(m => m.Woreda);
-                                        //    })
-                                        //.PageSize(8)
-                                        .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
-                                        .Read(read => read.Action("ReadApprovedProposals", "PriceQuotation", new
-                                            {
-                                                bidID = @ViewBag.filter.BidID,
-                                                regionID = @ViewBag.filter.RegionID
-                                            }))
-                                        // .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
-                                        //{
-                                        //    bidNumber = @ViewBag.filter.BidID,
-                                        //    regionID = @ViewBag.filter.RegionID
-                                        //}))
-                                        
-                                        //.Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
-          ))
-</div>
+              .Scrollable()
+              .Filterable()
+                    //.Groupable()
+                    //.Events(events => events.DataBound("onDataBound"))
+              .HtmlAttributes(new { style = "height:430px;" })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  //.Group(group =>
+                  //    {
+                  //        group.Add(m => m.Zone);
+                  //        group.Add(m => m.Woreda);
+                  //    })
+                  //.PageSize(8)
+                  .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
+                  .Read(read => read.Action("ReadApprovedProposals", "PriceQuotation", new
+                  {
+                      bidID = @ViewBag.filter.BidID,
+                      regionID = @ViewBag.filter.RegionID
+                  }))
+                    // .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
+                    //{
+                    //    bidNumber = @ViewBag.filter.BidID,
+                    //    regionID = @ViewBag.filter.RegionID
+                    //}))
+
+              //.Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
+              ))
     </div>
-<script>
-    function onChangeStatus(e) {
-        e.preventDefault();
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Edit", "BidWinner")" + "/" + dataItem.BidWinnnerID;
-    }
-</script>
+</div>
+    
+
+        <script>
+            function onChangeStatus(e) {
+                e.preventDefault();
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                window.location = "@Url.Action("Edit", "BidWinner")" + "/" + dataItem.BidWinnnerID;
+            }
+        </script>

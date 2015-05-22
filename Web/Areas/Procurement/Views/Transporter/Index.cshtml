@@ -1,75 +1,98 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
 @model IEnumerable<Cats.Procurement.Models.TransporterPOCO>
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "List of Transporters";
+    ViewBag.PageTitleDescription = "";
 
 }
 
-@section LeftBar
+@*section LeftBar
 {
     @Html.Partial("_TransporterLeftBar")
-}
-@section Toolbar
-{
-        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Transporter")"></a>
-}
-<div>
-    <h3>Transporter List</h3>
-</div>
-
-@(Html.Kendo().Grid<Cats.Procurement.Models.TransporterPOCO>()
-    .Name("grid")
-    .Columns(columns =>
+}*@
+@*@section Toolbar
     {
-        columns.Bound(p => p.Name);
-        columns.Bound(p => p.Region).Width(100);
-        columns.Bound(p => p.SubCity).Width(100);
-        columns.Bound(p => p.TelephoneNo).Width(100);
-        columns.Bound(p => p.OwnedByDRMFSS).Title("Owned By").Width(100).Hidden(true);
-        
-        columns.Command(command => { 
-            //command.Edit(); 
-          //  command.Custom("Edit").Click("editRecordAjax");
-            command.Custom("Edit").Click("editRecord");
-            command.Destroy(); }).Width(330);
-    })
-    
-   
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    
-    .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-       
-        .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.TransporterID))
-        .Read(read => read.Action("EditingInline_Read", "Transporter"))
-        .Destroy(update => update.Action("EditingInline_Destroy", "Transporter"))
-        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
-        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
-        
-        .Update(update => update.Action("Edit", "Transporter"))
-        .Create(update => update.Action("Create", "Transporter"))
-    )
-)
+            <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Transporter")"></a>
+    }*@
+@*<div>
+    <h3>Transporter List</h3>
+</div>*@
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-truck font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Transporters")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-default btn-sm green-stripe" data-buttontype="btn_new_record" href="@Url.Action("Create", "Transporter")"><i class="fa fa-plus-circle"></i> @Html.Translate("Create Transporter")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        @(Html.Kendo().Grid<Cats.Procurement.Models.TransporterPOCO>()
+              .Name("grid")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.Name);
+                  columns.Bound(p => p.Region).Width(100);
+                  columns.Bound(p => p.SubCity).Width(100);
+                  columns.Bound(p => p.TelephoneNo).Width(100);
+                  columns.Bound(p => p.OwnedByDRMFSS).Title("Owned By").Width(100).Hidden(true);
 
-@(Html.Kendo().Window()
-    .Name("transporter_edit_window")
-    .Title("Transporter")
-    .Content("loading user info...")
-   
-    .Iframe(false)
-    .Draggable()
-    .Resizable()
-    .Width(1000)
-    .Height(500)
-    .Modal(true).Visible(false)
-    .Actions(actions => actions.Refresh().Close())
-)
+                  columns.Command(command =>
+                  {
+                      //command.Edit(); 
+                      //  command.Custom("Edit").Click("editRecordAjax");
+                      command.Custom("Edit").Click("editRecord");
+                      command.Destroy();
+                  }).Width(330);
+              })
 
+
+              .Editable(editable => editable.Mode(GridEditMode.PopUp))
+
+              .Sortable()
+              .Scrollable()
+              .HtmlAttributes(new {style = "height:430px;"})
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+
+                  .Events(events => events.Error("error_handler"))
+                  .Model(model => model.Id(p => p.TransporterID))
+                  .Read(read => read.Action("EditingInline_Read", "Transporter"))
+                  .Destroy(update => update.Action("EditingInline_Destroy", "Transporter"))
+                  //.Update(update => update.Action("EditingInline_Update", "Transporter"))
+                  //.Create(update => update.Action("EditingInline_Create", "Transporter"))
+
+                  .Update(update => update.Action("Edit", "Transporter"))
+                  .Create(update => update.Action("Create", "Transporter"))
+              )
+              )
+
+        @(Html.Kendo().Window()
+              .Name("transporter_edit_window")
+              .Title("Transporter")
+              .Content("loading user info...")
+
+              .Iframe(false)
+              .Draggable()
+              .Resizable()
+              .Width(1000)
+              .Height(500)
+              .Modal(true).Visible(false)
+              .Actions(actions => actions.Refresh().Close())
+              )
+    </div>
+</div>
 <div id="transporter_edit_window2"></div>
 <script type="text/javascript">
     function error_handler(e) {

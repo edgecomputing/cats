@@ -42,7 +42,7 @@
         <!-- BEGIN HORIZANTAL MENU -->
         <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
         <!-- DOC: This is desktop version of the horizontal menu. The mobile version is defined(duplicated) sidebar menu below. So the horizontal menu has 2 seperate versions -->
-        <li class="hor-menu hidden-sm hidden-xs">
+        <div class="hor-menu hidden-sm hidden-xs">
             <ul class="nav navbar-nav">
 
                 @if (currentUser.IsAdmin)
@@ -474,62 +474,61 @@
                     </div>
                             break;
                         case (int)UserType.CASETEAM.PSNP:
-                    <div>
-                        <ul class="nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Plans")<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
+
+                            <li class="classic-menu-dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Plans")<i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu pull-left">
                                     @* <li>
-                                            @Html.PSNPOperationMenuItem(@Html.Translate("Plan"),
-                                                            @Url.Action("Index", "Plan", new { Area = "EarlyWarning" }),
-                                                            PsnpConstants.Operation.View__plan_menu_item)
-                                        </li>*@
+                @Html.PSNPOperationMenuItem(@Html.Translate("Plan"),
+                                @Url.Action("Index", "Plan", new { Area = "EarlyWarning" }),
+                                PsnpConstants.Operation.View__plan_menu_item)
+            </li>*@
                                     <li>
                                         @Html.PSNPOperationMenuItem(@Html.Translate("PSNP Plan"),
-                                                @Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" }),
-                                                PsnpConstants.Operation.View_PSNP_plan_menu_item)
+                                            @Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" }),
+                                            PsnpConstants.Operation.View_PSNP_plan_menu_item)
                                     </li>
 
                                     @*<li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate2(PAGE_NAME, "Plan")</a></li>*@
                                 </ul>
                             </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Requests")<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        @Html.PSNPOperationMenuItem(@Html.Translate("Requests"),
+<li class="classic-menu-dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Requests")<i class="fa fa-angle-down"></i></a>
+    <ul class="dropdown-menu pull-left">
+        <li>
+            @Html.PSNPOperationMenuItem(@Html.Translate("Requests"),
                                                 @Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                 PsnpConstants.Operation.View_requests_menu_item)
-                                    </li>
-                                    <li>
-                                        @Html.PSNPOperationMenuItem(@Html.Translate("New Request"),
+        </li>
+        <li>
+            @Html.PSNPOperationMenuItem(@Html.Translate("New Request"),
                                                 @Url.Action("New", "Request", new { Area = "EarlyWarning" }),
                                                 PsnpConstants.Operation.View_requests_menu_item)
-                                    </li>
-                                    @* <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Html.Translate("New Request ") </a></li>*@
-                                </ul>
-                            </li>
+        </li>
+        @* <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Html.Translate("New Request ") </a></li>*@
+    </ul>
+</li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Requisition")<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        @Html.PSNPOperationMenuItem(@Html.Translate("Requisitions"), @Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
+<li class="classic-menu-dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Requisition")<i class="fa fa-angle-down"></i></a>
+    <ul class="dropdown-menu pull-left">
+        <li>
+            @Html.PSNPOperationMenuItem(@Html.Translate("Requisitions"), @Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
                                                 PsnpConstants.Operation.View_Requisitions)
-                                    </li>
-                                </ul>
-                            </li>
+        </li>
+    </ul>
+</li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Ration")<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        @Html.PSNPOperationMenuItem(@Html.Translate("Rations"), @Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
+<li class="classic-menu-dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Ration")<i class="fa fa-angle-down"></i></a>
+    <ul class="dropdown-menu pull-left">
+        <li>
+            @Html.PSNPOperationMenuItem(@Html.Translate("Rations"), @Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
                                                 PsnpConstants.Operation.View_ration_menu_item)
-                                    </li>
-                                </ul>
-                            </li>
+        </li>
+    </ul>
+</li>
 
 
                             @*<li class="dropdown">
@@ -538,8 +537,7 @@
                                         <li><a href="#">@Html.Translate("Reports") </a></li>
                                     </ul>
                                 </li>*@
-                        </ul>
-                    </div>
+                        
                             break;
                         case (int)UserType.CASETEAM.LOGISTICS:
                     <div>
@@ -751,7 +749,7 @@
 
                     <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
                     <li class="classic-menu-dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="megamenu-dropdown" data-close-others="true">@Html.Translate2(PAGE_NAME, " Payment Request")<i class="fa fa-angle-down"></i></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Payment Request")<i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu pull-left">
                             @* <li>
                                     <a href="@Url.Action("Index","ValidatedPaymentRequest",new{Area="Finance"})">Validated Payment Requests</a>
@@ -790,7 +788,7 @@
                 <!-- BEGIN NOTIFICATION DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                 <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
                         <i class="icon-bell"></i>
                         <span class="badge badge-default">
                             @Html.GetUnreadNotifications()
@@ -817,7 +815,7 @@
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                 <li class="dropdown dropdown-user">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"  data-close-others="true">
                         <img alt="" class="img-circle" src="~/Content/assetss/admin/layout/img/avatar.png" />
                         <span class="username username-hide-on-mobile">@Html.GetUserName() </span>
                         <i class="fa fa-angle-down"></i>
