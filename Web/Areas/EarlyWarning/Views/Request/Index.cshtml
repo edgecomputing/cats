@@ -7,44 +7,66 @@
 
 @{
     ViewBag.Title = "Requistions";
-    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    //Layout = "~/Views/Shared/_CATSLayout.cshtml";
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
-
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = (ViewBag.program == "PSNP")? "Regional PSNP Requests" : "Regional Relief Requests";
+    ViewBag.PageTitleDescription = "";
 }
 
-@section Title
-{
-Requistions
-}
+@*@section Title
+    {
+    Requistions
+    }
 
-@section PageTitle
-{
-    <h1 class="hdr-blck big col-md-6">
+    @section PageTitle
+    {
+        <h1 class="hdr-blck big col-md-6">
 
-      Regional Relief Requests
-    </h1>
-}
+          Regional Relief Requests
+        </h1>
+    }*@
 
 
-<div class="box box-primary">
+@*<div class="box box-primary">
 
-    <div class="col-md-12 box-body" style="display: block;">
-        <div class="row">
-             <div class="text-right mrgn5-v col-md-12">
-                
-                 <a data-buttontype="btn_new_record" class="btn btn-sm btn-success" href="@Url.Action("New", "Request")"><span class="fa fa-plus"></span> New Request</a>
-            </div>
-            <div id="div_filter" class="col-md-12 form-inline mrgn5-v">
-                @Html.Partial("_FilterRequestLeftBar")
-                 
-            </div>
-           
-            
+    <div class="col-md-12 box-body" style="display: block;">*@
+@*<div class="row">
+        <div class="text-right mrgn5-v col-md-12">
+
+            <a data-buttontype="btn_new_record" class="btn btn-sm btn-success" href="@Url.Action("New", "Request")"><span class="fa fa-plus"></span> New Request</a>
         </div>
-        <div class="table-responsive">
-            
+        <div id="div_filter" class="col-md-12 form-inline mrgn5-v">
+            @Html.Partial("_FilterRequestLeftBar")
 
-@(Html.Kendo().Grid<RegionalRequestViewModel>()
+        </div>
+
+
+    </div>*@
+<div class="well">
+    @Html.Partial("_FilterRequestLeftBar")
+</div>
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Request Lists")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-default btn-sm green-stripe" data-buttontype="btn_new_record" href="@Url.Action("New", "Request")"><i class="fa fa-plus-circle"></i> @Html.Translate("New Request")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+
+
+            @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
     .Columns(columns =>
                  {
@@ -63,17 +85,17 @@ Requistions
                      columns.Bound(request => request.Status).Template(
 
 
-                        @<text>
-                            @if (item.StatusID == (int)RegionalRequestStatus.Draft)
+            @<text>
+                @if (item.StatusID == (int)RegionalRequestStatus.Draft)
                             {
-                                @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+            @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
                             }
                             else
                             {
-                                @item.Status
-                                @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+            @item.Status
+            @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
                             }
-                        </text>);
+            </text>);
                      columns.Bound(request => request.PlanId).Title(
                          Html.Translate("Action"))
                          .ClientTemplate("# if (StatusID == 1 || StatusID==5) { #" +
@@ -113,7 +135,7 @@ Requistions
                                                                     ))
 
                                       )
-)
+            )
 
         </div>
     </div>
@@ -198,9 +220,9 @@ Requistions
         gridData.dataSource.filter({});
     }
 
-    
+
     function confirmDelete() {
         return confirm("Are you sure you wish to delete ?");
     }
-    
+
 </script>
