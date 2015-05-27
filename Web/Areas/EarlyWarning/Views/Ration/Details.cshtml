@@ -8,102 +8,123 @@
 @{
 
     ViewBag.Title = "Beneficiary Ration";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = "Ration Detail";
+    ViewBag.PageTitleDescription = "";
 }
 
 @section Toolbar
 {
-     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "Ration")"></a>
+    <a class="btn default gray-salt" data-buttontype="btn_back_to_list" href="@Url.Action("Index", "Ration")"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
 }
-@section LeftBar
+@*@section LeftBar
 {
     <ul class="nav nav-list">
         <li class="nav-header">@Html.Translate("Ration")</li>
-        @*<li><a id="btnEdit" href="@Url.Action("Edit", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-edit"></i>Edit Ration</a></li>*@
-        <li><a  href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-edit"></i>@Html.Translate("Rations")</a></li>
+       
+        <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-edit"></i>@Html.Translate("Rations")</a></li>
         <li class="divider"></li>
         <li><a href="@Url.Action("Print", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-print"></i>@Html.Translate("Print")</a></li>
         <li><a href="#"><i class="icon-share"></i>@Html.Translate("Export")</a></li>
 
     </ul>
-}
-
-<h4 class="page-header">@Html.Translate("Rations")</h4>
-<div>
-    @Html.LabelFor(model => model.ReferenceNumber,  new { style="display:inline;"}):
-    <b>@Html.DisplayFor(model => model.ReferenceNumber)</b>
-</div>
-<div>
-
-    @if (Html.UserCalendarPreference()=="EC")
-    {
-        @Html.DisplayNameFor(model => model.CreatedDateEC)
-        <b>@Html.DisplayFor(model => model.CreatedDateEC)</b>
-    }
-    else
-    {
-        <b>@Html.DisplayNameFor(model => model.DateCreated):</b>
-        @Html.DisplayFor(model => model.DateCreated)
-    }
-</div>
-
-
-
-
-@(Html.Kendo().Grid<RationDetailViewModel>()
-      .Name("grid")
-      .Columns(columns =>
-      {
-          columns.Template(t => { }).Title(Html.Translate("No")).ClientTemplate("#= renderNumber(data) #").Width(30);
-          columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Title(Html.Translate("Commodity")).Width(50);
-          columns.Bound(p => p.RationID).Title(Html.Translate("Ration Id")).Width(100).Visible(false);
-          columns.Bound(p => p.RationDetailID).Title(Html.Translate("Ration Detail Id")).Visible(false);
-          columns.Bound(p => p.Amount).Title(Html.Translate("Amount (kg)")).Width(50).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
-          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>)ViewData["UnitMeasures"], "UnitID", "Name").Title(Html.Translate("Unit")).Width(100).Visible(false);
-          columns.Command(command =>
-                              {
-                                  command.Destroy();
-                              }).Width(100);
-      })
-          .ToolBar(toolbar =>
-          {
-              toolbar.Save().SaveText(Html.Translate("Save Changes"));
-              toolbar.Create();
-          })
-      .Editable(editable => editable.Mode(GridEditMode.InCell))
-      .Pageable()
-      .Sortable()
-      .Scrollable()
-      .Selectable(t => t.Mode(GridSelectionMode.Single))
-      .Navigatable()
-      .HtmlAttributes(new { style = "height:430px;" })
-      .Events(ev => ev.DataBound("resetRowNumber"))
-      .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(
-
-        model =>
+}*@
+<div class="well">
+    <div class="row">
+        <div class="col-md-6"><h5 style="display: inline;">@Html.Translate("Reference Number"): <strong>@Html.DisplayFor(model => model.ReferenceNumber)</strong></h5></div>
+        @if (Html.UserCalendarPreference() == "EC")
         {
-            model.Id(p => p.RationID);
-            //model.Field(ration => ration.Commodity).Editable(false);
+            <div class="col-md-6"><h5 style="display: inline;">@Html.Translate("Created Date"): <strong>@Html.DisplayFor(model => model.CreatedDateEC)</strong></h5></div>
         }
-    )
-                                    .Create(update => update.Action("RationDetail_Create", "Ration", new { id = Model.RationID }))
-                                    .Read(read => read.Action("RationDetail_Read", "Ration", new { id = Model.RationID }))
-                                    .Update(update => update.Action("RationDetail_Update", "Ration"))
-                                    .Destroy(update => update.Action("RationDetail_Destroy", "Ration"))
-          ).Pageable())
+        else
+        {
+            <div class="col-md-6"><h5 style="display: inline;">@Html.Translate("Created Date"): <strong>@Html.DisplayFor(model => model.DateCreated)</strong></h5></div>
+        }
+    </div>
+    
+</div>
 
-@section Scripts
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Model.ReferenceNumber @Html.Translate("Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a data-buttontype="btn_new_record" class="btn btn-circle btn-default btn-sm blue-stripe " href="@Url.Action("Print", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><span class="fa fa-print"></span> @Html.Translate("Print")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="table-responsive">
+
+
+            @(Html.Kendo().Grid<RationDetailViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
+                      columns.Template(t => { }).Title(Html.Translate("No")).ClientTemplate("#= renderNumber(data) #").Width(30);
+                      columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable) ViewData["commodities"], "CommodityID", "Name").Title(Html.Translate("Commodity")).Width(50);
+                      columns.Bound(p => p.RationID).Title(Html.Translate("Ration Id")).Width(100).Visible(false);
+                      columns.Bound(p => p.RationDetailID).Title(Html.Translate("Ration Detail Id")).Visible(false);
+                      columns.Bound(p => p.Amount).Title(Html.Translate("Amount (kg)")).Width(50).HtmlAttributes(new {align = "right"}).Format("{0:N2}");
+                      columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>) ViewData["UnitMeasures"], "UnitID", "Name").Title(Html.Translate("Unit")).Width(100).Visible(false);
+                      columns.Command(command =>
+                      {
+                          command.Destroy();
+                      }).Width(100);
+                  })
+                  .ToolBar(toolbar =>
+                  {
+                      toolbar.Save().SaveText(Html.Translate("Save Changes"));
+                      toolbar.Create();
+                  })
+                  .Editable(editable => editable.Mode(GridEditMode.InCell))
+                  .Pageable()
+                  .Sortable()
+                  .Scrollable()
+                  .Selectable(t => t.Mode(GridSelectionMode.Single))
+                  .Navigatable()
+                  .HtmlAttributes(new {style = "height:430px;"})
+                  .Events(ev => ev.DataBound("resetRowNumber"))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(20)
+                      .Model(
+
+                          model =>
+                          {
+                              model.Id(p => p.RationID);
+                              //model.Field(ration => ration.Commodity).Editable(false);
+                          }
+                      )
+                      .Create(update => update.Action("RationDetail_Create", "Ration", new {id = Model.RationID}))
+                      .Read(read => read.Action("RationDetail_Read", "Ration", new {id = Model.RationID}))
+                      .Update(update => update.Action("RationDetail_Update", "Ration"))
+                      .Destroy(update => update.Action("RationDetail_Destroy", "Ration"))
+                  ).Pageable())
+
+        </div>
+    </div>
+</div>
+
+            @section Scripts
 {
 
-}
-<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
-</div>
+            }
+            <div id='dialogDiv' class='modal fade in'>
+                <div id='dialogContent'></div>
+            </div>
 
-<script type="text/javascript">
+            <script type="text/javascript">
 
     $(function () {
 
@@ -143,4 +164,4 @@
         });
     }
 
-</script>
+            </script>
