@@ -12,25 +12,50 @@ namespace Cats
     public partial class AmharicReportViewer : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        { 
-            
-            ReportViewerAmh.ProcessingMode = ProcessingMode.Remote;
-   ReportViewerAmh.ServerReport.ReportServerUrl = new Uri("http://FISH:80/ReportServer");
-   
-   ReportViewerAmh.ServerReport.ReportPath = "/Logistics/GRNEntryReport";
-   ReportViewerAmh.ServerReport.Refresh();
- 
-   ReportParameter[] reportParameterCollection = new ReportParameter[2];       //Array size describes the number of paramaters.
-   reportParameterCollection[0] = new ReportParameter();
-   reportParameterCollection[0].Name = "StartDate";                                 //Give Your Parameter Name
-   reportParameterCollection[0].Values.Add("12/12/2010");                         //Pass Parametrs's value here.
-
-   reportParameterCollection[1] = new ReportParameter();
-   reportParameterCollection[1].Name = "EndDate";                                 //Give Your Parameter Name
-   reportParameterCollection[1].Values.Add("12/12/2015");  
-   //ReportViewerAmh.ServerReport.SetParameters(reportParameterCollection);
-   ReportViewerAmh.ServerReport.Refresh();
-}
-
+        {
+            if (!Page.IsPostBack)
+            {
+                ReportViewerAmh.ProcessingMode = ProcessingMode.Remote;
+                var userName = System.Configuration.ConfigurationManager.AppSettings["CatsReportUserName"];
+                var password = System.Configuration.ConfigurationManager.AppSettings["CatsReportPassword"];
+                var url = System.Configuration.ConfigurationManager.AppSettings["CatsReportServerURL"];
+                var credential = new CatsReportServerCredentials(userName, password);
+                ReportViewerAmh.ServerReport.ReportServerCredentials = credential;
+                ReportViewerAmh.ServerReport.ReportServerUrl = new Uri(url);
+                ReportViewerAmh.ServerReport.ReportPath = Request["path"];
+                ReportViewerAmh.ServerReport.Refresh();
+             
+            }
+           
         }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            ReportViewerAmh.ProcessingMode = ProcessingMode.Remote;
+            var userName = System.Configuration.ConfigurationManager.AppSettings["CatsReportUserName"];
+            var password = System.Configuration.ConfigurationManager.AppSettings["CatsReportPassword"];
+            var url = System.Configuration.ConfigurationManager.AppSettings["CatsReportServerURL"];
+            var credential = new CatsReportServerCredentials(userName, password);
+            ReportViewerAmh.ServerReport.ReportServerCredentials = credential;
+            ReportViewerAmh.ServerReport.ReportServerUrl = new Uri(url);
+            ReportViewerAmh.ServerReport.ReportPath = Request["path"];
+            ReportViewerAmh.ServerReport.Refresh();
+
+            ReportParameter[] reportParameterCollection = new ReportParameter[2];       
+            reportParameterCollection[0] = new ReportParameter();
+            reportParameterCollection[0].Name = "StartDate";
+            var start = txtStartDate.Text;
+            var end = txtEndDate.Text;
+            reportParameterCollection[0].Values.Add(start);                         
+
+            reportParameterCollection[1] = new ReportParameter();
+            reportParameterCollection[1].Name = "EndDate";
+            reportParameterCollection[1].Values.Add(end);
+            ReportViewerAmh.ServerReport.SetParameters(reportParameterCollection);
+            ReportViewerAmh.ServerReport.Refresh();
+        }
+
+       
+
     }
+}

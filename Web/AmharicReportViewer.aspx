@@ -7,6 +7,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+     <script type="text/javascript" src="~/Scripts/Beka.EthDate/Beka.EthDate.js"> </script>
+    <script type="text/javascript" src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"> </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -14,8 +16,13 @@
     
         <asp:ScriptManager ID="ScriptManagerAmh" runat="server">
         </asp:ScriptManager>
-        <rsweb:ReportViewer ID="ReportViewerAmh" runat="server" Height="149px" Width="805px">
-        </rsweb:ReportViewer>
+        Start Date:&nbsp;<asp:TextBox ID="txtStartDate" class="cats-datepicker2  input-medium" runat="server"></asp:TextBox>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        End Date:
+        <asp:TextBox ID="txtEndDate" class="cats-datepicker2  input-medium" runat="server"></asp:TextBox>
+        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+        <rsweb:ReportViewer ID="ReportViewerAmh"  runat="server" SizeToReportContent="True" ShowPrintButton="true" KeepSessionAlive="true"  ZoomMode="PageWidth" Height="100%" Width="100%">
+            </rsweb:ReportViewer>
     
     </div>
     </form>
