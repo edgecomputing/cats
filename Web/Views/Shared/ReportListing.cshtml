@@ -43,36 +43,49 @@
 </style>
 <div class="container-fluid">
     <div class="row-fluid">
-    <div id="Report_List" class="span3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">Reports List</h4>
-            </div>
-            <div class="panel-body">
-                @Html.ReportList()
-            </div>
-        </div>
-    </div>
-    <div id="Report_Detail" class="span9">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="btn-group pull-right" role="toolbar">
-                    <a id="newtab_report" role="group" target="_blank" class="btn" href="#" style="margin-top: 4px;"><i class="icon-file"></i> View on new tab</a>
-                    <a id="maximize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px;"><i class="icon-fullscreen"></i> Maximize</a>
-                    <a id="minimize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px; display: none;"><i class="icon-resize-small"></i> Show Report List</a>
-
+        <div id="Report_List" class="span3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Reports List</h4>
                 </div>
-                <h4 id="report_title" class="panel-title">Report</h4>
+                <div class="panel-body">
+                    @Html.ReportList()
+                </div>
             </div>
-            <div class="panel-body">
-                <iframe id="reportsPanel" style="width: 100%; min-height: 1000px; border: 0;" src="" ></iframe>
-                @*<iframe style="width: 100%; min-height: 500px; border: 0;" src="http://localhost:1786/ReportViewer.aspx?path=/Logistics/ITSH"></iframe>*@
+             
+        </div>
+       <div id="AmharicReport_List" class="span3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Reports with Ethiopian Calendar</h4>
+                </div>
+                <div class="panel-body">
+                    @Html.AmharicReportList()
+                </div>
             </div>
         </div>
 
-    </div>
 
-</div>
+        <div id="Report_Detail" class="span9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="btn-group pull-right" role="toolbar">
+                        <a id="newtab_report" role="group" target="_blank" class="btn" href="#" style="margin-top: 4px;"><i class="icon-file"></i> View on new tab</a>
+                        <a id="maximize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px;"><i class="icon-fullscreen"></i> Maximize</a>
+                        <a id="minimize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px; display: none;"><i class="icon-resize-small"></i> Show Report List</a>
+
+                    </div>
+                    <h4 id="report_title" class="panel-title">Report</h4>
+                </div>
+                <div class="panel-body">
+                    <iframe id="reportsPanel" style="width: 100%; min-height: 1000px; border: 0;" src=""></iframe>
+                    @*<iframe style="width: 100%; min-height: 500px; border: 0;" src="http://localhost:1786/ReportViewer.aspx?path=/Logistics/ITSH"></iframe>*@
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 <script type="text/javascript">
     $(function() {
@@ -111,6 +124,37 @@
         @*$("#reportsPanel").attr("src", "@Html.GetReport(" + path[1] + "," + path[2] +")");*@
         //$("#reportsPanel").load();
     });
+
+    $(".AMreportLink").click(function (event) {
+        event.preventDefault();
+        $(".AMreportLink").each(function (i) {
+            $(this).css("font-weight", "normal");
+            $(this).css("font-size", "12px");
+        });
+        $(this).css("font-weight", "bold");
+        $(this).css("font-size", "14px");
+        var path = $(this).data("reportpath").split("/");
+        $.ajax({
+            url: '@Url.Action("GetAmharicReport","Home")',// + '?caseTeam=' + path[1] + '&report=' + path[2],
+            type: 'GET',
+            data: { 'caseTeam': path[1], 'report': path[3] },
+            beforeSend: function () {
+                $("#report_title").html("Loading...");
+            }, success: function (data) {
+                $("#reportsPanel").attr("src", data);
+                $("#newtab_report").attr("href", data);
+                //$("#reportsPanel2").load(data);
+            }
+        }).done(function () {
+            $("#report_title").html(path[1] + " - " + path[3]);
+        }).fail(function () {
+            alert("error");
+        });
+
+        @*$("#reportsPanel").attr("src", "@Html.GetReport(" + path[1] + "," + path[2] +")");*@
+        //$("#reportsPanel").load();
+    });
+
     $("#maximize_report").click(function() {
         $("#maximize_report").hide();
         $("#Report_List").hide();
