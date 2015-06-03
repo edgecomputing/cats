@@ -169,6 +169,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmharicReportViewer.aspx.cs">
+      <DependentUpon>AmharicReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AmharicReportViewer.aspx.designer.cs">
+      <DependentUpon>AmharicReportViewer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -685,6 +692,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AmharicReportViewer.aspx" />
     <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
     <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\GridForeignKey.ascx" />

@@ -221,6 +221,26 @@ namespace Cats.Controllers
         }
 
         [HttpGet]
+        public string GetAmharicReport(string caseTeam = "", string report = "")
+        {
+            try
+            {
+                var html = string.Empty;
+
+                var baseUrl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" 
+                              + System.Web.HttpContext.Current.Request.Url.Authority 
+                              + System.Web.HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
+
+                html += "" + baseUrl + "AmharicReportViewer.aspx?path=/" + caseTeam + "/AM" + "/" + report;
+
+                return html;
+            }
+            catch (Exception)
+            {
+                return "<h3>Error in showing the report!</h3>";
+            }
+        }
+        [HttpGet]
         public string  GetReport(string caseTeam="", string report="")
         {
             try
@@ -238,5 +258,6 @@ namespace Cats.Controllers
                 return "<h3>Error in showing the report!</h3>";
             }
         }
+
     }
 }
