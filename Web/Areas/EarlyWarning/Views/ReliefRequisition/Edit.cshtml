@@ -1,126 +1,152 @@
-﻿@model  Cats.Models.ReliefRequisition
+﻿@using Cats.Helpers
+@model  Cats.Models.ReliefRequisition
 
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    //Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    if (Model != null)
+    {
+
+        if (Model.ProgramID == 2) //i.e. PSNP
+        {
+            ViewBag.PageTitle = "Edit PSNP Requisition for Distribution";
+        }
+        else
+        {
+            ViewBag.PageTitle = "Edit Relief Requisition for Distribution";
+        }
+    }
+    ViewBag.PageTitleDescription = "";
 }
-@section Title
-{
-Requistions
+@section Toolbar{
+
+    <a class="btn btn-fit-height grey-salt" data-buttontype="btn_back_to_list" href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = @Model.RequisitionID })"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
 }
 
-@section PageTitle
-{
-      <h1 class="hdr-blck big ">   Edit Relief Requisition for Distribution  </h1>
-}
+    @*@Html.Partial("_RequistionsLeftBar")*@
+    <div class="portlet light bordered" style="display: block;">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <i class="fa fa-list font-green-sharp"></i>
+                <span class="caption-subject bold uppercase"> @Html.Translate("Edit Details")</span>
+                <span class="caption-helper">  </span>
+            </div>
+            @*<div class="tools">
+                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                    <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+                </div>*@
+            <div class="actions">
+                <a class="btn btn-circle btn-default blue-sharp-stripe toolbar-btn loading-btn" data-loading-text="Saving..." data-buttontype="btn_save" data-submittedform="frm_Edit_requisition" title="" data-original-title="Save Change"><i class="fa fa-save"></i> @Html.Translate("Save")</a>
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            @using (Html.BeginForm("Edit", "ReliefRequisition", FormMethod.Post, new { id = "frm_Edit_requisition" }))
+            {
+                <div class="form-horizontal">
+                    @Html.HiddenFor(model => model.RequisitionID)
+                    @Html.HiddenFor(model => model.Status)
+                    @Html.HiddenFor(model => model.CommodityID)
+                    @Html.HiddenFor(model => model.RegionalRequestID)
+                    @Html.HiddenFor(model => model.ProgramID)
+                    @Html.HiddenFor(model => model.Round)
+                    @Html.HiddenFor(model => model.RegionID)
+                    @Html.HiddenFor(model => model.ZoneID)
+                    @Html.HiddenFor(model => model.RequestedDate)
+                    @*@Html.HiddenFor(model => model.RationID)*@
 
-<div class="row">
-    @Html.Partial("_RequistionsLeftBar")
-    <div class="col-md-10  col-sm-9">
-        <div class=" box box-primary ">
-              @using (Html.BeginForm("Edit", "ReliefRequisition", FormMethod.Post, new { id = "frm_Edit_requisition" }))
-              {
-                  <div class="box-body row">
-                      <div class="col-md-6 col-sm-6 form-horizontal">
-                  
-    
-      
-                          @Html.HiddenFor(model => model.RequisitionID)
-                          @Html.HiddenFor(model => model.Status)
-                          @Html.HiddenFor(model => model.CommodityID)
-                          @Html.HiddenFor(model => model.RegionalRequestID)
-                          @Html.HiddenFor(model => model.ProgramID)
-                          @Html.HiddenFor(model => model.Round)
-                          @Html.HiddenFor(model => model.RegionID)
-                          @Html.HiddenFor(model => model.ZoneID)
-                          @*@Html.HiddenFor(model => model.RequestedDate)*@
-                          @*@Html.HiddenFor(model => model.RationID)*@
-            
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(model => model.RequisitionNo, new {@class = "control-label "})
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.RequisitionNo, new {@class = " form-control"})
+                                    @Html.ValidationMessageFor(model => model.RequisitionNo)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(model => model.ProgramID, new {@class = "control-label "})
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Program.Name, null, new {disabled = "true", @class = "form-control"})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(model => model.Round, new { @class = "control-label " })
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.Round, null, new { disabled = "true", @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(m => m.RationID, "Ration", new { @class = "control-label " })
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("RationID", null, String.Empty, new { @class = "form-control" })
+                                    @*@Html.DropDownListFor(m => m.RationID, new SelectList(ViewBag.RationID, "RationID", "RefrenceNumber", ViewBag.RationSelected),string.Empty)*@
+                                    @Html.ValidationMessageFor(m => m.RationID)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(model => model.RegionID, new {@class = "control-label "})
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.AdminUnit.Name, null, new {disabled = "true", @class = "form-control"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(model => model.ZoneID, new {@class = "control-label  "})
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.AdminUnit1.Name, null, new {disabled = "true", @class = "form-control"})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    @Html.LabelFor(model => model.RequestedDate, new { @class = "cats-date-pref" })
+                                </div>
+                                <div class="col-sm-8">
+                                    @*<input class="cats-datepicker2 disabled form-control" type="text" id="RequestedDate" name="RequestedDate" />*@
+                                    @Html.TextBoxFor(model => model.RequestedDate, null, new {@id="RequestedDate",  @class = "cats-datepicker2 form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(model => model.RequisitionNo, new {@class = "control-label "})
-                              </div>
-                              <div class="col-sm-8">
-                                  @Html.TextBoxFor(model => model.RequisitionNo, new { @class = " form-control" })
-                                  @Html.ValidationMessageFor(model => model.RequisitionNo)
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(model => model.ProgramID, new {@class = "control-label "})
-                              </div>
-                              <div class="col-sm-8">
-                                  @Html.TextBoxFor(model => model.Program.Name, null, new {disabled = "true",@class = "form-control"})
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(model => model.Round, new {@class = "control-label "})
-                              </div>
-                              <div class="col-sm-8">
-                                  @Html.TextBoxFor(model => model.Round, null, new {disabled = "true",@class = "form-control"})
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(m => m.RationID, "Ration", new {@class = "control-label "})
-                              </div>
-                              <div class="col-sm-8">
-                                  @Html.DropDownList("RationID", null, String.Empty, new { @class = "form-control" })
-                                  @*@Html.DropDownListFor(m => m.RationID, new SelectList(ViewBag.RationID, "RationID", "RefrenceNumber", ViewBag.RationSelected),string.Empty)*@
-                                  @Html.ValidationMessageFor(m => m.RationID)
-                              </div>
-                          </div>
-      
-           
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(model => model.RegionID, new {@class = "control-label "})
-                              </div>
-                              <div class="col-sm-8">
-                                  @Html.TextBoxFor(model => model.AdminUnit.Name, null, new {disabled = "true",@class = "form-control"})
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(model => model.ZoneID, new {@class = "control-label  "})
-                              </div>
-                              <div class="col-sm-8">
-                                  @Html.TextBoxFor(model => model.AdminUnit1.Name, null, new {disabled = "true",@class = "form-control"})
-                              </div>
-                          </div>
-
-                          <div class="form-group">
-                              <div class="col-sm-4 ">
-                                  @Html.LabelFor(model => model.RequestedDate, new {@class = "cats-date-pref"})
-                              </div>
-                              <div class="col-sm-8">
-                                  <input class="cats-datepicker2 disabled form-control" type="text" id="RequestedDate" name="RequestedDate"/>
-                 
-                              </div>
-
-                          </div>
-
-      
-       
+                @*<div class="box-footer text-center">
+                        <button class="btn btn-primary " type="submit" data-submittedform="frm_Edit_requisition"><span class="fa fa-save"></span> Save</button>
+                        <a class="btn  btn-default" href="@Url.Action("Index", "ReliefRequisition")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                    </div>*@
+            }
 
 
-   
-    
-    
-   
-                   
-                      </div>
-                  </div>
-
-                  <div class="box-footer text-center">
-                      <button class="btn btn-primary " type="submit" data-submittedform="frm_Edit_requisition"><span class="fa fa-save"></span> Save</button>
-                      <a class="btn  btn-default"  href="@Url.Action("Index", "ReliefRequisition")" ><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
-                  </div>
-              }
-              </div>
-            
+        </div>
     </div>
-</div>
