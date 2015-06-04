@@ -1,13 +1,15 @@
-﻿
-@using Cats.Helpers
+﻿@using Cats.Helpers
 @using Cats.Security
 @{
     ViewBag.Title = "ReportListing";
     //Layout = "~/Views/Shared/_CATSLayout.cshtml";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = "Reports";
+    ViewBag.PageTitleDescription = "";
 }
 <script type="text/javascript">
-    
+
     $(document).ready(function () {
         // Hide the breadcrumb
         $(".span5").hide();
@@ -16,77 +18,72 @@
 </script>
 
 
-@*<script src="~/Scripts/js/bootstrap.min.js"></script>
-<link href="~/Scripts/css/bootstrap.min.css" rel="stylesheet" />*@
-<style>
-    .panel {
-        padding: 15px;
-        margin-bottom: 20px;
-        background-color: #ffffff;
-        border: 1px solid #dddddd;
-        border-radius: 4px;
-        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-    }
-
-    .panel-heading {
-        padding: 1px 15px;
-        margin: -15px -15px 15px;
-        background-color: #f5f5f5;
-        border-bottom: 1px solid #dddddd;
-        border-top-right-radius: 3px;
-        border-top-left-radius: 3px;
-    }
-
-    
-
-</style>
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div id="Report_List" class="span3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Reports List</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="portlet light bordered bg-inverse">
+            <div class="portlet-title tabbable-line">
+                <div class="caption">
+                    <i class="icon-list font-green-sharp"></i>
+                    <span class="caption-subject bold font-green-sharp uppercase">
+                        Report Lists
+                    </span>
+                    @*<span class="caption-helper">choose the calender format</span>*@
                 </div>
-                <div class="panel-body">
-                    @Html.ReportList()
-                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#GC_tab" data-toggle="tab">
+                            GC
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#EC_tab" data-toggle="tab" aria-expanded="true">
+                            አማ[EC]
+                        </a>
+                    </li>
+
+                </ul>
             </div>
-             
-        </div>
-       <div id="AmharicReport_List" class="span3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Reports with Ethiopian Calendar</h4>
-                </div>
-                <div class="panel-body">
-                    @Html.AmharicReportList()
-                </div>
-            </div>
-        </div>
-
-
-        <div id="Report_Detail" class="span9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="btn-group pull-right" role="toolbar">
-                        <a id="newtab_report" role="group" target="_blank" class="btn" href="#" style="margin-top: 4px;"><i class="icon-file"></i> View on new tab</a>
-                        <a id="maximize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px;"><i class="icon-fullscreen"></i> Maximize</a>
-                        <a id="minimize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px; display: none;"><i class="icon-resize-small"></i> Show Report List</a>
-
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="GC_tab">
+                        @Html.ReportList()
                     </div>
-                    <h4 id="report_title" class="panel-title">Report</h4>
-                </div>
-                <div class="panel-body">
-                    <iframe id="reportsPanel" style="width: 100%; min-height: 1000px; border: 0;" src=""></iframe>
-                    @*<iframe style="width: 100%; min-height: 500px; border: 0;" src="http://localhost:1786/ReportViewer.aspx?path=/Logistics/ITSH"></iframe>*@
+                    <div class="tab-pane" id="EC_tab">
+                        @Html.AmharicReportList()
+                    </div>
+
                 </div>
             </div>
-
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="portlet light bordered bg-inverse" style="display: block;">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-credit-card font-green-sharp"></i>
+                    <span id="report_title" class="caption-subject bold uppercase"> Select a report from left bar to view</span>
+                    <span class="caption-helper">  </span>
+                </div>
+                <div class="tools">
+                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                    @*<a href="javascript:;" class="remove" data-original-title="" title=""></a>*@
+                </div>
+                <div class="actions">
+                    <a id="newtab_report" target="_blank" href="javascript:;" class="btn green btn-sm"><i class="icon-file"></i> View on new Tab</a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                </div>
+            </div>
+            <div class="portlet-body" id="Report_Detail">
+                <iframe id="reportsPanel" style="width: 100%; min-height: 1000px; border: 0;" src=""></iframe>
+                @*<iframe style="width: 100%; min-height: 500px; border: 0;" src="http://localhost:1786/ReportViewer.aspx?path=/Logistics/ITSH"></iframe>*@
+            </div>
         </div>
 
     </div>
 </div>
+
+
+
 <script type="text/javascript">
     $(function() {
         $("[rel='tooltip']").tooltip();
@@ -120,7 +117,7 @@
         }).fail(function () {
             alert("error");
         });
-        
+
         @*$("#reportsPanel").attr("src", "@Html.GetReport(" + path[1] + "," + path[2] +")");*@
         //$("#reportsPanel").load();
     });
@@ -184,3 +181,5 @@
         return false;
     }
 </script>
+
+
