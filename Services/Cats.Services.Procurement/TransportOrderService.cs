@@ -900,19 +900,33 @@ namespace Cats.Services.Procurement
             try
             {
                 var dispatchAllocation =
-                    _unitOfWork.DispatchAllocationRepository.FindBy(d => d.TransportOrderID == transportOrderId).
-                        FirstOrDefault();
+                    _unitOfWork.DispatchAllocationRepository.FindBy(d => d.TransportOrderID == transportOrderId);
                 if (dispatchAllocation!=null)
                 {
-                    var dispatch =
-                        _unitOfWork.DispatchRepository.FindBy(
-                            t => t.DispatchAllocationID == dispatchAllocation.DispatchAllocationID);
-                    if (dispatch.Count > 0 )
+
+                    List<Dispatch> listDispatches =  new List<Dispatch>();
+
+                    foreach (var allocation in dispatchAllocation)
                     {
-                        return dispatch;
+                        DispatchAllocation allocation1 = allocation;
+                        var dispatch =
+                        _unitOfWork.DispatchRepository.FindBy(
+                            t => t.DispatchAllocationID == allocation1.DispatchAllocationID);
+                        if (dispatch.Count > 0)
+                        {
+                           listDispatches.AddRange(dispatch);
+                        }
+                    }
+                    
+                    if (listDispatches.Count > 0)
+                        return listDispatches;
+                    foreach (var allocation in dispatchAllocation)
+                    {
+                        _unitOfWork.DispatchAllocationRepository.Delete(allocation);
                     }
 
-                    _unitOfWork.DispatchAllocationRepository.Delete(dispatchAllocation);
+
+                    
                     var transportOrder = _unitOfWork.TransportOrderRepository.FindById(transportOrderId);
                     if (transportOrder!=null)
                     {

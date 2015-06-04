@@ -234,16 +234,16 @@
 
     function promot_workflow(BusinessProcessID, nextstate, actionname) {
        
-        if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
+       @* if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
            
             alert("Plan can not be rejected! Requests have already been requested.\nPlease revert the requests under this plan first.");
-        } else {
+        } else {*@
             $('#ParentBusinessProcessID').val(BusinessProcessID);
             $('#stateID').val(nextstate);
             $('#modalPromotionLabel').html(actionname);
 
             $('#modalPromotion').modal();
-        }
+        //}
     }
     function workflow_history(BusinessProcessID) {
         $('#modalHistory').modal();
