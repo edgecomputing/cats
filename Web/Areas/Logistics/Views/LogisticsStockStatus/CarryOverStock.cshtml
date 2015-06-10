@@ -3,30 +3,47 @@
 @using Cats.Helpers
 @{
     ViewBag.Title = "Carry Over Stock";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Carry Over Stock");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h4 class="page-header">@Html.Translate("Carry Over Stock")</h4>
-<div class="row-fluid form-inline">
-    <div class="control-group span2">
-        <div class="control-label">
-            @Html.Translate("Hub")
+<div class="well form-horizontal row">
+    <div class="col-sm-6">
+        <div class="col-sm-5 ">
+            <div class="form-group">
+                <label>@Html.Translate("hub")</label>
+                @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>) ViewBag.SelectHubID, "Select Hub", new {@class = "form-control"})
+            </div>
         </div>
-        <div class="">
-            @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
-        </div>
-    </div>
-    <div class="control-group span2">
-        <div class="control-label">
-            @Html.Translate("Program")
-        </div>
-        <div class="">
-            @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
+        <div class="col-sm-offset-1 col-sm-4">
+            <div class="form-group">
+                <label class="">@Html.Translate("Program")</label>
+                @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>) ViewBag.SelectProgramID, "Select Program", new {@class = "form-control"})
+            </div>
         </div>
     </div>
-
 </div>
-@(Html.Kendo().Grid<VWCarryOver>().Name("grid").Columns(col =>
+
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title tabbable-line">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Carry Over Stock Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<VWCarryOver>().Name("grid").Columns(col =>
                                                        {
 
                                                            col.Bound(t => t.ShippingInstruction).Title(Html.Translate("Shipping Instructions"));
@@ -49,9 +66,13 @@
                                                                                  .Group(t => t.Add(m => m.Commodity))
 
                                                                          ).Sortable().Filterable()
-      )
+            )
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-  
+
     //function calculatePhysicalStock(data) {
     //    return toCatsPreferedUnit(data.Received - data.Dispatched);
     //}
@@ -80,12 +101,12 @@
             var hubid = $("#SelectHubID").val();
             var programid = $("#SelectProgramID").val();
             var url = '@Url.Action("PrintCarryOverStock", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
-            
+
             url = url.replace("__id__", hubid);
             url = url.replace("__id2__", programid);
-           
+
             window.open(url, "_blank");
-           
+
         });
         $("#toolbar_button_export").click(function (e) {
             e.preventDefault();
@@ -100,5 +121,5 @@
 
         });
     });
-    
+
 </script>
