@@ -541,141 +541,139 @@
 
                             break;
                         case (int)UserType.CASETEAM.LOGISTICS:
-                        <div>
-                            <ul class="nav">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Dispatch")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Dispatch Allocation"),
-                                                @Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" }),
-                                                LogisticsConstants.Operation.View_dispatch_allocation_menu_item)
-                                        </li>
-                                    </ul>
-                                </li>
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Transport")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
+                        <li class="classic-menu-dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Dispatch")<i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu pull-left">
+                                    <li>
+                                        @Html.LogisticOperationMenuItem(@Html.Translate("Dispatch Allocation"),
+                                            @Url.Action("Index", "DispatchAllocation", new {Area = "Logistics"}),
+                                            LogisticsConstants.Operation.View_dispatch_allocation_menu_item)
+                                    </li>
+                                </ul>
+                            </li>
+                
+                        <li class="classic-menu-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Transport")<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu pull-left">
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
                                                 @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_transport_requisition_menu_item)
-                                        </li>
+                                </li>
 
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Transporter Performance"),
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Transporter Performance"),
                                                 @Url.Action("Index", "TransporterPerformance", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_transporter_performance_menu_item)
-                                        </li>
+                                </li>
 
-                                        @*<li><a href="@Url.Action("Index", "TransporterPerformance", new { Area = "Logistics" })">Transporter Performance</a></li>*@
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Transport Order"),
+                                @*<li><a href="@Url.Action("Index", "TransporterPerformance", new { Area = "Logistics" })">Transporter Performance</a></li>*@
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Transport Order"),
                                                 @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
                                                 LogisticsConstants.Operation.View_transport_order_menu_item)
-                                        </li>
-
-                                        @*   <li>
-                                                @Html.LogisticOperationMenuItem(@Html.Translate("Contract Admin"),
-                                                                       @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
-                                                                       LogisticsConstants.Operation.View_contract_Admin_menu_item)
-                                            </li>*@
-                                    </ul>
                                 </li>
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reciept Plan")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Local Purchase"),
+                                @*   <li>
+                                        @Html.LogisticOperationMenuItem(@Html.Translate("Contract Admin"),
+                                                               @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                               LogisticsConstants.Operation.View_contract_Admin_menu_item)
+                                    </li>*@
+                            </ul>
+                        </li>
+
+                        <li class="classic-menu-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reciept Plan")<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu pull-left">
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Local Purchase"),
                                                 @Url.Action("Index", "LocalPurchase", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_local_purchase_menu_item)
-                                        </li>
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Transfer"),
+                                </li>
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Transfer"),
                                                 @Url.Action("Index", "Transfer", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_transfer_menu_item)
-                                        </li>
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Donation"),
+                                </li>
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Donation"),
                                                 @Url.Action("Index", "Donation", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_donation_menu_item)
-                                        </li>
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Loan"),
+                                </li>
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Loan"),
                                                 @Url.Action("Index", "ReciptPlanForLoan", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_Loan_Menu_Item)
-                                        </li>
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Swap"),
+                                </li>
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Swap"),
                                                 @Url.Action("Index", "Swap", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_Loan_Menu_Item)
-                                        </li>
-
-                                        @* <li><a href="@Url.Action("Index", "LocalPurchase", new { Area = "Logistics" })">Local Purchase</a></li>
-                                            <li><a href="@Url.Action("Index", "Transfer", new { Area = "Logistics" })">Transfer</a></li>
-
-                                            <li><a href="@Url.Action("Index", "Donation", new { Area = "Logistics" })">Donation</a></li>
-                                            <li><a href="@Url.Action("Index", "ReciptPlanForLoan", new { Area = "Logistics" })">Loan</a></li>*@
-
-                                    </ul>
                                 </li>
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Contracts")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Bid Planning"),
+                                @* <li><a href="@Url.Action("Index", "LocalPurchase", new { Area = "Logistics" })">Local Purchase</a></li>
+                                    <li><a href="@Url.Action("Index", "Transfer", new { Area = "Logistics" })">Transfer</a></li>
+
+                                    <li><a href="@Url.Action("Index", "Donation", new { Area = "Logistics" })">Donation</a></li>
+                                    <li><a href="@Url.Action("Index", "ReciptPlanForLoan", new { Area = "Logistics" })">Loan</a></li>*@
+
+                            </ul>
+                        </li>
+
+                        <li class="classic-menu-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Contracts")<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu pull-left">
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Bid Planning"),
                                                 @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
                                                 LogisticsConstants.Operation.View_bid_planning_menu_item)
-                                        </li>
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Contract Admin"),
+                                </li>
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Contract Admin"),
                                                 @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
                                                 LogisticsConstants.Operation.View_contract_Admin_menu_item)
-                                        </li>
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Payment Request"),
+                                </li>
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Payment Request"),
                                                 @Url.Action("Index", "TransporterPaymentRequest", new { Area = "Logistics" }),
                                                 LogisticsConstants.Operation.View_Payment_Requests)
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Stock Status")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-
-                                        @*<li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Free Stock Status") </a></li>*@
-
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Free Stock Status"),
-                                                @Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                LogisticsConstants.Operation.View_free_stock_report)
-                                        </li>
-
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
-                                                @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                LogisticsConstants.Operation.View_commodity_recied_status_report)
-                                        </li>
-
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Carry Over Stock"),
-                                                @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                LogisticsConstants.Operation.View_carry_over_stock_report)
-                                        </li>
-
-                                        <li>
-                                            @Html.LogisticOperationMenuItem(@Html.Translate("Transferred Stock"),
-                                                @Url.Action("TransferredStock", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                LogisticsConstants.Operation.View_transfereed_stock_staus_report)
-                                        </li>
-                                    </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </li>
+
+                        <li class="classic-menu-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Stock Status")<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu pull-left">
+
+                                @*<li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Free Stock Status") </a></li>*@
+
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Free Stock Status"),
+                                                @Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                LogisticsConstants.Operation.View_free_stock_report)
+                                </li>
+
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
+                                                @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                LogisticsConstants.Operation.View_commodity_recied_status_report)
+                                </li>
+
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Carry Over Stock"),
+                                                @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                LogisticsConstants.Operation.View_carry_over_stock_report)
+                                </li>
+
+                                <li>
+                                    @Html.LogisticOperationMenuItem(@Html.Translate("Transferred Stock"),
+                                                @Url.Action("TransferredStock", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                LogisticsConstants.Operation.View_transfereed_stock_staus_report)
+                                </li>
+                            </ul>
+                        </li>
+
 
                             break;
                         case (int)UserType.CASETEAM.PROCUREMENT:
