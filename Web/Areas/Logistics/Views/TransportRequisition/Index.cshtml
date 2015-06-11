@@ -1,25 +1,79 @@
 ﻿@using Cats.Areas.Logistics.Models
-
+@using Cats.Models.Constant
 @using Cats.Helpers
 
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = @Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Transport Requisition");
+    ViewBag.PageTitleDescription = "";
 }
 
-@section LeftBar
-{
-    @Html.Partial("_TransportRequisitonLeftBar")
-}
+@*@section LeftBar
+    {
+        @Html.Partial("_TransportRequisitonLeftBar")
+    }*@
 @section Toolbar
 {
-   @* <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Requisitions","TransportRequisition",new {Area="Logistics"})"></a>*@
+    @* <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Requisitions","TransportRequisition",new {Area="Logistics"})"></a>*@
 }
-<h4 class="page-header">@Html.Translate("Transport Requisition")</h4>
-@Html.Translate("Transport Requisition Code"): <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
+<div class="well">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group form-md-line-input has-info" >
+                <select class="form-control" id="statusList">
+                    @{
+                        const int draftStatus = (int) TransportRequisitionStatus.Draft;
+                        const int approvedStatus = (int) TransportRequisitionStatus.Approved;
+                        const int closedStatus = (int) TransportRequisitionStatus.Closed;
+                    }
+                    <option value="-1">All</option>
+                    <option value="@draftStatus">Draft</option>
+                    <option value="@approvedStatus">Approved</option>
+                    <option value="@closedStatus">Closed</option>
+                </select>
+                <label for="statusList">@Html.Translate("Status")</label>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="form-group form-md-line-input has-info" style="padding-top: 0px;">
+                <div class="input-group input-group-md" style="padding-top: 0px;">
+                    <div class="input-group-control">
+                        <input id="searchIndex" type="search" class="form-control input-md" placeholder='@Html.Translate("Enter Transport Requisition Code")'>
+                        <label for="searchIndex">@Html.Translate("Transport Requisition Code"):</label>
+                    </div>
+                    <span class="input-group-btn btn-right">
+                        <a class="btn green-haze" onclick=" reloadTDRGrid() "><i class="fa fa-search"></i> @Html.Translate("Search")</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<h4 class="page-header">@Html.Translate("Transport Requisition")</h4>
+    @Html.Translate("Transport Requisition Code"): <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>*@
 @*<a class="btn toolbar-btn" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"><i class="ui-icon-cancel"></i></a>*@
-@(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Transport Requisitions List")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
 
     columns.Bound(requisition => requisition.TransportRequisitionNo).Title(Html.Translate("No.")).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
@@ -38,20 +92,23 @@
     .DataSource(dataSource => dataSource
         .Ajax()
         //.PageSize(20)
-        .Model(model =>model.Id(p => p.TransportRequisitionID))
+        .Model(model => model.Id(p => p.TransportRequisitionID))
         .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition").Data("searchIndexObj"))
     )
-)
-
+                    )
+        </div>
+    </div>
+</div>
 
 <script>
     function searchIndexObj() {
         //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
         var searchIndexValue = $("#searchIndex").val();
-        var obj = { searchIndex: searchIndexValue, status: @ViewBag.Status };
+        var statusIndexValue = $("#statusList").val();
+        var obj = { searchIndex: searchIndexValue, status: statusIndexValue };
         return obj;
     }
-    
+
     function reloadTDRGrid() {
         //alert($("#searchIndex").val());
         var grid = $("#Grid").data("kendoGrid");
