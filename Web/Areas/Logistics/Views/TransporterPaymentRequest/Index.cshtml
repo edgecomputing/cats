@@ -6,12 +6,31 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Transporters Having Active Order");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h3>@Html.Translate("Having Active Order")</h3>
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Transporters having active order")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
 
-@(Html.Kendo().Grid<TransporterViewModel>()
+            @(Html.Kendo().Grid<TransporterViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
@@ -21,14 +40,21 @@
         columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
         //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
     })
-    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+                    //.Editable(editable => editable.Mode(GridEditMode.InCell))
     .Scrollable()
     .Sortable()
-    .Filterable()
+            .Filterable()
+            .TableHtmlAttributes(new { @class = "table table-condensed " })
     .DataSource(dataSource => dataSource
             .Ajax()
-            //.PageSize(8)
-            //.Model(model => model.Id(p => p.WoredaHubID))
+        //.PageSize(8)
+        //.Model(model => model.Id(p => p.WoredaHubID))
             .Read(read => read.Action("BidWinningTransporters_read", "TransporterPaymentRequest"))
     )
-)
+            )
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {$(".k-grid-content").attr("style", "height: inherit");});
+</script>
