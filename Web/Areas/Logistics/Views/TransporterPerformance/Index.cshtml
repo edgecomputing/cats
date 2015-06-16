@@ -2,84 +2,120 @@
 @using Cats.Helpers
 @using Kendo.Mvc.UI
 @{
-    ViewBag.Title =@Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
-  
+    ViewBag.Title = @Html.Translate("Index");
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Transporter Performance Summary");
+    ViewBag.PageTitleDescription = "";
+
 }
 
-<h4 class="page-header">@Html.Translate("Transporter Performance Summary")</h4>
-@Html.Translate("Agreement Contract #"):
-@* @Html.TextBox("searchIndex")*@
-<input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" />
- <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()" ></a>
+<div class="well">
+    <div class="row">
+        <div class="col-md-4 ">
+            <div class="form-group form-md-line-input has-info" style="padding-top: 0px;">
+                <div class="input-group input-group-md" style="padding-top: 0px;">
+                    <div class="input-group-control">
+                        <input id="searchIndex" type="search" class="form-control input-md" placeholder='@Html.Translate("Enter Agreement Contract #"):'>
+                        <label for="searchIndex">@Html.Translate("Agreement Contract #"):</label>
+                    </div>
+                    <span class="input-group-btn btn-right">
+                        <a class="btn green-haze" onclick="reloadTDRGrid()"><i class="fa fa-search"></i> @Html.Translate("Search")</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Transporter Performance Summary")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
 
-@(Html.Kendo().Grid<TransporterPerformanceViewModel>()
+            @(Html.Kendo().Grid<TransporterPerformanceViewModel>()
 .Name("Grid")
 .Columns(columns =>
   {
 
       columns.Bound(m => m.TransportOrderNumber).Title(@Html.Translate("Transport Order Number")).ClientTemplate("<a href='" + Url.Action("TransportOrderPerformanceDetail", "TransporterPerformance", new { Area = "Logistics", id = "#=TransporterOrderID#" }) + " '>#=TransportOrderNumber#</a>  ");
       columns.Bound(m => m.TransporterName).Title(@Html.Translate("Transporter Name"));
-    columns.Bound(m => m.TotalQuantity).Title(@Html.Translate( "Total Quantity in QTL")).HtmlAttributes(new { align = "Right" });
-    columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate( "Picked Up Sofar in QTL")).HtmlAttributes(new { align = "Right" });
-    columns.Bound(m => m.Delivered).Title(@Html.Translate( "Delivered in QTL")).HtmlAttributes(new { align = "Right" });
-    columns.Bound(m => m.StartDate).Title(@Html.Translate("Start Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate( "Agreed to complete (days)")).HtmlAttributes(new { align = "Right" });
-    columns.Bound(m => m.ElapsedDays).Title(@Html.Translate( "Elapsed Time(in Days)")).HtmlAttributes(new { align = "Right" });
-    columns.Bound(m => m.Percentage).Title(@Html.Translate( "Percentage Completed")).HtmlAttributes(new { align = "Center"}).Format("{0:N0}%"); 
+      columns.Bound(m => m.TotalQuantity).Title(@Html.Translate("Total Quantity in QTL")).HtmlAttributes(new { align = "Right" });
+      columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate("Picked Up Sofar in QTL")).HtmlAttributes(new { align = "Right" });
+      columns.Bound(m => m.Delivered).Title(@Html.Translate("Delivered in QTL")).HtmlAttributes(new { align = "Right" });
+      columns.Bound(m => m.StartDate).Title(@Html.Translate("Start Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+      columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate("Agreed to complete (days)")).HtmlAttributes(new { align = "Right" });
+      columns.Bound(m => m.ElapsedDays).Title(@Html.Translate("Elapsed Time(in Days)")).HtmlAttributes(new { align = "Right" });
+      columns.Bound(m => m.Percentage).Title(@Html.Translate("Percentage Completed")).HtmlAttributes(new { align = "Center" }).Format("{0:N0}%");
   })
     .Sortable()
     .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
+                    //.HtmlAttributes(new { style = "height:430px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
         //.PageSize(20)
-        .Model(model =>model.Id(p => p.TransporterOrderID))
+        .Model(model => model.Id(p => p.TransporterOrderID))
         .Read(read => read.Action("TransporterPerformance_Read", "TransporterPerformance").Data("searchIndexObj"))
     )
-      )
+            )
+        </div>
+    </div>
+</div>
+
 <script>
-var contractNumbers = "";
-var sourceArr = [];
-$(document).ready(function () {
- 
-    $('#searchIndex').typeahead({ source: sourceArr });
+    var contractNumbers = "";
+    var sourceArr = [];
+    $(document).ready(function () {
 
-    $.ajax({
-        
-        type: "POST",
-        
-        url: "@Url.Action("GetContractNumbers", "TransporterPerformance",new {Area="Logistics"})",
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
+        $('#searchIndex').typeahead({ source: sourceArr });
 
-        success: function (result) {
-            for (var i = 0; i < result.length; i++) {
-                sourceArr.push(result[i]);
-                
+        $.ajax({
+
+            type: "POST",
+
+            url: "@Url.Action("GetContractNumbers", "TransporterPerformance",new {Area="Logistics"})",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    sourceArr.push(result[i]);
+
+                }
+            },
+            error: function (error) {
+                alert("There was an error on reading the data from the server: " + error.responseText);
             }
-        },
-        error: function (error) {
-            alert(@Html.Translate("There was an error on reading the data from the server: ") + error.responseText);
-        }
+        });
     });
-});
 
- 
+
     function searchIndexObj() {
         var searchIndexValue = $("#searchIndex").val();
         var obj = { searchIndex: searchIndexValue };
         return obj;
     }
-    
+
     function reloadTDRGrid() {
         //alert($("#searchIndex").val());
         var grid = $("#Grid").data("kendoGrid");
         grid.dataSource.read();
     }
 
-    $("#searchIndex").on('change', function() {
+    $("#searchIndex").on('change', function () {
         var grid = $("#Grid").data("kendoGrid");
         grid.dataSource.read();
     });
