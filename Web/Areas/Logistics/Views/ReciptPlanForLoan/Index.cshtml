@@ -5,20 +5,18 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "Logistics.ReciptPlanForLoanAndOthers.Index";
-    
-}
-@section Toolbar
-{
-    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "ReciptPlanForLoan")"></a>
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List of Receipt Plan From Loan");
+    ViewBag.PageTitleDescription = "";
 }
 
 <script type="text/javascript">
     $(function () {
 
         //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
+        //$.ajaxSetup({ cache: false });
 
-        $('#btnAddReciptPlan').click(function () {
+        $("#btnAddReciptPlan").click(function () {
 
             // alert("");
             $('#dialogContent').load(this.href, function () {
@@ -27,6 +25,7 @@
                     keyboard: true
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
             return false;
         });
@@ -34,26 +33,46 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+<div id='dialogDiv' class='modal fade in' >
     <div id='dialogContent'></div>
 </div>
-<h4>@Html.Translate("List of Receipt Plan From Loan")</h4>
- @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
-              .Name("grid")
-              .Pageable()
-    .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-              .Columns(columns =>
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Receipt Plan From Loan")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn green" href="@Url.Action("Create", "ReciptPlanForLoan")"><i class="fa fa-plus"></i> @Html.Translate("Create New")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
+                  .Name("grid")
+                  .Pageable()
+                  .Sortable()
+                  .Scrollable()
+                  //.HtmlAttributes(new { style = "height:430px;" })
+                  .TableHtmlAttributes(new {@class = "table table-condensed"})
+                  .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  ").Width(100);
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new {id = "#=LoanReciptPlanID#"}) + " '>#=SiNumber#</a>  ").Width(100);
                       columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate("Loan Source")).Width(100);
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate("Program")).Width(100);
                       columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate("Commodity")).Width(100);
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate("Commodity Source")).Width(100);
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new { align = "right" }).Title(@Html.Translate("Quantity in MT")).Width(100);
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT")).Width(100);
                       columns.Bound(m => m.CreatedDate).Title(Html.Translate("Created Date")).Width(100);
-                      columns.Bound(m => m.IsFalseGRN).Title(Html.Translate("False GRN")).Width(100).ClientTemplate("# if (IsFalseGRN) { # False GRN # }else {#  #} #").HtmlAttributes(new { @style = "text-align:center" }); ;
+                      columns.Bound(m => m.IsFalseGRN).Title(Html.Translate("False GRN")).Width(100).ClientTemplate("# if (IsFalseGRN) { # False GRN # }else {#  #} #").HtmlAttributes(new {@style = "text-align:center"});
+                      ;
                       columns.Bound(m => m.Status).Title(Html.Translate("Status")).Width(100);
                       columns.Command(p =>
                       {
@@ -64,57 +83,59 @@
 
                   }
 
-              )
+                  )
 
-              .Navigatable()
-             
-              .Events(e=>e.DataBound("onDataBound"))
-              .HtmlAttributes(new { style = "height:430px;" })
-              .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Model(model =>model.Id(m=>m.LoanReciptPlanID))
-                                            .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoan"))
-              //.Update(update => update.Action("Commodity_Update", "Request"))
-              
-              )
-              .Resizable(resize => resize.Columns(true))
-       )
+                  .Navigatable()
 
-<div id='dialogDivSmall' class='modal hide fade in'>
+                  .Events(e => e.DataBound("onDataBound"))
+                  .HtmlAttributes(new {style = "height:430px;"})
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Model(model => model.Id(m => m.LoanReciptPlanID))
+                      .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoan"))
+                  //.Update(update => update.Action("Commodity_Update", "Request"))
+
+                  )
+                  .Resizable(resize => resize.Columns(true))
+            )
+        </div>
+    </div>
+</div>
+<div id='dialogDivSmall' class='modal fade in'>
     <div id='dialogContentSmall'></div>
 </div>
 @*<script>
-    function Edit(e) {
-        e.preventDefault();
+        function Edit(e) {
+            e.preventDefault();
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var url = "@Url.Action("Edit", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
-        $('#dialogContent').load(url, function () {
-            $('#dialogDiv').modal({
-                backdrop: 'static',
-                keyboard: true
-            }, 'show');
-           
-        });
-        return false;
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            var url = "@Url.Action("Edit", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
+            $('#dialogContent').load(url, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
 
-    }
+            });
+            return false;
 
-    function Recieve(e) {
-        e.preventDefault();
+        }
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var url = "@Url.Action("ReciptPlan", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
-        $('#dialogContentSmall').load(url, function () {
-            $('#dialogDivSmall').modal({
-                backdrop: 'static',
-                keyboard: true
-            }, 'show');
+        function Recieve(e) {
+            e.preventDefault();
 
-        });
-        return false;
-    }
-</script>*@
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            var url = "@Url.Action("ReciptPlan", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
+            $('#dialogContentSmall').load(url, function () {
+                $('#dialogDivSmall').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+
+            });
+            return false;
+        }
+    </script>*@
 
 
 <script>
@@ -173,9 +194,13 @@
 </script>
 
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Loan?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
+    <div class="alert-warning">
+        <strong>Warning! </strong>Are You Sure You Want to Delete this Loan?
+    </div><hr />
+    <div class="pull-right">
+        <button id="yes" class="btn green">Yes</button>
+        <button id="no" class="btn red">No</button>
+    </div>
 </div>
 <script>
     var wnd;
@@ -184,16 +209,20 @@
             title: "Delete confirmation",
             modal: true,
             visible: false,
-            resizable: false,
-            width: 300
+            resizable: false
+            //width: 300
         }).data("kendoWindow");
     });
 </script>
 
 <div id="modalWindowRevert">
-    <h4>Are You Sure You Want to Revert this Loan ?</h4>
-    <button id="yesRevert" class="k-button">Yes</button>
-    <button id="noRevert" class="k-button">No</button>
+    <div>
+        <strong>Warning! </strong>Are You Sure You Want to Revert this Loan ?
+    </div><hr />
+    <div class="pull-right">
+        <button id="yesRevert" class="k-button">Yes</button>
+        <button id="noRevert" class="k-button">No</button>
+    </div>
 </div>
 <script>
     var wndRevert;
@@ -202,8 +231,18 @@
             title: "Revert confirmation",
             modal: true,
             visible: false,
-            resizable: false,
-            width: 300
+            resizable: false
+            // width: 300
         }).data("kendoWindow");
     });
 </script>
+<style>
+    .k-window-titlebar {
+        margin-top: -30px;
+        height: 30px;
+    }
+
+    hr {
+        margin: 5px 0;
+    }
+</style>
