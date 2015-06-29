@@ -5,37 +5,17 @@
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Detail";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string PAGE_NAME = "Logistics.ReciptPlanForLoanAndOthers.Detail";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List of Receipt Plan From Loan Details");
+    ViewBag.PageTitleDescription = "";
 }
 @section Toolbar
 {
-  
-    <div class="btn-group">
-        <button class="btn">@Html.Translate("Action")</button>
-        
-           
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-           
-        <ul class="dropdown-menu">
-            <li><a id="btnRecive" href="@Url.Action("ReciptPlan", "ReciptPlanForLoan", new { id = Model.LoanReciptPlanID})">@Html.Translate("Recieve Plan")</a></li>
-             @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
-       {
-           <li><a id="btnEdit" href="@Url.Action("Edit", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate("Edit")</a></li>
-            <li><a id="btnApprove" href="@Url.Action("Approve", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate("Approve")</a></li>
-      }
-    </ul>
-    <a class="btn toolbar-btn " href="@Url.Action("Index", "ReciptPlanForLoan")" data-buttontype="btn_back_to_list"></a>
-    </div>
-
+    <a class="btn grey-salt" href="@Url.Action("Index", "ReciptPlanForLoan")" data-buttontype="btn_back_to_list"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
 }
 
-@section LeftBar {
-    
-
-}
 <script type="text/javascript">
     $(function () {
 
@@ -54,7 +34,7 @@
             });
             return false;
         });
-        
+
         $('#btnEdit').click(function () {
 
             // alert("");
@@ -64,100 +44,163 @@
                     keyboard: true
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
             return false;
         });
 
     });
 </script>
-<div id='dialogDivSmall' class='modal hide fade in'>
+<div id='dialogDivSmall' class='modal fade' style="display: none;">
     <div id='dialogContentSmall'></div>
 </div>
-<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+<div id='dialogDiv' class='modal fade in' style="display: none;">
     <div id='dialogContent'></div>
 </div>
-    @Html.HiddenFor(m=>m.LoanReciptPlanID)
-    @Html.HiddenFor(m=>m.StatusID)
-    @Html.HiddenFor(m=>m.ShippingInstructionID)
-<table border="0" class="form-horizontal">
-    <tr style="width: 300px">
-        <td style="width:50%">
-            <div class="control-label">
-                @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate("SI Number"))
+@Html.HiddenFor(m => m.LoanReciptPlanID)
+@Html.HiddenFor(m => m.StatusID)
+@Html.HiddenFor(m => m.ShippingInstructionID)
+
+<div class="portlet light bordered bg-inverse">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            @*<a href="javascript:;" class="remove" data-original-title="" title=""></a>*@
+        </div>
+        <div class="actions">
+            <div class="btn-group">
+                <a class="btn green dropdown-toggle " data-toggle="dropdown">
+                    @Html.Translate("Action")
+                    <i class="fa fa-angle-down"></i>
+                </a>
+
+                <ul class="dropdown-menu pull-right">
+                    <li><a id="btnRecive" class="btn green-sharp-stripe" href="@Url.Action("ReciptPlan", "ReciptPlanForLoan", new { id = Model.LoanReciptPlanID})">@Html.Translate("Recieve Plan")</a></li>
+                    @if (Model.StatusID == (int)LocalPurchaseStatus.Draft)
+                    {
+                    <li><a id="btnEdit" class="btn green-sharp-stripe" href="@Url.Action("Edit", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate("Edit")</a></li>
+                    <li><a id="btnApprove" class="btn green-sharp-stripe" href="@Url.Action("Approve", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate("Approve")</a></li>
+                    }
+                </ul>
             </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {disabled=true})
-                @Html.ValidationMessageFor(m=>m.ShippingInstruction.Value)
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="form-horizontal row">
+            <div class="row">
+
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.ShippingInstruction.Value, @Html.Translate("SI Number"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.ShippingInstruction.Value, new { disabled = true, @class = "form-control" })
+                        <span class="help-block">@Html.ValidationMessageFor(m => m.ShippingInstruction.Value)</span>
+                    </div>
+
+                </div>
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.LoanSource, @Html.Translate("Loan Source"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.LoanSource, new { disabled = true, @class = "form-control" })
+                    </div>
+                </div>
+
             </div>
-        </td>
-        <td style="width: 50%">
-            <div class="control-label">
-                @Html.LabelFor(m=>m.LoanSource,@Html.Translate("Loan Source"))
+            <div class="row">
+
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.ProgramID, @Html.Translate("Program"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Program.Name, new { disabled = true, @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.CommodityID, @Html.Translate("Commodity"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Commodity.Name, new { disabled = true, @class = "form-control" })
+                    </div>
+                </div>
             </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.LoanSource,new {disabled=true})
+            <div class="row">
+
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.CommoditySourceID, @Html.Translate("Commodity Source"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.CommoditySource.Name, new {disabled = true, @class = "form-control"})
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.ReferenceNumber, @Html.Translate("Reference Number"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.ReferenceNumber, new {disabled = true, @class = "form-control"})
+                    </div>
+                </div>
+
             </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="control-label">
-                @Html.LabelFor(m=>m.ProgramID,@Html.Translate("Program"))
+            <div class="row">
+
+                <div class="form-group col-sm-6">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(m => m.ProjectCode, @Html.Translate("Project Code"))
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.ProjectCode, new { disabled = true, @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="form-group col-sm-6">
+                    <div class="form-group">
+                        <div class="control-label col-sm-4">
+                            @Html.LabelFor(m => m.Quantity, @Html.Translate("Quantity in MT"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Quantity, new {disabled = true, @class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.Program.Name,new {disabled=true})
-            </div>
-        </td>
-        <td>
-            <div class="control-label">
-                @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.Commodity.Name,new {disabled=true})
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="control-label">
-                @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate("Commodity Source"))
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.CommoditySource.Name,new {disabled=true})
-                   
-            </div>
-        </td>
-        <td>
-            <div class="control-label">
-                @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate("Reference Number"))
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.ReferenceNumber,new {disabled=true})
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="control-label">
-                @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("Project Code"))
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.ProjectCode,new {disabled=true})
-            </div>
-               
-        </td>
-        <td>
-            <div class="control-label">
-                @Html.LabelFor(m=>m.Quantity,@Html.Translate("Quantity in MT"))
-            </div> 
-            <div class="controls">
-                @Html.TextBoxFor(m=>m.Quantity,new {disabled=true})
-            </div>
-        </td>
-    </tr>
-</table>
-<h4> List of Recived Loans</h4>
-@(Html.Kendo().Grid<LoanReciptPlanWithDetailViewModel>()
+        </div>
+
+    </div>
+</div>
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Recived Loans")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<LoanReciptPlanWithDetailViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
@@ -166,20 +209,25 @@
                       columns.Bound(m => m.CreatedDate).Title(Html.Translate("Recieved Date"));
                       columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate("Recieving Amount")).HtmlAttributes(new { align = "right" });
                       columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate("Remaining")).HtmlAttributes(new { align = "right" });
-                     // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
-                      
+                      // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+
                   }
 
               )
 
               .Navigatable()
               .Scrollable()
+              .TableHtmlAttributes(new { @class = "table table-condensed" })
               .HtmlAttributes(new { style = "height:230px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
-                                            .Group(t=>t.Add(m=>m.HubName))
-                                            .Model(model =>model.Id(m=>m.LoanReciptPlanDetailID))
-                                            .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoan",new {loanReciptPlanID=Model.LoanReciptPlanID}))
-              //.Update(update => update.Action("Commodity_Update", "Request"))
+                                            .Group(t => t.Add(m => m.HubName))
+                                            .Model(model => model.Id(m => m.LoanReciptPlanDetailID))
+                                            .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoan", new { loanReciptPlanID = Model.LoanReciptPlanID }))
+                    //.Update(update => update.Action("Commodity_Update", "Request"))
               )
-       )
+            )
+
+        </div>
+    </div>
+</div>
