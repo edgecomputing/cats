@@ -2,16 +2,15 @@
 @using Cats.Helpers
 @using Kendo.Mvc.UI
 @{
-    
+
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "Logistics.Swap.Index";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List of Receipt Plan From Swap");
+    ViewBag.PageTitleDescription = "";
 }
 
-@section Toolbar
-{
-    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Swap")"></a>
-}
 
 <script type="text/javascript">
     $(function () {
@@ -29,6 +28,7 @@
                     keyboard: true
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
             return false;
         });
@@ -36,25 +36,43 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+<div id='dialogDiv' class='modal fade in' style="display: none;">
     <div id='dialogContent'></div>
 </div>
-<h4>List of Receipt Plan From Swap</h4>
- @(Html.Kendo().Grid<TransferViewModel>()
-              .Name("grid")
-              .Columns(columns =>
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Receipt Plan From Swap")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn green" href="@Url.Action("Create", "Swap")"><i class="fa fa-plus"></i> @Html.Translate("Create New")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<TransferViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
                   {
                       columns.Bound(m => m.ReferenceNumber).Title(@Html.Translate("Reference"));
-                      
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Swap", new { id = "#=TransferID#" }) + " '>#=SiNumber#</a>  ");
-                      
+
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Swap", new {id = "#=TransferID#"}) + " '>#=SiNumber#</a>  ");
+
                       columns.Bound(m => m.SourceSwapName).Title(@Html.Translate("Swap Issuer"));
                       columns.Bound(m => m.DestinationHubName).Title(@Html.Translate("Swap Receiver"));
-                      
+
 
                       columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate("Swap Repayment Settler"));
                       columns.Bound(m => m.DestinationSwapName).Title(@Html.Translate("Swap Repayment Receiver"));
-                      
+
                       columns.Bound(m => m.Program).Title(@Html.Translate("Program"));
                       columns.Bound(m => m.Commodity).Width(200).Title(@Html.Translate("Commodity"));
                       //columns.Bound(m => m.CommoditySource).Width(100).Title(@Html.Translate("Commodity Source"));
@@ -70,18 +88,21 @@
 
                   }
 
-              )
+                  )
 
-              .Navigatable()
-              .HtmlAttributes(new { style = "height:430px;" })
-              .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Model(model =>model.Id(m=>m.TransferID))
-                                            .Read(read => read.Action("Transfer_Read", "Swap"))
-              //.Update(update => update.Action("Commodity_Update", "Request"))
-              )
-       )
-
-<div id='dialogDivSmall' class='modal hide fade in'>
+                  .Navigatable()
+                  .TableHtmlAttributes(new {@class = "table table-condensed"})
+                  .HtmlAttributes(new {style = "height:430px;"})
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Model(model => model.Id(m => m.TransferID))
+                      .Read(read => read.Action("Transfer_Read", "Swap"))
+                  //.Update(update => update.Action("Commodity_Update", "Request"))
+                  )
+            )
+        </div>
+    </div>
+</div>
+<div id='dialogDivSmall' class='modal fade in' style="display: none;">
     <div id='dialogContentSmall'></div>
 </div>
