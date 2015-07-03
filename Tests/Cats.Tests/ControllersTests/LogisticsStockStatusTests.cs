@@ -92,7 +92,7 @@ namespace Cats.Tests.ControllersTests
 
 
 
-            _logisticsStockStatusController = new LogisticsStockStatusController(null, null, null, null, null, mockStatusService.Object, mockAdminUnitService.Object,null,null);
+            _logisticsStockStatusController = new LogisticsStockStatusController(null, null, null, null, null, mockStatusService.Object, mockAdminUnitService.Object,null,null,null);
 
 
             

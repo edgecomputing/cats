@@ -33,6 +33,7 @@ namespace Cats.Areas.Logistics.Controllers
         private IAdminUnitService _adminUnitService;
         private IProgramService _programService;
         private IDonorService _donorService;
+        private IUserProfileService _userProfileService;
         
         public LogisticsStockStatusController
         (
@@ -41,7 +42,7 @@ namespace Cats.Areas.Logistics.Controllers
             IDashboardWidgetService dashboardWidgetservice,
             IUserAccountService userService,
             IHubService hubService,
-            IStockStatusService stockStatusService, IAdminUnitService adminUnitService, IProgramService programService, IDonorService donorService)
+            IStockStatusService stockStatusService, IAdminUnitService adminUnitService, IProgramService programService, IDonorService donorService, IUserProfileService userProfileService)
         {
             _unitOfWork = unitOfWork;
             _userDashboardPreferenceService = userDashboardPreferenceService;
@@ -52,6 +53,7 @@ namespace Cats.Areas.Logistics.Controllers
             _adminUnitService = adminUnitService;
             _programService = programService;
             _donorService = donorService;
+            _userProfileService = userProfileService;
         }
 
         // GET:/Logistics/StockStatus/
@@ -417,7 +419,54 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == woredaId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Adjustment()
+        {
+            
+            ViewBag.ProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
+            ViewBag.HubID = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
+            ViewBag.CommodityID = new SelectList(_stockStatusService.GetCommodity(), "CommodityID", "Name");
+            return View();
+        }
 
+        public ActionResult Adjustement_Read([DataSourceRequest] DataSourceRequest request,int programId = -1, int hubId = -1, int commodityId = -1,int stockType=-1)
+        {
+            if (programId != -1 && hubId != -1 && commodityId != -1)
+            {
+                var result = _stockStatusService.Adjustment(programId, hubId, commodityId,stockType);
+                return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+
+        public ActionResult Adjustement_Save(int programId = -1, int hubId = -1, int commodityId = -1, int stockType=-1)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            if (programId != -1 && hubId != -1 && commodityId != -1 && stockType!=-1)
+            {
+                if (stockType == 0)
+                {
+                    var result = _stockStatusService.Adjustment(programId, hubId, commodityId,stockType);
+                    foreach (var stockAdjustmentViewModel in result)
+                    {
+                        _stockStatusService.SaveAdjustment(stockAdjustmentViewModel, user,stockType);
+                    }
+                    return RedirectToAction("Adjustment");  
+                }
+                else
+                {
+                    var result = _stockStatusService.Adjustment(programId, hubId, commodityId,stockType);
+                    foreach (var stockAdjustmentViewModel in result)
+                    {
+                        _stockStatusService.SaveAdjustment(stockAdjustmentViewModel, user,stockType);
+                    }
+                    return RedirectToAction("Adjustment");
+                }
+                
+
+            }
+            return  RedirectToAction("Adjustment");
+           
+        }
 
         #endregion
 

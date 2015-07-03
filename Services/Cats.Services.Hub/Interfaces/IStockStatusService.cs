@@ -15,6 +15,7 @@ namespace Cats.Services.Hub.Interfaces
         //IEnumerable<Object> FreeStockByHubAsOF(DateTime date, int hubID);
         IOrderedEnumerable<HubView> GetHubs();
         IEnumerable<ProgramView> GetPrograms();
+        IEnumerable<CommodityView> GetCommodity();
         List<HubFreeStockView> GetFreeStockStatusD(int hub, int program, DateTime date);
         List<HubFreeStockView> GetFreeStockStatus(int hub, int program, string date);
         List<HubFreeStockSummaryView> GetStockSummary(int program, string date);
@@ -32,6 +33,8 @@ namespace Cats.Services.Hub.Interfaces
         List<VWTransferredStock> GetTransferredStock(Expression<Func<VWTransferredStock, bool>> filter = null);
         List<HubFreeStockSummaryView> GetStockSummaryHubDahsBoard(int hubId, DateTime date);
         List<HubDispatchAllocationViewModel> GetHubDispatchAllocation(int program, DateTime date);
+        List<StockAdjustmentViewModel> Adjustment(int programId, int hubId, int commodityId, int stockType);
+        void SaveAdjustment(StockAdjustmentViewModel viewModel, UserProfile user, int stockType);
 
     }
 }

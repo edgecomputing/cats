@@ -19,6 +19,11 @@ namespace Cats.Models.Hubs
         public string Name { get; set; }
     }
 
+    public class CommodityView
+    {
+        public int CommodityId { get; set; }
+        public string Name { get; set; }
+    }
     public class HubFreeStockView
     {
         public int CommodityID { get; set; }

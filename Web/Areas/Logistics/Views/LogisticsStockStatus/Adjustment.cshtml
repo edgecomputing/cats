@@ -1,0 +1,131 @@
+﻿
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Adjustment";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Adjustment</h2>
+
+
+<div>
+    <div class="input-prepend">
+        <span class="add-on">Program</span>
+         @Html.DropDownList("StockType", new List<SelectListItem>
+
+                 {
+                    new SelectListItem{ Text="Physical stock", Value = "0" },
+                    new SelectListItem{ Text="Committed stock", Value = "1" }
+                 }, new { @class = "input-small" }) 
+    </div>
+    <div class="input-prepend">
+        <span class="add-on">Program</span>
+        @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
+    </div>
+    <div class="input-prepend">
+        <span class="add-on">Hub</span>
+        @Html.DropDownList("HubID", null, new { @class = "input-small" })
+    </div>
+    <div class="input-prepend">
+        <span class="add-on">Commodity</span>
+        @Html.DropDownList("CommodityID", null, new { @class = "input-small" })
+    </div>
+    
+    <div class="input-prepend">
+       
+        <input type="button" id="save" class="ui-button-success" value="save to transaction"/>
+    </div>
+</div>
+<div>
+@(Html.Kendo().Grid<Cats.Models.Hubs.StockAdjustmentViewModel>().Name("Grid").Columns(columns =>
+      {
+          columns.Template(t => { }).Title("No").ClientTemplate(
+             "#= renderNumber(data) #").Width(50);
+          columns.Bound(to => to.SINumber).Title(("SI")).Width(250);
+
+          columns.Bound(to => to.HubName).Title(("Hub")).Width(150);
+          columns.Bound(to => to.ProgramName).Width(100).Title(("Program"));
+    //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(to => to.commodityName).Title(("Commodity")).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.QuantityInMT).Width(100).Title(("Qty MT")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.QuantityInUnit).Width(100).Title(("Qty Unit")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    //columns.Bound(to => to.RequestedDispatchDateET).Title(("Requested Dispatch Date")).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    //columns.Bound(to => to.TransportOrderNo).Title(("Transport Order No")).Width(100).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
+    //columns.Bound(to => to.Status).Title(("Status")).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
+         
+
+
+
+      })
+     .Scrollable()
+     .Filterable()
+     .Sortable()
+    
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model =>model.Id(p => p.ShippingInstructionID))
+        .Create(create=>create.Action("Adjustement_Save","LogisticsStockStatus"))
+        .Read(read => read.Action("Adjustement_Read", "LogisticsStockStatus").Data("filterData"))
+        
+    )
+      )
+    </div>
+<script>
+    var programId, commodityId, hubId,stockType;
+    function filterData() {
+
+        return {
+            programId: $("#ProgramID").val(),
+            hubId: $("#HubID").val(),
+            commodityId: $("#CommodityID").val()
+
+
+        };
+    }
+    
+
+
+    $(document).ready(function () {
+
+        $('#ProgramID').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#HubID').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+
+        $('#CommodityID').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+
+    });
+
+    $("#save").click(function () {
+        
+        programId = $("#ProgramID").val();
+        hubId= $("#HubID").val();
+        commodityId=$("#CommodityID").val();
+        stockType = $("#StockType").val();
+        
+        var param = { "programId": programId, "hubId": hubId, "commodityId": commodityId,"stockType":stockType };
+        
+        $.ajax({
+            type: "POST",
+            url: rootDir + 'Logistics/LogisticsStockStatus/Adjustement_Save/',
+            data: param,
+            datatype: "application/json",
+            success: function (data) {
+               alert("success");
+            }
+        });
+    });
+    
+</script>

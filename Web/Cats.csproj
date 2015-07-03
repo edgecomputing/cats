@@ -2126,19 +2126,19 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
-    <Content Include="Images\ajax-loader.gif" />
-    <Content Include="Images\ajax-loaderbig.gif" />
-    <Content Include="Images\audit.png" />
-    <Content Include="Images\change.png" />
-    <Content Include="Images\dialog-warning.png" />
-    <Content Include="Images\english.png" />
-    <Content Include="Images\ethiopian.png" />
-    <Content Include="Images\messagebox_warning.png" />
-    <Content Include="Images\tick.png" />
-    <Content Include="Images\top-bg.gif" />
-    <Content Include="Images\Warning.png" />
-    <Content Include="Images\watermark.png" />
-    <Content Include="Images\x.png" />
+    <Content Include="Helpers\Images\ajax-loader.gif" />
+    <Content Include="Helpers\Images\ajax-loaderbig.gif" />
+    <Content Include="Helpers\Images\audit.png" />
+    <Content Include="Helpers\Images\change.png" />
+    <Content Include="Helpers\Images\dialog-warning.png" />
+    <Content Include="Helpers\Images\english.png" />
+    <Content Include="Helpers\Images\ethiopian.png" />
+    <Content Include="Helpers\Images\messagebox_warning.png" />
+    <Content Include="Helpers\Images\tick.png" />
+    <Content Include="Helpers\Images\top-bg.gif" />
+    <Content Include="Helpers\Images\Warning.png" />
+    <Content Include="Helpers\Images\watermark.png" />
+    <Content Include="Helpers\Images\x.png" />
     <Content Include="ReportViewer.aspx" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
@@ -2959,6 +2959,7 @@
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Iconsd41d.eot" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Adjustment.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
