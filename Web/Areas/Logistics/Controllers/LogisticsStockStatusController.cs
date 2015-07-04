@@ -430,7 +430,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Adjustement_Read([DataSourceRequest] DataSourceRequest request,int programId = -1, int hubId = -1, int commodityId = -1,int stockType=-1)
         {
-            if (programId != -1 && hubId != -1 && commodityId != -1)
+            if (programId != -1 && hubId != -1 && commodityId != -1 && stockType!=-1)
             {
                 var result = _stockStatusService.Adjustment(programId, hubId, commodityId,stockType);
                 return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -443,24 +443,14 @@ namespace Cats.Areas.Logistics.Controllers
             var user = _userProfileService.GetUser(User.Identity.Name);
             if (programId != -1 && hubId != -1 && commodityId != -1 && stockType!=-1)
             {
-                if (stockType == 0)
-                {
+                
                     var result = _stockStatusService.Adjustment(programId, hubId, commodityId,stockType);
                     foreach (var stockAdjustmentViewModel in result)
                     {
                         _stockStatusService.SaveAdjustment(stockAdjustmentViewModel, user,stockType);
                     }
                     return RedirectToAction("Adjustment");  
-                }
-                else
-                {
-                    var result = _stockStatusService.Adjustment(programId, hubId, commodityId,stockType);
-                    foreach (var stockAdjustmentViewModel in result)
-                    {
-                        _stockStatusService.SaveAdjustment(stockAdjustmentViewModel, user,stockType);
-                    }
-                    return RedirectToAction("Adjustment");
-                }
+               
                 
 
             }

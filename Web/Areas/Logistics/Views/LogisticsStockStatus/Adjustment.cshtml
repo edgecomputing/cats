@@ -78,8 +78,8 @@
         return {
             programId: $("#ProgramID").val(),
             hubId: $("#HubID").val(),
-            commodityId: $("#CommodityID").val()
-
+            commodityId: $("#CommodityID").val(),
+            stockType: $("#StockType").val()
 
         };
     }
@@ -88,14 +88,21 @@
 
     $(document).ready(function () {
 
-        $('#ProgramID').change(function () {
-
-            $("#Grid").data("kendoGrid").dataSource.read();
-        });
+       
     });
 
     $(document).ready(function () {
 
+        $('#ProgramID').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+        
+        $('#StockType').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+        
         $('#HubID').change(function () {
 
             $("#Grid").data("kendoGrid").dataSource.read();
