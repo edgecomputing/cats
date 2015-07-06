@@ -6,35 +6,54 @@
 
 @{
     ViewBag.Title = "BidWinnerTransporters";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Bid Winning Transporters");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h3>@Html.Translate("Bid Winning Transporters")</h3>
-
-@(Html.Kendo().Grid<TransporterViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
-            .ClientTemplate("<a href='" + Url.Action("Index", "ContractAdministration",
-                        new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
-        columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
-        columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
-                        .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner", 
-                        new { transporterID = "#=TransporterID#" }) + " '>Generate Agreement</a>  ");
-        columns.Bound(p => p.TransporterID).Title(Html.Translate("History")) 
-                        .ClientTemplate("<a href='" + Url.Action("ShowAllAgreements", "BidWinner", 
-                        new { transporterID = "#=TransporterID#" }) + " '>History</a>  ");
-        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
-    })
-    //.Editable(editable => editable.Mode(GridEditMode.InCell))
-    .Scrollable()
-    .Sortable()
-    .Filterable()
-    .DataSource(dataSource => dataSource
-            .Ajax()
-            //.PageSize(8)
-            //.Model(model => model.Id(p => p.WoredaHubID))
-            .Read(read => read.Action("BidWinningTransporters_read", "BidWinner"))
-     )
-)
+<div class="portlet light bordered ">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i> @Html.Translate("Bid Winning Transporters")
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title="">
+                </a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<TransporterViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
+                      .ClientTemplate("<a href='" + Url.Action("Index", "ContractAdministration",
+                          new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
+                  columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
+                  columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
+                      .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner",
+                          new { transporterID = "#=TransporterID#" }) + " '>Generate Agreement</a>  ");
+                  columns.Bound(p => p.TransporterID).Title(Html.Translate("History"))
+                      .ClientTemplate("<a href='" + Url.Action("ShowAllAgreements", "BidWinner",
+                          new { transporterID = "#=TransporterID#" }) + " '>History</a>  ");
+                  //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
+              })
+                    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+              .Scrollable()
+              .Sortable().TableHtmlAttributes(new { @class = "table table-condensed" })
+              .Filterable()
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  //.PageSize(8)
+                  //.Model(model => model.Id(p => p.WoredaHubID))
+                  .Read(read => read.Action("BidWinningTransporters_read", "BidWinner"))
+              )
+            )
+        </div>
+    </div>
+</div>
