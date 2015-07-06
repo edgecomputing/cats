@@ -5,39 +5,56 @@
 @using LanguageHelpers.Localization
 @{
     ViewBag.Title = "ShowAllAgreements";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Show All Agreements of a Transporter");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h3>Show All Agreements of a Transporter</h3>
-
-<div><span style="font-weight: bold; font-size: 14px">Transporter:</span> @ViewBag.TransporterName</div>
-@(Html.Kendo().Grid<AgreementVersionViewModel>()
+<div class="portlet light bordered ">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i> @Html.Translate("Transporter"): @ViewBag.TransporterName
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title="">
+                </a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<AgreementVersionViewModel>()
     .Name("Grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.BidNo).Title("Bid Number");
-        columns.Bound(p => p.IssueDate).Title("Issue Date").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-        columns.Bound(p => p.Current).Title("Current");
-        columns.Bound(p => p.StatusName).Title("Status");
-        columns.Bound(p => p.TransporterID).Title("Actions")
-            .ClientTemplate("<a href='" + Url.Action("ViewAgreementTemplate", "BidWinner", new { transportAgreementVersionID = "#=TransportAgreementVersionID#" }) + " '>View Agreement</a>  ");
+            columns.Bound(p => p.BidNo).Title("Bid Number");
+            columns.Bound(p => p.IssueDate).Title("Issue Date").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.Current).Title("Current");
+            columns.Bound(p => p.StatusName).Title("Status");
+            columns.Bound(p => p.TransporterID).Title("Actions")
+                .ClientTemplate("<a href='" + Url.Action("ViewAgreementTemplate", "BidWinner", new { transportAgreementVersionID = "#=TransportAgreementVersionID#" }) + " '>View Agreement</a>  ");
 
-        columns.Command(p => p.Custom("Approve").Click("onApprove")).Width(200);
-        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
-    })
-    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+            columns.Command(p => p.Custom("Approve").Click("onApprove")).Width(200);
+            //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
+        })
+                    //.Editable(editable => editable.Mode(GridEditMode.InCell))
     .Scrollable()
     .Sortable()
     .Filterable()
     .Events(e => e.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
             .Ajax()
-            //.PageSize(8)
-            //.Model(model => model.Id(p => p.WoredaHubID))
+        //.PageSize(8)
+        //.Model(model => model.Id(p => p.WoredaHubID))
             .Read(read => read.Action("ShowAllAgreements_read", "BidWinner", new { transporterID = @ViewBag.TransporterID }))
      )
-      )
-
+            )
+        </div>
+    </div>
+</div>
 <script>
     function onApprove(e) {
         e.preventDefault();
