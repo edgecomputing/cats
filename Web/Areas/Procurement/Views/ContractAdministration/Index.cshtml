@@ -8,231 +8,312 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Contract Administration");
+    ViewBag.PageTitleDescription = "";
 }
 
 @section Toolbar
 {
-    <div class="btn-group">
-        <button class="btn">Action</button>
-    
-        <button class="btn dropdown-toggle " data-toggle="dropdown">
-            <span class="caret"></span>
-        </button>
+<div class="btn-group">
+    <button type="button" class="btn green-sharp-stripe dropdown-toggle green" data-toggle="dropdown">
+        <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Action") <i class="fa fa-angle-down"></i>
+    </button>
+    <ul class="dropdown-menu pull-right">
+        <li><a class="btn green-sharp-stripe" href="@Url.Action("Create", "PaymentRequest", new {transporterID = ViewBag.TransporterID})">@Html.Translate("Request Paymen")t</a></li>
+        <li><a class="btn green-sharp-stripe" href="@Url.Action("ViewCurrentAgreement", "BidWinner",new { transporterID = ViewBag.TransporterID })">@Html.Translate("Print Contract")</a></li>
+    </ul>
 
-        <ul class="dropdown-menu">
-            <li><a href="@Url.Action("Create", "PaymentRequest", new {transporterID = ViewBag.TransporterID})">Request Payment</a></li>
-            <li>
-                <a href="@Url.Action("ViewCurrentAgreement", "BidWinner", 
-                        new { transporterID = ViewBag.TransporterID })">Print Contract</a>
-            </li>
-        </ul>
-
-    </div>
+</div>
 }
 
-<h3>Contract Administration</h3>
-
-<div class="row-fluid">
-    <table>
-        <tr>
-            <td>Transporter:</td>
-            <td><div style="width: 400px;margin-left:0px;border:1px solid #ececec;border-radius: 5px;">@ViewBag.TransporterName</div></td>
-        </tr>
-        <tr>
-            <td>Address:</td>
-            <td><div style="width: 400px;margin-left:0px;border:1px solid #ececec;border-radius: 5px;">@ViewBag.TransporterAddress</div></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <a href="@Url.Action("ViewCurrentAgreement", "BidWinner", 
-                        new { transporterID = ViewBag.TransporterID })">Click here to see active agreement contract</a>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">Outstanding Delivery Notes</div>
-        @(Html.Kendo().Grid<DispatchViewModel>().Name("gridWithGRN")
-        .Columns(col => {
-                    
-                    //col.Bound(t => t.RequisitionNoGRNReceived).ClientTemplate("<a href='" +
-                    //            Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = "#=DistributionID#" }) + " '>#=GRNReceived#</a>  ").Width(130);
-
-                    col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                    col.Bound(t => t.GIN);
-                    col.Bound(t => t.DispatchDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-                     col.Bound(t => t.PlateNo_Prime).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                     col.Bound(t => t.Commodity).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                     col.Bound(t => t.Quantity).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid", style = "overflow: visible; white-space: normal;" });
-
-                 })
-                 .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .Read(read => read.Action("OutstandingDeliveryNotes_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}))
-                 )
-                 .Scrollable(scroll => scroll.Height(350))
-                // .Selectable(select => select.Mode(GridSelectionMode.Single))
-                 .Navigatable()
-                 .Sortable()
-                 .HtmlAttributes(new { style = "height:200px;" }))
-                 
-    </div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">Payment Requests</div>
-        @{
-            int index = 0;
-            var paymentRequest = ViewBag.PaymentRequests;
-        }
-        <table class="table table-striped table-bordered" style="min-height: 200px;">
-                <tr>
-                    <th>Reference No</th>
-                    <th>Transporter</th>
-                    <th>Transport Order</th>
-                    <th>Requested Amount</th>
-                    <th>Status</th>
-                </tr>
-
-                @foreach (PaymentRequest item in paymentRequest)
-                {
-                    index++;
-                    StateTemplate state = item.BusinessProcess.CurrentState.BaseStateTemplate;
-                    <tr>
-                        <td>
-                            <a href="@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = item.BusinessProcessID, partial = 0 })">@item.ReferenceNo</a>
-                        </td>
-                        <td>
-                           @item.TransportOrder.Transporter.Name
-                        </td>
-                        <td>
-                           @item.TransportOrder.TransportOrderNo
-                        </td>
-                        <td>
-                           @item.RequestedAmount
-                        </td>
-                        <td>
-                           @state.Name
-                        </td>
-                </tr>
-                }
-        </table>
-    </div>
-</div>
-<div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">Active Transport Orders</div>
-        <div>
-            <div class="input-prepend">
-                <span class="add-on">@Html.Translate("TransporterOrder No")</span>
-                @Html.TextBox("TransporterOrderNo", null, new { @class = "input-small" })
+<div class="well">
+    <div class="form-horizontal row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="control-label col-sm-3">@Html.Translate("Transporter") :</div>
+                <div class="col-sm-6">
+                    <div class="form-control-static">@ViewBag.TransporterName</div>
+                </div>
             </div>
-            @*<div class="input-prepend">
-                <span class="add-on">@Html.Translate("Round")</span>
-                @Html.DropDownList("Round", null, new { @class = "input-small" })
-            </div>*@
-            @*<input type="text" class="text-md" id="transporteOrder" name="transporteOrder" />*@
-            <div class="input-prepend">
-                <span class="add-on">@Html.Translate("Region")</span>
-                @Html.DropDownList("RegionID", null, new { @class = "input-small" })
+            <div class="form-group">
+                <div class="control-label col-sm-3">@Html.Translate("Address") :</div>
+                <div class="col-sm-9">
+                    <div class="form-control-static">@ViewBag.TransporterAddress</div>
+                </div>
             </div>
         </div>
-        <script type="text/javascript">
-            function filterData() {
-                return {
-                    regionId: $("#RegionID").val(),
-                    transporterOrderNo: $("#TransporterOrderNo").val()
-                    //round: $("#Round").val()
-                };
-            }
-            $(document).ready(function () {
-                //$('#Round').change(function () {
-                //    $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
-                //});
-                $('#RegionID').change(function () {
-                    $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
-                });
-                $("#TransporterOrderNo").bind("keyup", function(e) {
-                    var code = e.which; 
-                    if (code == 13) {
-                        $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
-                    }
-                });
-            });
-
-        </script>
-        @(Html.Kendo().Grid<ActiveTransportOrderViewModel>()
-              .Name("ActiveTransportOrders")
-              .Columns(columns =>
-                           {
-                               columns.Bound(e => e.TransportOrderID).Visible(false).Width(120);
-                               columns.Bound(e => e.TransportOderNo).ClientTemplate("<a href='" +
-                                                                                    Url.Action("Dispatches", "Delivery", new { Area = "Logistics", id = "#=TransportOrderID#" }) + " '>#=TransportOderNo#</a>  ").Width(130);
-                               columns.Bound(e => e.SignedDate).Title("Signed Date").Width(120);
-                               columns.Bound(e => e.StartedOn).Title("Started On").Width(120);
-                               columns.Bound(e => e.RemainingDays).Title("Remaining Dates").Width(120);
-                               columns.Bound(e => e.Progress).Title("Progress").Width(120);
-                               columns.Bound(e => e.Region).Title("Region").Width(120);
-                               columns.Bound(e => e.RequsitionNo).Title("Requsition No").Width(120);
-                               columns.Bound(e => e.Round).Title("Round/Month").Width(120);
-                           })
-              .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}).Data("filterData"))
-              )
-              .Scrollable(scroll => scroll.Height(350))
-              //.Selectable(select => select.Mode(GridSelectionMode.Single))
-              .Navigatable()
-              .Sortable()
-              .HtmlAttributes(new { style = "height:200px;" })
-              )
-    </div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">FDPs in Current Contract</div>
-        @(Html.Kendo().Grid<WoredasInCurrentContract>()
-              .Name("FDPsinCurrentContract")
-              .Columns(columns =>
-                           {
-                               columns.Bound(e => e.Region).Title("Region").Width(120);
-                               columns.Bound(e => e.Zone).Title("Zone").Width(120);
-                               columns.Bound(e => e.Woreda).Title("Woreda").Width(120);
-                               columns.Bound(e => e.Tariff).Title("Tariff / Qtl").Width(120);
-                           })
-              .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Read(read => read.Action("WoredasInCurrentContract_Read", "ContractAdministration",new {TransporterID = ViewBag.TransporterID}))
-              )
-              .Scrollable(scroll => scroll.Height(200))
-              //.Selectable(select => select.Mode(GridSelectionMode.Single))
-              .Navigatable()
-              .Sortable()
-              .HtmlAttributes(new { style = "height:200px;" })
-              )
+        <div class="col-sm-6" style=" margin-top: 20px;">
+            <div class="form-group">
+                <a href="@Url.Action("ViewCurrentAgreement", "BidWinner",new {transporterID = ViewBag.TransporterID})" class="btn green">@Html.Translate("Click here to see active agreement contract")</a>
+            </div>
+        </div>
     </div>
 </div>
-<div>
-     <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">@Html.Translate("GRN with delivery discripancy")</div>
-        @(Html.Kendo().Grid<DeliveryViewModel>().Name("gridGRNWithDiscripancy")
+
+<div class="row">
+    
+    <div class="portlet light bordered bg-inverse col-md-12">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Active Transport Orders")</div>
+            <div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+            </div>
+            <div class="actions">
+                <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="well form-horizontal">
+                <div class="row ">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="control-label col-sm-4">@Html.Translate("Region"):</div>
+                            <div class="col-sm-8">@Html.DropDownList("RegionID", null, new {@class = "form-control"})</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="control-label col-sm-5">@Html.Translate("Transporter Order No"):</div>
+                        <div class="input-group">
+                            @Html.TextBox("TransporterOrderNo", null, new {@class = "form-control"})
+                            <span class="input-group-btn">
+                                <button id="searchTO" class="btn green" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                        @*<div class="form-group">
+                                <div class="control-label col-sm-5">@Html.Translate("TransporterOrder No")</div>
+                                <div class="col-sm-6">@Html.TextBox("TransporterOrderNo", null, new {@class = "form-control"})</div>
+                            </div>*@
+                    </div>
+                    @*<div class="input-prepend">
+                            <span class="add-on">@Html.Translate("Round")</span>
+                            @Html.DropDownList("Round", null, new { @class = "input-small" })
+                        </div>*@
+                    @*<input type="text" class="text-md" id="transporteOrder" name="transporteOrder" />*@
+
+                </div>
+            </div>
+            <script type="text/javascript">
+                function filterData() {
+                    return {
+                        regionId: $("#RegionID").val(),
+                        transporterOrderNo: $("#TransporterOrderNo").val()
+                        //round: $("#Round").val()
+                    };
+                }
+
+                $(document).ready(function() {
+                    //$('#Round').change(function () {
+                    //    $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                    //});
+                    $('#RegionID').change(function() {
+                        $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                    });
+                    $("#searchTO").click(function() {
+                        $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                    });
+                    $("#TransporterOrderNo").bind("keyup", function(e) {
+                        var code = e.which;
+                        if (code == 13) {
+                            $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                        }
+                    });
+                });
+
+            </script>
+            <div class="table-responsive">
+                @(Html.Kendo().Grid<ActiveTransportOrderViewModel>()
+                      .Name("ActiveTransportOrders")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(e => e.TransportOrderID).Visible(false).Width(120);
+                          columns.Bound(e => e.TransportOderNo).ClientTemplate("<a class='btn green-sharp-stripe btn-default btn-xs' href='" +
+                                                                               Url.Action("Dispatches", "Delivery", new {Area = "Logistics", id = "#=TransportOrderID#"}) + " '>#=TransportOderNo#</a>  ").Width(130);
+                          columns.Bound(e => e.SignedDate).Title("Signed Date").Width(120);
+                          columns.Bound(e => e.StartedOn).Title("Started On").Width(120);
+                          columns.Bound(e => e.RemainingDays).Title("Remaining Dates").Width(120);
+                          columns.Bound(e => e.Progress).Title("Progress").Width(120);
+                          columns.Bound(e => e.Region).Title("Region").Width(120);
+                          columns.Bound(e => e.RequsitionNo).Title("Requsition No").Width(120);
+                          columns.Bound(e => e.Round).Title("Round/Month").Width(120);
+                      })
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .Read(read => read.Action("ActiveTO_Read", "ContractAdministration", new {TransporterID = @ViewBag.TransporterID}).Data("filterData"))
+                      )
+                      .Scrollable(scroll => scroll.Height(350))
+                      //.Selectable(select => select.Mode(GridSelectionMode.Single))
+                      .Navigatable()
+                      .Sortable().TableHtmlAttributes(new {@class = "table table-condensed"})
+                      .HtmlAttributes(new {style = "height:200px;"})
+                )
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet light bordered  col-md-12">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Outstanding Delivery Notes")</div>
+            <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a>
+            </div>
+            <div class="actions"><a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-responsive">
+                @(Html.Kendo().Grid<DispatchViewModel>().Name("gridWithGRN")
                       .Columns(col =>
-                                   {
-                                       col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Delivery", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
-                                       col.Bound(t => t.InvoiceNo).Title(Html.Translate("GIN"));
-                                       col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                                       //col.Bound(t => t.Region);
-                                       //col.Bound(t => t.Zone);
-                                       //col.Bound(t => t.Woreda);
-                                       //col.Bound(t => t.FDP);
-                                        col.Bound(t => t.DeliveryDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
-                                       col.Bound(t => t.DocumentReceivedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
-                                       
-                                   })
-                     
-                      
-                      .DataSource(datasource=>datasource.Ajax().Read(read=>read.Action("ReadDeliveryNotesDiscripancy","Distribution",new{id=ViewBag.TransporterID,Area="Logistics"})))
-                      .Scrollable(t => t.Height(200))
-                     )
+                      {
+
+                          //col.Bound(t => t.RequisitionNoGRNReceived).ClientTemplate("<a href='" +
+                          //            Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = "#=DistributionID#" }) + " '>#=GRNReceived#</a>  ").Width(130);
+
+                          col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+                          col.Bound(t => t.GIN);
+                          col.Bound(t => t.DispatchDatePref).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+                          col.Bound(t => t.PlateNo_Prime).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+                          col.Bound(t => t.Commodity).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+                          col.Bound(t => t.Quantity).HeaderHtmlAttributes(new {@class = "cats-unit-pref-grid", style = "overflow: visible; white-space: normal;"});
+
+                      })
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .Read(read => read.Action("OutstandingDeliveryNotes_Read", "ContractAdministration", new {TransporterID = @ViewBag.TransporterID}))
+                      )
+                      .Scrollable(scroll => scroll.Height(350))
+                      // .Selectable(select => select.Mode(GridSelectionMode.Single))
+                      .Navigatable()
+                      .Sortable().TableHtmlAttributes(new {@class = "table table-condensed"})
+                      .HtmlAttributes(new {style = "height:200px;"}))
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="portlet light bordered bg-inverse col-md-6" style="min-height: 295px;">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Payment Requests")</div>
+            <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a></div>
+            <div class="actions"><a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a></div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-responsive">
+                @{
+                    int index = 0;
+                    var paymentRequest = ViewBag.PaymentRequests;
+                }
+                <table class="table table-striped" style="min-height: 200px;">
+                    <thead>
+                        <tr>
+                            <th>Reference No</th>
+                            <th>Transporter</th>
+                            <th>Transport Order</th>
+                            <th>Requested Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (PaymentRequest item in paymentRequest)
+                        {
+                            index++;
+                            StateTemplate state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+                            <tr>
+                                <td>
+                                    <a class="btn green-sharp-stripe btn-default btn-xs" href="@Url.Action("History", "BusinessProcess", new {Area = "WorkflowManager", id = item.BusinessProcessID, partial = 0})">@item.ReferenceNo</a>
+                                </td>
+                                <td>
+                                    @item.TransportOrder.Transporter.Name
+                                </td>
+                                <td>
+                                    @item.TransportOrder.TransportOrderNo
+                                </td>
+                                <td>
+                                    @item.RequestedAmount
+                                </td>
+                                <td>
+                                    @state.Name
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet light bordered bg-inverse col-md-6">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("FDPs in Current Contract")</div>
+            <div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+            </div>
+            <div class="actions">
+                <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-responsive">
+                @(Html.Kendo().Grid<WoredasInCurrentContract>()
+                      .Name("FDPsinCurrentContract")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(e => e.Region).Title("Region").Width(120);
+                          columns.Bound(e => e.Zone).Title("Zone").Width(120);
+                          columns.Bound(e => e.Woreda).Title("Woreda").Width(120);
+                          columns.Bound(e => e.Tariff).Title("Tariff / Qtl").Width(120);
+                      })
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .Read(read => read.Action("WoredasInCurrentContract_Read", "ContractAdministration", new { TransporterID = ViewBag.TransporterID }))
+                      )
+                      .Scrollable(scroll => scroll.Height(200))
+                        //.Selectable(select => select.Mode(GridSelectionMode.Single))
+                      .Navigatable()
+                      .Sortable().TableHtmlAttributes(new { @class = "table table-condensed" })
+                      .HtmlAttributes(new { style = "height:200px;" })
+                )
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("GRN with delivery discripancy")</div>
+            <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a></div>
+            <div class="actions"><a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a></div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-responsive">
+                @(Html.Kendo().Grid<DeliveryViewModel>().Name("gridGRNWithDiscripancy")
+              .Columns(col =>
+              {
+                  col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Delivery", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                  ;
+                  col.Bound(t => t.InvoiceNo).Title(Html.Translate("GIN"));
+                  col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                  //col.Bound(t => t.Region);
+                  //col.Bound(t => t.Zone);
+                  //col.Bound(t => t.Woreda);
+                  //col.Bound(t => t.FDP);
+                  col.Bound(t => t.DeliveryDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+                  ;
+                  col.Bound(t => t.DocumentReceivedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+                  ;
+
+              })
+
+
+              .DataSource(datasource => datasource.Ajax().Read(read => read.Action("ReadDeliveryNotesDiscripancy", "Distribution", new { id = ViewBag.TransporterID, Area = "Logistics" })))
+              .Scrollable(t => t.Height(200)).TableHtmlAttributes(new{@class="table table-condensed"})
+                )
+            </div>
+        </div>
     </div>
 </div>
 
