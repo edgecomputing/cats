@@ -4,38 +4,72 @@
 
 @{
     ViewBag.Title = "ReceivedCommodity";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Received Commodity");
+    ViewBag.PageTitleDescription = "";
 }
+<div class="well form-horizontal">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@Html.Translate("Hub")</label>
+                    @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-offset-1 col-sm-3">
+                <div class="form-group">
+                    <label>@Html.Translate("Program")</label>
+                    @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program", new { @class = "form-control" })
+                </div>
+            </div>
 
-<h4 class="page-header">@Html.Translate("Received Commodity")</h4>
-<div class="row-fluid form-inline">
-    <div class="control-group span2">
-        <div class="control-label">
-            @Html.Translate("Hub")
-        </div>
-        <div class="">
-            @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
+            @*<div class="col-sm-offset-1 col-md-3">
+                <div class="" style="margin: 25px 0 0 0;">
+                    <label>@Html.Translate("False GRN")</label>
+                    @Html.CheckBox("IsFalseGRN", false, new { @class = "form-control" })
+                </div>
+            </div>*@
         </div>
     </div>
-    <div class="control-group span2">
+
+    @*<div class="control-group span2">
         <div class="control-label">
             @Html.Translate("Program")
         </div>
         <div class="">
             @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
         </div>
-    </div>
+    </div>*@
     @*
     <div class="control-group span2">
         <div class="control-label">
             @Html.Translate("False GRN")
-        </div>
-        <div class="">
-            @Html.CheckBox("IsFalseGRN",false,new {@class="controls span11"})
-        </div>
-    </div>*@
+
 </div>
-@(Html.Kendo().Grid<VWCommodityReceived>().Name("grid").Columns(col =>
+
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title tabbable-line">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Received Commodity Details")</span>
+            <span class="caption-helper">  </span>
+
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<VWCommodityReceived>().Name("grid").Columns(col =>
+
                                                        {
 
                                                            col.Bound(t => t.ShippingInstruction).Title(Html.Translate("Shipping Instruction"));
@@ -43,11 +77,11 @@
                                                            col.Bound(t => t.ProjectCode).Title(Html.Translate("Project Code"));
                                                            col.Bound(t => t.Donor).Title(Html.Translate("Donor"));
                                                            col.Bound(t => t.Program).Title(Html.Translate("Program"));
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Donor All"));
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
-                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
+                                                           col.Template(c => { }).ClientTemplate("#= kendo.toString(toCatsPreferedUnit(data.DonorAll), \"n2\") #").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Donor All"));
+                                                           col.Template(c => { }).ClientTemplate("#= kendo.toString(toCatsPreferedUnit(data.Received), \"n2\") #").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
+                                                           col.Template(c => c.Dispatched).ClientTemplate("#=  kendo.toString(toCatsPreferedUnit(data.Dispatched), \"n2\") #").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
                                                            //col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
-                                                           col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
+                                                           col.Template(c => c.Commited).ClientTemplate("#= kendo.toString(toCatsPreferedUnit(data.Commited), \"n2\") #").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
 
                                                            col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
                                                            //col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
@@ -59,14 +93,19 @@
                                                                                  .Group(t => t.Add(m => m.Commodity))
 
                                                                          ).Sortable().Filterable()
-      )
+            )
+
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-  
+
     function calculatePhysicalStock(data) {
-        return toCatsPreferedUnit(data.Received - data.Dispatched);
+        return toCatsPreferedUnit(kendo.parseFloat(data.Received - data.Dispatched)).toFixed(2);
     }
     function calculateUnCommitedStock(data) {
-        return toCatsPreferedUnit(data.Received - data.Dispatched - data.Commited);
+        return toCatsPreferedUnit(data.Received - data.Dispatched - data.Commited).toFixed(2);
     }
     function filterData() {
 
@@ -95,12 +134,12 @@
             var hubid = $("#SelectHubID").val();
             var programid = $("#SelectProgramID").val();
             var url = '@Url.Action("PrintReceivedCommodity", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
-            
+
             url = url.replace("__id__", hubid);
             url = url.replace("__id2__", programid);
-           
+
             window.open(url, "_blank");
-           
+
         });
         $("#toolbar_button_export").click(function (e) {
             e.preventDefault();
@@ -115,5 +154,5 @@
 
         });
     });
-    
+
 </script>

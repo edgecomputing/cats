@@ -4,54 +4,76 @@
 
 @{
     ViewBag.Title = "Transferred Stock";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Transferred Stock");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h4 class="page-header">@Html.Translate("Transferred Stock")</h4>
-<div class="row-fluid form-inline">
-    <div class="control-group span2">
-        <div class="control-label">
-            @Html.Translate("Hub")
+<div class="well form-horizontal row">
+    <div class="col-sm-6">
+        <div class="col-sm-5 ">
+            <div class="form-group">
+                <label class="">@Html.Translate("Hub")</label>
+                @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>) ViewBag.SelectHubID, "Select Hub", new {@class = "form-control"})
+            </div>
         </div>
-        <div class="">
-            @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
-        </div>
-    </div>
-    <div class="control-group span2">
-        <div class="control-label">
-            @Html.Translate("Program")
-        </div>
-        <div class="">
-            @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
-        </div>
-    </div>
 
+        <div class="col-sm-offset-1 col-sm-4">
+            <div class="form-group">
+                <label class=""> @Html.Translate("Program")</label>
+                @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>) ViewBag.SelectProgramID, "Select Program", new {@class = "form-control"})
+            </div>
+        </div>
+    </div>
 </div>
-@(Html.Kendo().Grid<VWTransferredStock>().Name("grid").Columns(col =>
-                                                       {
 
-                                                           col.Bound(t => t.ShippingInstruction).Title(Html.Translate("Shipping Instructions"));
-                                                           col.Bound(t => t.Commodity).Title(Html.Translate("Commodity"));
-                                                           col.Bound(t => t.ProjectCode).Title(Html.Translate("Project Code"));
-                                                           col.Bound(t => t.Program).Title(Html.Translate("Program"));
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Carry Over"));
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
-                                                           col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
-                                                           col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title tabbable-line">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Transferred Stock Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+        <a href="#" class="collapse" data-original-title="" title=""></a>
+        <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+    </div>*@
+            <div class="actions">
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<VWTransferredStock>().Name("grid").Columns(col =>
+          {
 
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.UnCommited)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
-                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
+              col.Bound(t => t.ShippingInstruction).Title(Html.Translate("Shipping Instructions"));
+              col.Bound(t => t.Commodity).Title(Html.Translate("Commodity"));
+              col.Bound(t => t.ProjectCode).Title(Html.Translate("Project Code"));
+              col.Bound(t => t.Program).Title(Html.Translate("Program"));
+              col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Carry Over"));
+              col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
+              col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
+              col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
 
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.PhysicalStock)#").Title(Html.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+              col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.UnCommited)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+              col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
 
-                                                       }).DataSource(datasource =>
-                                                                             datasource.Ajax().Read(read => read.Action("TransferredStock_read", "LogisticsStockStatus").Data("filterData"))
-                                                                                 .Group(t => t.Add(m => m.Commodity))
+              col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.PhysicalStock)#").Title(Html.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
 
-                                                                         ).Sortable().Filterable()
-      )
+          }).DataSource(datasource =>
+              datasource.Ajax().Read(read => read.Action("TransferredStock_read", "LogisticsStockStatus").Data("filterData"))
+                  .Group(t => t.Add(m => m.Commodity))
+
+              ).Sortable().Filterable()
+            )
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-  
+
     //function calculatePhysicalStock(data) {
     //    return toCatsPreferedUnit(data.Received - data.Dispatched);
     //}
@@ -80,12 +102,12 @@
             var hubid = $("#SelectHubID").val();
             var programid = $("#SelectProgramID").val();
             var url = '@Url.Action("PrintTransferredStock", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
-            
+
             url = url.replace("__id__", hubid);
             url = url.replace("__id2__", programid);
-           
+
             window.open(url, "_blank");
-           
+
         });
         $("#toolbar_button_export").click(function (e) {
             e.preventDefault();
@@ -100,5 +122,5 @@
 
         });
     });
-    
+
 </script>

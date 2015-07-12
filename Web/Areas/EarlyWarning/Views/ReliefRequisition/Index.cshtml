@@ -4,12 +4,15 @@
 
 @{
     ViewBag.Title = "Requistions";
-    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    //Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = "Requistions";
+    ViewBag.PageTitleDescription = "";
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 
 }
 
-@section Title
+@*@section Title
 {
 Requistions
 }
@@ -20,22 +23,33 @@ Requistions
 
       Requistions
     </h1>
-}
+}*@
 
-<div class="box box-primary">
 
-    <div class="col-md-12 box-body" style="display: block;">
-        <div class="row">
-            <div id="div_filter" class="col-md-12 form-inline mrgn5-v">
-                @Html.Partial("_RequisitionsFilter")
+<div id="div_filter" class="well">
+    @Html.Partial("_RequisitionsFilter")
+</div>
 
+<div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-list font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> @Html.Translate("Requistiton List")</span>
+                    <span class="caption-helper">  </span>
+                </div>
+                @*<div class="tools">
+                        <a href="#" class="collapse" data-original-title="" title=""></a>
+                        <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+                    </div>*@
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                </div>
             </div>
-           
-            
-        </div>
-        <div class="table-responsive">
-                
-@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
+
+            <div class="portlet-body">
+                <div class="table-responsive">
+
+                    @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
     columns.Template(t => { }).Title("N<u>o</u>").ClientTemplate("#= renderNumber(data) #").Width(50);
     columns.Bound(requisition => requisition.RequisitionNo).Title("Requisition N<u>o</u>").ClientTemplate("<a href='" + Url.Action("Allocation", "ReliefRequisition", new { id = "#=RequisitionID#" }) + " '>#=RequisitionNo#</a>  ");
@@ -48,19 +62,19 @@ Requistions
     columns.Bound((t => t.RequestRefNo)).Title("Request No");
     columns.Bound(requisition => requisition.Status).Template(
 
-@<text>
-@if (item.StatusID == (int)ReliefRequisitionStatus.Draft)
+            @<text>
+                @if (item.StatusID == (int)ReliefRequisitionStatus.Draft)
 {
-    <a  href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-edit"></i></a>
-    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-ok"></i></a>
-    <a  href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-pencil"></i></a>
+            <a href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-edit"></i></a>
+            <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-ok"></i></a>
+            <a href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-pencil"></i></a>
 }
 else
 {
-    @item.Status 
+            @item.Status
 }
-</text>);
-                    
+            </text>);
+
 
                  })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
@@ -87,7 +101,7 @@ else
                 model.Field(r => r.Program).Editable(false);
                 model.Field(r => r.Status).Editable(false);
             })
-    
+
         .Read(read => read.Action("Requisition_Search", "ReliefRequisition", new {
                                     RegionID=@ViewBag.Filter.RegionID,
                                     ProgramID=@ViewBag.Filter.ProgramID,
@@ -96,76 +110,76 @@ else
         .Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
         .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
     )
-)
+                    )
+                </div>
             </div>
-    </div>
 </div>
 
 
 
 
 
-<script>
-   $("#search").keyup(function () {
-        $("#search").blur();
-        $("#search").focus();
-    });
-  
-    $("#search").change(function () {
-        applyFilter("RequisitionNo", $(this).val());
-    });
-        
-    // attach click event for Clear Filters button 
-    // applyFilter function accepts the Field Name and the new value to use for filter.
-    function applyFilter(filterField, filterValue) {
-
-        // get the kendoGrid element.
-        var gridData = $("#Grid").data("kendoGrid");
-
-        // get currently applied filters from the Grid.
-        var currFilterObj = gridData.dataSource.filter();
-
-        // get current set of filters, which is supposed to be array.
-        // if the oject we obtained above is null/undefined, set this to an empty array
-        var currentFilters = currFilterObj ? currFilterObj.filters : [];
-
-        // iterate over current filters array. if a filter for "filterField" is already
-        // defined, remove it from the array
-        // once an entry is removed, we stop looking at the rest of the array.
-        if (currentFilters && currentFilters.length > 0) {
-            for (var i = 0; i < currentFilters.length; i++) {
-                if (currentFilters[i].field == filterField) {
-                    currentFilters.splice(i, 1);
-                    break;
-                }
-            }
-        }
-
-        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't 
-        // do any further processing. That will be equivalent of removing the filter.
-        // if a filterValue is selected, we add a new object to the currentFilters array.
-        if (filterValue != null) {
-            currentFilters.push({
-                field: filterField,
-                operator: "contains",
-                value: filterValue
+        <script>
+            $("#search").keyup(function () {
+                $("#search").blur();
+                $("#search").focus();
             });
-        }
-        
-        else {
-            clearFilters();
-        }
 
-        // finally, the currentFilters array is applied back to the Grid, using "and" logic.
-        gridData.dataSource.filter({
-            logic: "and",
-            filters: currentFilters
-        });
+            $("#search").change(function () {
+                applyFilter("RequisitionNo", $(this).val());
+            });
 
-    }
+            // attach click event for Clear Filters button
+            // applyFilter function accepts the Field Name and the new value to use for filter.
+            function applyFilter(filterField, filterValue) {
 
-    function clearFilters() {
-        var gridData = $("#RequestListGrid").data("kendoGrid");
-        gridData.dataSource.filter({});
-    }
-</script>
+                // get the kendoGrid element.
+                var gridData = $("#Grid").data("kendoGrid");
+
+                // get currently applied filters from the Grid.
+                var currFilterObj = gridData.dataSource.filter();
+
+                // get current set of filters, which is supposed to be array.
+                // if the oject we obtained above is null/undefined, set this to an empty array
+                var currentFilters = currFilterObj ? currFilterObj.filters : [];
+
+                // iterate over current filters array. if a filter for "filterField" is already
+                // defined, remove it from the array
+                // once an entry is removed, we stop looking at the rest of the array.
+                if (currentFilters && currentFilters.length > 0) {
+                    for (var i = 0; i < currentFilters.length; i++) {
+                        if (currentFilters[i].field == filterField) {
+                            currentFilters.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+
+                // if "filterValue" is "0", meaning "-- select --" option is selected, we don't
+                // do any further processing. That will be equivalent of removing the filter.
+                // if a filterValue is selected, we add a new object to the currentFilters array.
+                if (filterValue != null) {
+                    currentFilters.push({
+                        field: filterField,
+                        operator: "contains",
+                        value: filterValue
+                    });
+                }
+
+                else {
+                    clearFilters();
+                }
+
+                // finally, the currentFilters array is applied back to the Grid, using "and" logic.
+                gridData.dataSource.filter({
+                    logic: "and",
+                    filters: currentFilters
+                });
+
+            }
+
+            function clearFilters() {
+                var gridData = $("#RequestListGrid").data("kendoGrid");
+                gridData.dataSource.filter({});
+            }
+        </script>

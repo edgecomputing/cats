@@ -39,8 +39,12 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
         <link href="~/Content/assetss/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="~/Content/assetss/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
         <link href="~/Content/assetss/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+
+        
+
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+        <link rel="stylesheet" type="text/css" href="~/Content/assetss/global/plugins/bootstrap-datepicker/css/datepicker3.css" />
         <!--<link href="~/Content/assetss/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>-->
         <!--<link href="~/Content/assetss/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>-->
         <!--<link href="~/Content/assetss/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>-->
@@ -54,6 +58,9 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
         <link href="~/Content/assetss/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
         <link id="style_color" href="~/Content/assetss/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
         <link href="~/Content/assetss/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+
+        <link href="~/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+        <link href="~/Scripts/Beka.EthDate/calendar.css" rel="stylesheet" type="text/css" />
         <!-- END THEME STYLES -->
         <link rel="shortcut icon" href="favicon.ico"/>
         <script src="~/Content/assetss/global/plugins/jquery.min.js" type="text/javascript"></script>
@@ -91,11 +98,12 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
     </script>
     <style type="text/css">
         body {
-            padding-top: 60px;
-            padding-bottom: 40px;
+            /*padding-top: 60px;
+            padding-bottom: 40px;*/
+            /*background-color: #f5f5f5;*/
         }
 
-        table .single-line {
+        /*table .single-line {
             width: 90%;
             margin: 0;
         }
@@ -106,7 +114,7 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
 
         footer {
             bottom: 0;
-        }
+        }*/
 
         .cats_info, .cats_success, .cats_warning, .cats_error {
             margin: 10px 0px;
@@ -167,115 +175,117 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
     @RenderSection("BeginAngular", required: false)
 
     @Html.Partial("NewTheme_MainMenu")
-
-    <div class="page-container">
-        <!-- BEGIN SIDEBAR -->
-        <div class="page-sidebar-wrapper">
-            <!-- BEGIN HORIZONTAL RESPONSIVE MENU -->
-            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-            <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-            <div class="page-sidebar navbar-collapse collapse">
-                <ul class="page-sidebar-menu" data-slide-speed="200" data-auto-scroll="true">
-                    <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-                    <!-- DOC: This is mobile version of the horizontal menu. The desktop version is defined(duplicated) in the header above -->
-                    @*@Html.Partial("_responsiveMenuBar")*@
-                    @*@{
-                    if (IsSectionDefined("LeftBar"))
-                    {
-                                        spanWidth = "span10";
-                        <div class="span2 column-divider">
-                            <div class="sidebar-nav">
-                                <ul class="nav nav-list">
-                                    @RenderSection("LeftBar", required: false)
-                                </ul>
-                            </div>
-                        </div>
-                                    }
-                    }*@                    
-                </ul>
+    <div class=""><!-- Add container for boxed layout-->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- BEGIN HORIZONTAL RESPONSIVE MENU -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <ul class="page-sidebar-menu" data-slide-speed="200" data-auto-scroll="true">
+                        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+                        <!-- DOC: This is mobile version of the horizontal menu. The desktop version is defined(duplicated) in the header above -->
+                        @*@Html.Partial("_responsiveMenuBar")*@
+                        @*@{
+                            if (IsSectionDefined("LeftBar"))
+                            {
+                                                spanWidth = "span10";
+                                <div class="span2 column-divider">
+                                    <div class="sidebar-nav">
+                                        <ul class="nav nav-list">
+                                            @RenderSection("LeftBar", required: false)
+                                        </ul>
+                                    </div>
+                                </div>
+                                            }
+                            }*@
+                    </ul>
+                </div>
+                <!-- END HORIZONTAL RESPONSIVE MENU -->
             </div>
-            <!-- END HORIZONTAL RESPONSIVE MENU -->
-        </div>
-        <!-- END SIDEBAR -->
-        <!-- BEGIN CONTENT -->
-        <div class="page-content-wrapper">
-            <div class="page-content">
-                @{
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                    @{
                     if (IsSectionDefined("LeftBar"))
                     {
                         <text>
                             <div class="row">
-                                <div class="col-md-2 sidebar-content" style="border-right: 2px rgba(43, 54, 67, 0.12)solid;">
+                                <div class="col-md-2 sidebar-content" style="border-right: 2px rgba(43, 54, 67, 0.12) solid;">
                                     @RenderSection("LeftBar")
-                            </div>
-                                <div class="col-md-10">
+                                </div>
+                            <div class="col-md-10">
                         </text>
                     }
-                }
-                <!-- BEGIN PAGE HEADER-->
-                <h3 class="page-title">
-                    @ViewBag.PageTitle <small>@ViewBag.PageTitleDescription</small>
-                </h3>
-                <div class="page-bar">
-                    @if (ViewBag.program != null)
-                                {
-
-                    @Html.Partial("NewTheme_BreadCrumb", (string) ViewBag.program)
-                                }
-                                else
-                                {
-                    @Html.Partial("NewTheme_BreadCrumb", "")
-                                }
-                    <div class="page-toolbar">
-                        @RenderSection("Toolbar", required: false)
-
-                    </div>
-                </div>
-                <!-- END PAGE HEADER-->
-                <!-- BEGIN ALERT CONTAINER-->
-                <div style="clear: both;" class="message-window">@RenderSection("Errors", required: false)@Html.CustomValidationSummary()</div>
-                <!-- END ALERT CONTAINER-->
-                <!-- BEGIN DASHBOARD STATS -->
-                @RenderBody()
-                <!-- END DASHBOARD STATS -->
-                <div class="clearfix">
-                </div>
-                @{
-                    if (IsSectionDefined("LeftBar"))
-                    {
-                        
                     }
-                }
+                    <!-- BEGIN PAGE HEADER-->
+                    <h3 class="page-title">
+                        @ViewBag.PageTitle <small>@ViewBag.PageTitleDescription</small>
+                    </h3>
+                    <div class="page-bar">
+                        @if (ViewBag.program != null)
+                        {
+
+                            @Html.Partial("NewTheme_BreadCrumb", (string) ViewBag.program)
+                        }
+                        else
+                        {
+                            @Html.Partial("NewTheme_BreadCrumb", "")
+                        }
+                        <div class="page-toolbar">
+                            @RenderSection("Toolbar", required: false)
+
+                        </div>
+                    </div>
+                    <!-- END PAGE HEADER-->
+                    <!-- BEGIN ALERT CONTAINER-->
+                    <div style="clear: both;" class="message-window">@RenderSection("Errors", required: false)@Html.CustomValidationSummary()</div>
+                    <!-- END ALERT CONTAINER-->
+                    <!-- BEGIN DASHBOARD STATS -->
+                    @RenderBody()
+                    <!-- END DASHBOARD STATS -->
+                    <div class="clearfix">
+                    </div>
+                    @{
+                        if (IsSectionDefined("LeftBar"))
+                        {
+                            @:</div>
+                            @:</div>
+                    }
+                    }
+                </div>
+
             </div>
+            <!-- END CONTENT -->
 
         </div>
-        <!-- END CONTENT -->
-        
-    </div>
-    <!-- END CONTAINER -->
-    <div class="container-fluid">
-        <div id="div_help_panel" style="display: none;">
-            <style>
-                .left_panel {
-                    position: fixed;
-                    left: -510px;
-                    top: 0px;
-                    border: solid 1px #ccc;
-                    width: 25%;
-                    bottom: 0px;
-                    background: rgba(0,0,0,0.8);
-                }
 
-                    .left_panel * {
-                        color: #FFF;
+        <!-- END CONTAINER -->
+        <div class="container-fluid">
+            <div id="div_help_panel" style="display: none;">
+                <style>
+                    .left_panel {
+                        position: fixed;
+                        left: -510px;
+                        top: 0px;
+                        border: solid 1px #ccc;
+                        width: 25%;
+                        bottom: 0px;
+                        background: rgba(0,0,0,0.8);
                     }
 
-                    .left_panel .content {
-                        margin-top: 60px;
-                        padding: 4px;
-                    }
-            </style>
-            <script>
+                        .left_panel * {
+                            color: #FFF;
+                        }
+
+                        .left_panel .content {
+                            margin-top: 60px;
+                            padding: 4px;
+                        }
+                </style>
+                <script>
                 $(document).ready(function () {
 
                     $("#toolbar_btn_help").click(function () {
@@ -290,26 +300,26 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
 
                 });
 
-            </script>
-            <div id="div_content_panel" class="left_panel">
-                <div class="content">
-                    Help Content
+                </script>
+                <div id="div_content_panel" class="left_panel">
+                    <div class="content">
+                        Help Content
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- BEGIN FOOTER -->
-    <div class="page-footer">
-        <div class="page-footer-inner">
-            @Html.Partial("_Version")
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner">
+                @Html.Partial("_Version")
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
         </div>
-        <div class="scroll-to-top">
-            <i class="icon-arrow-up"></i>
-        </div>
+        <!-- END FOOTER -->
     </div>
-    <!-- END FOOTER -->
-
     @RenderSection("EndAngular", required:false)
 
 
@@ -327,8 +337,8 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
 
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-    <link href="~/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
-    <link href="~/Scripts/Beka.EthDate/calendar.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+    <link href="~/Scripts/Beka.EthDate/calendar.css" rel="stylesheet" type="text/css" />*@
 
 
     <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
@@ -372,7 +382,12 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
         <script src="~/Content/assetss/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
         <script src="~/Content/assetss/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
-        <!-- BEGIN PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+            @*<script src="~/Content/assets/js/bootstrap-datepicker.js"></script>*@
+<script type="text/javascript" src="~/Content/assetss/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+            <script src="~/Content/assetss/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js" type="text/javascript"></script>
+
+            
 <!--        <script src="~/Content/assetss/global/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
         <script src="~/Content/assetss/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
         <script src="~/Content/assetss/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
@@ -398,25 +413,29 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
         <script src="~/Content/assetss/admin/layout/scripts/demo.js" type="text/javascript"></script>
         <script src="~/Content/assetss/admin/pages/scripts/index.js" type="text/javascript"></script>
         <script src="~/Content/assetss/admin/pages/scripts/tasks.js" type="text/javascript"></script>
-        <script src="~/Content/assetss/admin/pages/scripts/portlet-draggable.js"></script>
+<script src="~/Content/assetss/admin/pages/scripts/portlet-draggable.js"></script>
+<script src="~/Content/assetss/admin/pages/scripts/components-pickers.js"></script>
+    <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
+            @*<script src="../../assets/admin/pages/scripts/ui-confirmations.js"></script>*@
         <!-- END PAGE LEVEL SCRIPTS -->
         <script>
             jQuery(document).ready(function () {
                 Metronic.init(); // init metronic core components
                 Layout.init(); // init current layout
-                QuickSidebar.init(); // init quick sidebar
+                //QuickSidebar.init(); // init quick sidebar
                 Demo.init(); // init demo features // initlayout and core plugins
                 Index.init();
                 //Index.initDashboardDaterange();
-
+                ComponentsPickers.init();
                 Index.initJQVMAP(); // init index page's custom scripts
-                Index.initCalendar(); // init index page's custom scripts
+                //Index.initCalendar(); // init index page's custom scripts
                 Index.initCharts(); // init index page's custom scripts
                 Index.initChat();
                 Index.initMiniCharts();
-                Index.initDashboardDaterange();
+                //Index.initDashboardDaterange();
                 Tasks.initDashboardWidget();
                 PortletDraggable.init();
+                //UIConfirmations.init(); // init page demo
                 $('.loading-btn')
                   .click(function () {
                     var btn = $(this);

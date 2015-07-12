@@ -657,7 +657,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public decimal GetCommodityRation(int requisitionID, int commodityID)
         {
             var reliefRequisition = _reliefRequisitionService.FindById(requisitionID);
-                var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
+            if (reliefRequisition.RegionalRequestID==null)
+            {
+                var reliefRequisitionDetail = reliefRequisition.ReliefRequisitionDetails.FirstOrDefault();
+                if (reliefRequisitionDetail != null)
+                    return reliefRequisitionDetail.Amount;
+            }
+            var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
                 var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID);
 
              return rationModel!=null?rationModel.Amount:0;

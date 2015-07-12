@@ -5,65 +5,84 @@
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = Html.Translate("Details");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Transport Requisiton Destinations");
+    ViewBag.PageTitleDescription = "";
 }
 
-@section LeftBar
-{
-    @Html.Partial("_AllocationLeftBar")
-}
+@*@section LeftBar
+    {
+        @Html.Partial("_AllocationLeftBar")
+    }*@
 @{
     ViewBag.Title = Html.Translate("Destinations");
 }
 @section Toolbar
 {
-   @Html.LogisticsOperationButton(
-                        @Url.Action("Details", "TransportRequisition", new { id=ViewBag.TransportRequisitonID }),
-                        LogisticsConstants.Operation.View_transport_requisition_destinations, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
-    
+    <a class="btn grey-salt " href="@Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = ViewBag.TransportRequisitonID })" data-buttontype="btn_back_to_list"><i class="fa fa-list"></i> @Html.Translate("Back to list")</a>
 }
 @{
-    
+
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
 
-<h4 class="page-header">@Html.Translate("Transport Requisiton Destinations")</h4>
-@(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-        columns.Bound(p => p.Zone).Title("Zone").Width(100);
-        columns.Bound(p => p.Woreda).Title("Woreda").Width(100);
-        columns.Bound(p => p.FDP).Title("FDP").Width(100);
-        columns.Bound(p => p.Donor).Title("Donor").Width(100);
-        columns.Bound(p => p.Commodity).Title("Commodity").Width(100);
-        columns.Bound(p => p.Amount).Title("Amount").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-        columns.Bound(p => p.RationAmount).Hidden(true);
-       
-        
-    })
-  
-   
-   .Groupable()
-    .Sortable()
-    .Navigatable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-     .Events(ev => ev.DataBound("resetRowNumber"))
-    
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        // .Aggregates(t=>t.Add(x=>x.Amount).Sum())
-        .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new {Area="EarlyWarning" ,id = ViewBag.RequisitionID  }))
-    )
-)
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Destinations")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+              {
+                  columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+                  columns.Bound(p => p.Zone).Title("Zone").Width(100);
+                  columns.Bound(p => p.Woreda).Title("Woreda").Width(100);
+                  columns.Bound(p => p.FDP).Title("FDP").Width(100);
+                  columns.Bound(p => p.Donor).Title("Donor").Width(100);
+                  columns.Bound(p => p.Commodity).Title("Commodity").Width(100);
+                  columns.Bound(p => p.Amount).Title("Amount").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                  columns.Bound(p => p.RationAmount).Hidden(true);
 
-<script>    
-$(function () {
-        var printurl = "@Url.Action("PrintAttachment", "TransportRequisition",new{id= ViewBag.RequisitionID })";
-        $("#toolbar_button_print").attr("href", printurl);
-    });
-</script>
+
+              })
+
+
+              .Groupable()
+              .Sortable()
+              .Navigatable()
+              .Scrollable()
+              .HtmlAttributes(new { style = "height:430px;" })
+              .Events(ev => ev.DataBound("resetRowNumber"))
+
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(20)
+                  // .Aggregates(t=>t.Add(x=>x.Amount).Sum())
+                  .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { Area = "EarlyWarning", id = ViewBag.RequisitionID }))
+              )
+            )
+        </div>
+    </div>
+
+</div>
+            <script>
+                $(function () {
+                    var printurl = "@Url.Action("PrintAttachment", "TransportRequisition",new{id= ViewBag.RequisitionID })";
+                    $("#toolbar_button_print").attr("href", printurl);
+                });
+            </script>

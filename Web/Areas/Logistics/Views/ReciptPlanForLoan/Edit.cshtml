@@ -6,211 +6,226 @@
     const string PAGE_NAME = "Logistics.ReciptPlanForLoanAndOthers.Edit";
 }
 
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate("Edit Receipt Plan from Loan")</h3>
-</div>
-@using (Html.BeginForm("Edit", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
-{
-    @Html.HiddenFor(m=>m.LoanReciptPlanID)
-    @Html.HiddenFor(m=>m.StatusID)
-    @Html.HiddenFor(m=>m.ShippingInstructionID)
-    @Html.HiddenFor(m=>m.CommoditySourceID)
-    @Html.HiddenFor(m=>m.CreatedDate)
-    <table border="0" class="form-horizontal">
-        <tr style="width: 300px">
-            <td style="width:50%">
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate("SI Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {disabled=true})
-                    @Html.ValidationMessageFor(m=>m.ShippingInstruction.Value)
-                </div>
-            </td>
-            @* <td style="width: 50%">
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.HubID,@Html.Translate("Hub"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("HubID")
-                    @Html.ValidationMessageFor(m=>m.HubID)
-                </div>
-            </td>*@
-             <td style="width: 50%">
-                 <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity Type"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("CommodityTypeID")
-                    @Html.ValidationMessageFor(m=>m.CommodityID)
-                </div>
-                
-            </td>
-        </tr>
-        <tr style="width: 300px">
-            <td style="width: 50%">
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate("Loan Source"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.LoanSource)
-                    @Html.ValidationMessageFor(m=>m.LoanSource)
-                </div>
-            </td>
-             <td>
-               <div class="control-label">
-                    @Html.LabelFor(m=>m.Commodity.ParentID,@Html.Translate("Parent Commodity"))
-                </div>
-                 <div class="controls">
-                     <select id="ParentCommodityID" name="ParentCommodityID"></select>
-                    
-                 </div>
-            </td>
-           
-        </tr>
-        <tr>
-            <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.ProgramID,@Html.Translate("Program"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("ProgramID")
-                    @Html.ValidationMessageFor(m=>m.ProgramID)
-                </div>
-            </td>
-             <td>
-               <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
-                </div>
-                <div class="controls">
-                    <select id="CommodityID" name="CommodityID"></select>
-                    
-                </div>
-            </td>
-           
-        </tr>
-        <tr>
-            <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate("Commodity Source"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled="Disabled"})
-                    @Html.ValidationMessageFor(m=>m.CommoditySourceID)
+<div class="modal-dialog">
+    <div class="modal-content">
 
-                </div>
-            </td>
-              <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate("Reference Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.ReferenceNumber)
-                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
-                </div>
-            </td>
-             
-        </tr>
-        <tr>
-            <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("Project Code"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.ProjectCode)
-                    @Html.ValidationMessageFor(m=>m.ProjectCode)
-                </div>
-               
-            </td>
-          <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.Quantity,@Html.Translate("Quantity in MT"))
-                </div> 
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.Quantity)
-                    @Html.ValidationMessageFor(m=>m.Quantity)
-                </div>
-            </td>
-        </tr>
-    </table>
-    
-    <div class="modal-footer">
-        
-        <div class="controls" style="float: left">
-            @Html.CheckBoxFor(m => m.IsFalseGRN,  new { @checked = Model.IsFalseGRN })
-        </div>
-        <div class="control-label" style="float: left">
-            @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("False GRN"))
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 id="myModalLabel">@Html.Translate("Edit Receipt Plan from Loan")</h4>
         </div>
 
-        <button class="btn btn-primary" type="submit">@Html.Translate("Save Changes")</button>
-        <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
-       
+        @using (Html.BeginForm("Edit", "ReciptPlanForLoan", FormMethod.Post, new {@class = "", id = "myForm"}))
+        {
+            @Html.HiddenFor(m => m.LoanReciptPlanID)
+            @Html.HiddenFor(m => m.StatusID)
+            @Html.HiddenFor(m => m.ShippingInstructionID)
+            @Html.HiddenFor(m => m.CommoditySourceID)
+            @Html.HiddenFor(m => m.CreatedDate)
+            <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.ShippingInstruction.Value, @Html.Translate("SI Number"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.ShippingInstruction.Value, new {disabled = true, @class="form-control"})
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.ShippingInstruction.Value)</span>
+                        </div>
+                    </div>
+                    @* <td style="width: 50%">
+                            <div class="control-label col-sm-5">
+                                @Html.LabelFor(m=>m.HubID,@Html.Translate("Hub"))
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DropDownList("HubID")
+                                @Html.ValidationMessageFor(m=>m.HubID)
+                            </div>
+                        </td>*@
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.CommodityID, @Html.Translate("Commodity Type"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.DropDownList("CommodityTypeID", null, new { @class = "form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.CommodityID)</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.LoanSource, @Html.Translate("Loan Source"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.LoanSource, new { @class = "form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.LoanSource)</span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.Commodity.ParentID, @Html.Translate("Parent Commodity"))
+                        </div>
+                        <div class="col-sm-6">
+                            <select id="ParentCommodityID" name="ParentCommodityID" class="form-control"></select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.ProgramID, @Html.Translate("Program"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.DropDownList("ProgramID",null, new { @class = "form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.ProgramID)</span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.CommodityID, @Html.Translate("Commodity"))
+                        </div>
+                        <div class="col-sm-6">
+                            <select id="CommodityID" name="CommodityID" class="form-control"></select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.CommoditySourceID, @Html.Translate("Commodity Source"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.CommoditySource.Name, new { Disabled = "Disabled", @class="form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.CommoditySourceID)</span>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.ReferenceNumber, @Html.Translate("Reference Number"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.ReferenceNumber, new { @class = "form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.ReferenceNumber)</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.ProjectCode, @Html.Translate("Project Code"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.ProjectCode, new { @class = "form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.ProjectCode)</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.Quantity, @Html.Translate("Quantity in MT"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.Quantity)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-3 form-group pull-left">
+                    <div class="md-checkbox-inline">
+                        <div class="md-checkbox">
+                            @Html.CheckBoxFor(m => m.IsFalseGRN, new {@checked = Model.IsFalseGRN, @class = "md-check"})
+                            <label for="IsFalseGRN">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @Html.Translate("False GRN")
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="control-label col-sm-5" style="float: left">
+                    @Html.LabelFor(m => m.ProjectCode, @Html.Translate("False GRN"))
+                </div>*@
+
+                <button class="btn green" type="submit">@Html.Translate("Save Changes")</button>
+                <button class="btn red" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
+
+            </div>
+        }
     </div>
-}
-<script>
-$(document).ready(function () {
- 
-        var allValidationRules = {
-            ReferenceNumber: "required",
-            ProjectCode: "required",
-            Quantity: "required",
-            LoanSource:"required"
-        };
-        $("#myForm").validate({
-            rules: allValidationRules,
-            showErrors: function (element, errorClass, validClass) {
-                for (var i in errorClass) {
-                    $(errorClass[i].element).popover('show');
-                }
-            }
-        });
-        $.getJSON('@Url.Action("JsonParentCommodities","Transfer")', { commodityTypeID: 1, editModval: '@Model.CommodityID' }, function (result) {
-            //for (var i = 0; i < 2; i++)
-            //    alert(result[i].Text);
-            if (result != "" && result != null) {
-                //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- @Html.Translate("Select a Parent Commodity")</option>';
-                for (var i = 0; i < result.length; i++) {
-                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
-                }
-                $("#ParentCommodityID").html(options);
+</div>
+        <script>
+            $(document).ready(function () {
 
-            }
-        });
-        $('#CommodityTypeID').change(function () {
-            var url = '@Url.Action("JsonParentCommodities","Transfer")';
-        $.getJSON(url, { commodityTypeID: $('#CommodityTypeID').val(), editModval: '@Model.CommodityID' }, function (result) {
-            //for (var i = 0; i < 2; i++)
-            //    alert(result[i].Text);
-            if (result != "" && result != null) {
-                //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- @Html.Translate("Select a Parent Commodity")</option>';
-                for (var i = 0; i < result.length; i++) {
-                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
-                }
-                $("#ParentCommodityID").html(options);
+                var allValidationRules = {
+                    ReferenceNumber: "required",
+                    ProjectCode: "required",
+                    Quantity: "required",
+                    LoanSource: "required"
+                };
+                $("#myForm").validate({
+                    rules: allValidationRules,
+                    showErrors: function (element, errorClass, validClass) {
+                        for (var i in errorClass) {
+                            $(errorClass[i].element).popover('show');
+                        }
+                    }
+                });
+                $.getJSON('@Url.Action("JsonParentCommodities","Transfer")', { commodityTypeID: 1, editModval: '@Model.CommodityID' }, function (result) {
+                    //for (var i = 0; i < 2; i++)
+                    //    alert(result[i].Text);
+                    if (result != "" && result != null) {
+                        //$('#StoreID').data('tComboBox').value(result[0]);
+                        var options = '<option value="">-- @Html.Translate("Select a Parent Commodity")</option>';
+                        for (var i = 0; i < result.length; i++) {
+                            options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                        }
+                        $("#ParentCommodityID").html(options);
 
-            }
-        });
-        $("#CommodityID").html('');
-    });
-    $('#ParentCommodityID').change(function () {
-        var url = '@Url.Action("JsonCommodities","Transfer")';
-        $.getJSON(url, { parentCommodityID: $('#ParentCommodityID').val(), editModval: '@Model.Commodity.ParentID' }, function (result) {
-            //for (var i = 0; i < 2; i++)
-            //    alert(result[i].Text);
-            if (result != "" && result != null) {
-                //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- @Html.Translate("Select a Commodity")</option>';
-                for (var i = 0; i < result.length; i++) {
-                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
-                }
-                $("#CommodityID").html(options);
+                    }
+                });
+                $('#CommodityTypeID').change(function () {
+                    var url = '@Url.Action("JsonParentCommodities","Transfer")';
+                    $.getJSON(url, { commodityTypeID: $('#CommodityTypeID').val(), editModval: '@Model.CommodityID' }, function (result) {
+                        //for (var i = 0; i < 2; i++)
+                        //    alert(result[i].Text);
+                        if (result != "" && result != null) {
+                            //$('#StoreID').data('tComboBox').value(result[0]);
+                            var options = '<option value="">-- @Html.Translate("Select a Parent Commodity")</option>';
+                            for (var i = 0; i < result.length; i++) {
+                                options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                            }
+                            $("#ParentCommodityID").html(options);
 
-            }
-        });
-    });
-});
-    </script>
+                        }
+                    });
+                    $("#CommodityID").html('');
+                });
+                $('#ParentCommodityID').change(function () {
+                    var url = '@Url.Action("JsonCommodities","Transfer")';
+                    $.getJSON(url, { parentCommodityID: $('#ParentCommodityID').val(), editModval: '@Model.Commodity.ParentID' }, function (result) {
+                        //for (var i = 0; i < 2; i++)
+                        //    alert(result[i].Text);
+                        if (result != "" && result != null) {
+                            //$('#StoreID').data('tComboBox').value(result[0]);
+                            var options = '<option value="">-- @Html.Translate("Select a Commodity")</option>';
+                            for (var i = 0; i < result.length; i++) {
+                                options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                            }
+                            $("#CommodityID").html(options);
+
+                        }
+                    });
+                });
+            });
+        </script>

@@ -4,14 +4,46 @@
 
 @{
     ViewBag.Title = @Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List of Receipt Plan from Local Purchase");
+    ViewBag.PageTitleDescription = "";
+
+
 }
-@section Toolbar
+@*@section Toolbar
 {
     <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "LocalPurchase")"></a>
-}
-<h4>@Html.Translate("List of Receipt Plan From Local Purchase")</h4>
- @(Html.Kendo().Grid<LocalPurchaseViewModel>()
+}*@
+@*@section Styles{
+    <style>
+        .k-window-titlebar{
+            margin-top: -30px;
+            height: 30px;
+        }
+    </style>
+    
+      
+}*@
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Receipt Plan From Local Purchase")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn green btn-xs" href="@Url.Action("Create", "LocalPurchase")"><i class="fa fa-plus"></i> @Html.Translate("Create New")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+</div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<LocalPurchaseViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
@@ -32,18 +64,23 @@
 
               .Navigatable()
               .Scrollable()
-              
+
               .HtmlAttributes(new { style = "height:430px;" })
-              .Events(e=>e.DataBound("onDataBound"))
+              .TableHtmlAttributes(new {@class="table table-condensed"})
+              .Events(e => e.DataBound("onDataBound"))
               .DataSource(dataSource => dataSource
                                             .Ajax()
-                                            .Model(model =>model.Id(m=>m.LocalPurchaseID))
+                                            .Model(model => model.Id(m => m.LocalPurchaseID))
                                             .Read(read => read.Action("LocalPurchase_Read", "LocalPurchase"))
-              //.Update(update => update.Action("Commodity_Update", "Request"))
+                    //.Update(update => update.Action("Commodity_Update", "Request"))
               )
-              )
+            )
+        </div>
+    </div>
+</div>
+
 <script>
-    
+
     function onDataBound(e) {
         //alert("show");
         var grid = $("#grid").data("kendoGrid");
@@ -56,18 +93,18 @@
                 var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
                 var revertButton = $(currentRow).find(".k-grid-Revert");
                 revertButton.hide();
-                
+
             }
 
 
-        
+
         }
     }
-    
+
 
     function OnDelete(e) {
         e.preventDefault();
-        
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wnd.center().open();
 
@@ -81,7 +118,7 @@
             window.wnd.close();
         });
     }
-    
+
     function OnRevert(e) {
         e.preventDefault();
 
@@ -101,9 +138,14 @@
 </script>
 
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Local Purchase?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> Are You Sure You Want to Delete this Local Purchase?
+    </div><hr/>
+    <div class="pull-right">
+        <button id="yes" class="btn green">Yes</button>
+        <button id="no" class="btn default">No</button>  
+    </div>
+    
 </div>
 <script>
     var wnd;
@@ -112,16 +154,20 @@
             title: "Delete confirmation",
             modal: true,
             visible: false,
-            resizable: false,
-            width: 300
+            resizable: false
+            //width: 300
         }).data("kendoWindow");
     });
 </script>
 
 <div id="modalWindowRevert">
-    <h4>Are You Sure You Want to Revert this local Purchase?</h4>
-    <button id="yesRevert" class="k-button">Yes</button>
-    <button id="noRevert" class="k-button">No</button>
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> Are You Sure You Want to Revert this local Purchase?
+    </div><hr/>
+    <div class="pull-right">
+        <button id="yesRevert" class="btn green">Yes</button>
+        <button id="noRevert" class="btn default">No</button>
+    </div>
 </div>
 <script>
     var wndRevert;
@@ -130,8 +176,17 @@
             title: "Revert confirmation",
             modal: true,
             visible: false,
-            resizable: false,
-            width: 300
+            resizable: false
+            //width: 300
         }).data("kendoWindow");
     });
 </script>
+<style>
+    .k-window-titlebar {
+        margin-top: -30px;
+        height: 30px;
+    }
+    hr {
+        margin: 5px 0;
+    }
+</style>

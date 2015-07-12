@@ -3,46 +3,84 @@
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "Logistics.Transfer.Index";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List of Receipt Plan From Transfer");
+    ViewBag.PageTitleDescription = "";
 }
 
-@section Toolbar
-{
-    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Transfer")"></a>
-}
+@*@section Toolbar
+    {
+        <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Transfer")"></a>
+    }*@
 
+<style>
+    .busy  {
+        cursor: wait !important;
+    }
+</style>
+<script>
+    function loadWaitModal() {
+        $("body").addClass("busy");
+    }
+    function unloadWaitModal() {
+        $("body").removeClass("busy");
+    }
+</script>
 <script type="text/javascript">
     $(function () {
 
         //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
+        //$.ajaxSetup({ cache: false });
 
         $('#btnAddReciptPlan').click(function () {
 
             // alert("");
+            loadWaitModal();
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',
                     keyboard: true
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
+            unloadWaitModal();
             return false;
         });
 
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+<div id='dialogDiv' class='modal fade in'>
     <div id='dialogContent'></div>
 </div>
-<h4>List of Receipt Plan From Transfer</h4>
- @(Html.Kendo().Grid<TransferViewModel>()
-              .Name("grid")
-              .Columns(columns =>
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Receipt Plan From Transfer")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn green" href="@Url.Action("Create", "Transfer")"><i class="fa fa-plus"></i> @Html.Translate("Create New")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<TransferViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Transfer", new { id = "#=TransferID#" }) + " '>#=SiNumber#</a>  ");
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Transfer", new {id = "#=TransferID#"}) + " '>#=SiNumber#</a>  ");
                       columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate("Source Hub"));
                       columns.Bound(m => m.Program).Title(@Html.Translate("Program"));
                       columns.Bound(m => m.Commodity).Width(200).Title(@Html.Translate("Commodity"));
@@ -51,33 +89,47 @@
                       columns.Bound(m => m.CreatedDate).Title(@Html.Translate("Created Date"));
                       columns.Bound(m => m.DestinationHubName).Title(@Html.Translate("Destination hub"));
                       columns.Bound(m => m.StatusName).Title(@Html.Translate("Status Name"));
-                     
+
                       columns.Command(p => p.Custom("Delete").Click("OnDelete")).Width(250);
 
 
                   }
 
-              )
+                  )
 
-              .Navigatable()
-              .Events(e=>e.DataBound("onDataBound"))
-              .HtmlAttributes(new { style = "height:430px;" })
-              .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Model(model =>model.Id(m=>m.TransferID))
-                                            .Read(read => read.Action("Transfer_Read", "Transfer"))
-              //.Update(update => update.Action("Commodity_Update", "Request"))
-              )
-       )
+                  .Navigatable()
+                  .Events(e => e.DataBound("onDataBound"))
+                  .HtmlAttributes(new {style = "height:100%;"})
+                  .TableHtmlAttributes(new {@class = "table table-condensed"})
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Model(model => model.Id(m => m.TransferID))
+                      .Read(read => read.Action("Transfer_Read", "Transfer"))
+                  //.Update(update => update.Action("Commodity_Update", "Request"))
+                  )
+                  )
+        </div>
+    </div>
+</div>
 
-<div id='dialogDivSmall' class='modal hide fade in'>
+
+<div id='dialogDivSmall' class='modal fade'>
     <div id='dialogContentSmall'></div>
 </div>
-<div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Transfer?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
+
+
+<div id="modalWindow" style="display: none;">
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> Are You Sure You Want to Delete this Transfer?
+    </div>
+    <hr/>
+    <div class="pull-right">
+        <button id="yes" class="btn green">Yes</button>
+        <button id="no" class="btn red">No</button>
+    </div>
 </div>
+
+
 <script>
     function onDataBound(e) {
         //alert("show");
@@ -120,8 +172,19 @@
             title: "Delete confirmation",
             modal: true,
             visible: false,
-            resizable: false,
-            width: 300
+            resizable: false
+            //width: 300
         }).data("kendoWindow");
     });
 </script>
+
+<style>
+    .k-window-titlebar {
+        margin-top: -30px;
+        height: 30px;
+    }
+
+    hr {
+        margin: 5px 0;
+    }
+</style>

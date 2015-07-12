@@ -8,42 +8,43 @@
 
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Edit Regional PSNP Plan Detail";
+    ViewBag.PageTitleDescription = "";
     var duration = 0;
     var RegionalPSNPPlanID = 0;
 }
-@section LeftBar
-{
-    @Html.Partial("_PSNPDetailLeftBar")
-       
-}
- @section Toolbar
+@*@section LeftBar
+    {
+        @Html.Partial("_PSNPDetailLeftBar")
+
+    }*@
+@section Toolbar
  {
-     @*@if(ViewBag.plan_user == ViewBag.current_user )
-     {
-         *@<a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
-         <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
-         <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>
-     @*}*@
-     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlanDetail",new {id=ViewBag.PsnpPlan.RegionalPSNPPlanID})"></a>
-    
+    @*@if(ViewBag.plan_user == ViewBag.current_user )
+        {
+    *@
+    @*<a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>*@
+    @*}*@
+    <a class="btn  grey-salt toolbar-btn " data-buttontype="" href="@Url.Action("Index", "RegionalPSNPPlanDetail",new {id=ViewBag.PsnpPlan.RegionalPSNPPlanID})"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
+
 }
-   
+
 
 @if (ViewBag.psnpPlan != null)
 {
     duration = ViewBag.PsnpPlan.Duration;
     RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
-    <div>
-    <h4>
-        <b>@Html.Translate("Edit PSNP Plan")</b>:   
-        <span>@ViewBag.PsnpPlan.Year</span> 
-        <span style="font-size:0.7em"> : Duration of Assistance [@ViewBag.PsnpPlan.Duration month]</span>
-
-    </h4>
-   
-    </div>
 }
+else
+{
+duration=0;
+RegionalPSNPPlanID=0;
+}
+
 <style>
     .error
     {
@@ -55,7 +56,37 @@
     }
 
 </style>
-@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> <b>@Html.Translate("Edit PSNP Plan")</b>: <span>@ViewBag.PsnpPlan.Year</span></span>
+            <span class="caption-helper">  Duration of Assistance [@ViewBag.PsnpPlan.Duration month]</span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            <a class="btn green" href="javascript:saverecords()" data-original-title="Save Changes" title="Save Changes"><i class="fa fa-save"></i> @Html.Translate("Save")</a>
+            <a class="btn green" href="javascript:cancelChanges();" data-original-title="Cancel Changes" title="Cancel Changes"><i class="fa fa-times"></i> @Html.Translate("Cancel")</a>
+            <a class="btn green" href="javascript:reloadrecords();" data-original-title="Reload Grid" title="Reload"><i class="fa fa-refresh"></i> @Html.Translate("Reload")</a>
+
+            <div class="btn-group">
+                <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Reports") <i class="fa fa-angle-down"></i>
+                </button>
+                <ul class="dropdown-menu pull-right">
+                    <li><a class="btn green-haze-stripe" data-original-title="" target="_blank" title="" href="@Url.Action("Print", "RegionalPSNPPlan",new {id=ViewBag.PsnpPlan.RegionalPSNPPlanID})">@Html.Translate("Annual Plan")</a></li>
+                </ul>
+            </div>
+            <a class=" btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
+                    </a>
+            </div>
+        </div>
+    <div class="portlet-body ">
+        @(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
     .Name("grid")
     .Columns(columns =>
     {
@@ -67,8 +98,8 @@
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" }).Title(Html.Translate("No of Beneficiary"));
         columns.ForeignKey(p => p.SartingMonth, (IEnumerable)ViewData["Month"], "Id", "Name").Title(Html.Translate("Starting Month"));
         columns.Template(@<text></text>).ClientTemplate("<input type='checkbox' #= Contingency ? checked='checked':'' # class='chkbx' />").Title("Contingency");
-                   
-       
+
+
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right", @class = "FoodRatio" }).Title(Html.Translate("Food Ratio"));
         columns.Template(c => { }).Title("Cash Ratio").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=calculateCashRatio(data)# </span>").HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
         //  columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
@@ -76,51 +107,55 @@
 
 
     })
-        .DataSource(dataSource => dataSource
+                            .DataSource(dataSource => dataSource
 
-            .Ajax()
-            .Batch(true)
-            .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
-            .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
-            .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
-            .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
-            .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
-            .Model(model =>
-            {
-                model.Field(p => p.ZoneName).Editable(false);
-                model.Field(p => p.WoredaName).Editable(false);
-                model.Field(p => p.CashRatio).Editable(false);
-                //model.Field(p => p.FDPName).Editable(false);
-                //if(ViewBag.plan_user != ViewBag.current_user )
-                //{
-                model.Field(p => p.BeneficiaryCount).Editable(true);
-                model.Field(p => p.StartingMonthName).Editable(true);
-                model.Field(p => p.FoodRatio).Editable(true);
-                //}
-            })
-             .Group(group =>
-             {
-                 group.Add(m => m.RegionName);
-                 group.Add(m => m.ZoneName);
-             })
-            )
+                                .Ajax()
+                                .Batch(true)
+                                .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+                                .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+                                .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+                                .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+                                .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
+                                .Model(model =>
+                                {
+                                    model.Field(p => p.ZoneName).Editable(false);
+                                    model.Field(p => p.WoredaName).Editable(false);
+                                    model.Field(p => p.CashRatio).Editable(false);
+                                    //model.Field(p => p.FDPName).Editable(false);
+                                    //if(ViewBag.plan_user != ViewBag.current_user )
+                                    //{
+                                    model.Field(p => p.BeneficiaryCount).Editable(true);
+                                    model.Field(p => p.StartingMonthName).Editable(true);
+                                    model.Field(p => p.FoodRatio).Editable(true);
+                                    //}
+                                })
+                                 .Group(group =>
+                                 {
+                                     group.Add(m => m.RegionName);
+                                     group.Add(m => m.ZoneName);
+                                 })
+                                )
 
-        .HtmlAttributes(new { style = "width:100%; height:450px;" })
-        .Editable(editable => editable.Mode(GridEditMode.InCell))
-            .Selectable(selectable => selectable
-                //.Mode(GridSelectionMode.Single)
-                    .Type(GridSelectionType.Cell)
-                    )
-       .Events(events => events.DataBound("onDataBound"))
-        .Sortable()
-        .Scrollable()
-        .Filterable()
-       .Groupable()
-       .Navigatable()
+                            .HtmlAttributes(new { style = "width:100%; height:450px;" })
+                            .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                .Selectable(selectable => selectable
+                                    //.Mode(GridSelectionMode.Single)
+                                        .Type(GridSelectionType.Cell)
+                                        )
+                           .Events(events => events.DataBound("onDataBound"))
+                            .Sortable()
+                            .Scrollable()
+                            .Filterable()
+                           .Groupable()
+                           .Navigatable()
 
 
-    )
-<script type="text/javascript">    
+        )
+    </div>
+</div>
+
+    <script type="text/javascript">
+
 
     $(function () {
         $('#grid').on('click', '.chkbx', function () {
@@ -135,19 +170,19 @@
         var state = $(ele).is(':checked');
         var grid = $('#grid').data().kendoGrid;
         $.each(grid.dataSource.view(), function () {
-            if (this['Contingency'] != state) 
+            if (this['Contingency'] != state)
                 this.dirty=true;
             this['Contingency'] = state;
         });
         grid.refresh();
     }
 
-    var duration="@duration";   
+    var duration="@duration";
     var rowCount=0;
     var gridData=[];
     function calculateCashRatio(data) {
         return duration-data.FoodRatio;
-    } 
+    }
     function getRowStyle(data)
     {
         if(data.FoodRatio+data.CashRatio!=duration)
@@ -164,10 +199,10 @@
     {
         var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
         $("#toolbar_button_print").attr("href",printurl);
-        
+
     });
-    
-    function onDataBound(e) 
+
+    function onDataBound(e)
     {
         rowCount=0;
         // gridData=[];
@@ -179,7 +214,7 @@
             console.log("onDataBound","focus",$(this).attr("id"));
             var input = $(this);
             setTimeout(function () { input.select(); },50);
-            
+
             if($(this).attr("id")=="FoodRatio")
             {
                 $(this).change(function(){
@@ -205,28 +240,28 @@
 
             var FoodRatio = FoodRatio_div.innerText;
             var innerHtml=FoodRatio_div.innerHTML;
-                
+
             var CashRatio=duration -FoodRatio;
             console.log("changed",{FoodRatio:FoodRatio,duration:duration,CashRatio:CashRatio,innerHtml:innerHtml,FoodRatio_div:FoodRatio_div});
             $CashRatio.html(CashRatio);
             return;
 
-            setTimeout(function () { 
+            setTimeout(function () {
                 var FoodRatio = FoodRatio_div.innerText;
                 var innerHtml=FoodRatio_div.innerHTML;
-                
+
                 var CashRatio=duration -FoodRatio;
                 console.log("changed",{FoodRatio:FoodRatio,duration:duration,CashRatio:CashRatio,innerHtml:innerHtml,FoodRatio_div:FoodRatio_div});
                 $CashRatio.html(CashRatio);
-            
-            
+
+
             },100);
             return;
-            
+
             var rowIdx = $("tr", grid.tbody).index(row);
             var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
             var FoodRatio = firstItem.get('FoodRatio');
-            
+
             if(FoodRatio>0)
             {
                 firstItem.set('CashRatio',duration -FoodRatio);
@@ -234,7 +269,7 @@
         });
         /*
         $(grid.tbody).on("change", ".FoodRatio", function (e) {
-            
+
             var row = $(this).closest("[role='row']");
             row.css("color","#F00");
             var rowIdx = $("tr", grid.tbody).index(row);
@@ -256,7 +291,7 @@
         if(confirm("Are you sure you want to delete this record? " + id)==true)
         {
             var post_values={id:id};
-            
+
             $.post(
                 deleteURL
                 ,post_values
@@ -290,17 +325,17 @@
     {
         $("#grid").data("kendoGrid").dataSource.cancelChanges();
     }
-    
+
 //function makeBlank(arg) {
     //    // alert("Hey");
     //    alert($(arg).text() + "VALUE");
     //}
-    
+
     //function onChange(arg) {
     //    var selected = $.map(this.select(), function(item) {
     //        return $(item).text();
     //    });
-        
+
     //    var grid = $("#grid").data("kendoGrid");
     //    $(grid.tbody).on("change", "td", function(e) {
     //            //alert(selected.toString());
@@ -309,13 +344,13 @@
     //            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
     //           // firstItem.set('BeneficiaryCount', "12");
     //    });
-        
+
     //    if (selected == "0" || selected == "0.00") {
     //        return $(item).text("2");
     //    }
     //    alert(selected);
-    //}    
-    
+    //}
+
     //function onFocus() {
         //alert("I");
         //$.map(this.focus(function() {
@@ -327,43 +362,43 @@
 
         //}));
         //var input =
-       
+
     //    $.map(this).focus(function (e) {
     //        var input = $(this);
     //        //console.log('focus');
-    //          alert("PLease");  
+    //          alert("PLease");
     //        setTimeout(function() {
-    //            input.select(); 
-                
+    //            input.select();
+
     //        });
     //    });
     //    input.focus();
-    //}     
-    
+    //}
 
-    
+
+
         //function selecT(e) {
         //    var input = e.container.find("input");
-            
+
         //    input.focus(function (e) {
         //        var input = $(this);
-                
+
         //        //console.log('focus');
-                
+
         //        setTimeout(function() {
         //            input.select();
         //        });
         //    });
         //    input.focus();
         //}
-        
+
         //function selectText(e) {
 
-        //    //alert("here");    
+        //    //alert("here");
         //    var activeInput = $("#grid_active_cell >input");
         //    if(activeInput) {
         //        alert(activeInput.val());
-                
+
         //    }
 
         //    $("#grid_active_cell").on('focus', function () {
@@ -371,6 +406,6 @@
         //        setTimeout(function () { input.select(); });
         //    });
         //}
-    
-    
-</script>
+
+
+        </script>

@@ -7,27 +7,46 @@
 
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Regional PSNP Plans";
+    ViewBag.PageTitleDescription = "";
     //var index = 0;
     //var user = (UserIdentity)HttpContext.Current.User.Identity;
     ViewBag.TargetController = "RegionalPSNPPlan";
     // string userPreference = userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
 }
 
-@section LeftBar
-{
-    @Html.Partial("_PSNPLeftBar")
-}
+@*@section LeftBar
+    {
+        @Html.Partial("_PSNPLeftBar")
+    }
 
-@section Toolbar
-{
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
-}
-
-<h4>List of Regional PSNP Plans</h4>
+    @section Toolbar
+    {
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
+    }*@
 
 
-@(Html.Kendo().Grid<RegionalPSNPPlanViewModel>()
+<div class="portlet  light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span id="bar-title" class="caption-subject bold uppercase"> @Html.Translate("List of Regional PSNP Plans")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>*@
+        <div class="actions">
+            <a class="btn btn-circle btn-default green-sharp-stripe" data-buttontype="btn_new_record" href="@Url.Action("Create", "RegionalPSNPPlan")"><i class="fa fa-plus"></i> @Html.Translate("Create")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body ">
+
+        @(Html.Kendo().Grid<RegionalPSNPPlanViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
@@ -35,8 +54,8 @@
             columns.Bound(p => p.From).Title(Html.Translate("From"));
             columns.Bound(p => p.To).Title(Html.Translate("Title"));
             columns.Bound(p => p.StatusName).Title(Html.Translate("Status"));
-       
-    })
+
+        })
     .DataSource(
         dataSource => dataSource
         .Ajax()
@@ -49,8 +68,9 @@
     .Scrollable()
     .HtmlAttributes(new { style = "width:100%; height:550px;" })
 
-      )
-
+        )
+    </div>
+</div>
 @*<div class="k-content">
     <table id="grid" class="table-striped">
         <colgroup>
@@ -70,90 +90,90 @@
             </tr>
         </thead>*@
 
-        @*<tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RegionalPSNPPlanID)
-            </th>
+@*<tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionalPSNPPlanID)
+        </th>
 
-            <th colspan="2">Period</th>
+        <th colspan="2">Period</th>
 
-            <th>Status</th>
-            <th></th>
+        <th>Status</th>
+        <th></th>
 
-            <th></th>
-        </tr>*@
-        @*<tbody>
+        <th></th>
+    </tr>*@
+@*<tbody>
 
-            @foreach (RegionalPSNPPlan item in Model)
-            {
-                StateTemplate state = item.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
-                //index++;
-                
-                <tr>
-                    <td>
-                        <a href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })">@Html.DisplayFor(modelItem => item.Plan.PlanName)</a>
-                    </td>
+    @foreach (RegionalPSNPPlan item in Model)
+    {
+        StateTemplate state = item.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
+        //index++;
 
-                    <td>
-                        @item.Plan.StartDate.ToCTSPreferedDateFormat("gc")
-                    </td>
+        <tr>
+            <td>
+                <a href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })">@Html.DisplayFor(modelItem => item.Plan.PlanName)</a>
+            </td>
 
-                    <td>
-                        @item.Plan.EndDate.ToCTSPreferedDateFormat("gc")
-                    </td>
+            <td>
+                @item.Plan.StartDate.ToCTSPreferedDateFormat("gc")
+            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
-                    </td>*@
+            <td>
+                @item.Plan.EndDate.ToCTSPreferedDateFormat("gc")
+            </td>
 
-                  @*  <td>
-                        <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>
-                        @if (state.AllowedAccessLevel >= 1)
-                        {
-                            <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
-                   
-                        }
-                        @if (state.AllowedAccessLevel >= 2)
-                        {
-                            <a data-buttontype="btn_edit"  class="btn toolbar-btn "href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
-                    
-                        }
-                        @if (state.AllowedAccessLevel >= 3)
-                        {
-                            <a data-buttontype="btn_delete"  class="btn toolbar-btn "href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
-                    
-                        }
+            <td>
+                @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
+            </td>*@
 
-                    </td>*@
-                    @*<td>
-                        <div class="btn-group">
-                            <button class="btn edit_button" id="action_@index">Workflow</button>
-                            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
-                                {
-                                    <li class="edit_button"><a href="javascript:promot_workflow(@item.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>            
-                                }
-                                <li class="divider"></li>
-                                <li class="edit_button"><a href="javascript:workflow_history(@item.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
-                            </ul>
-                        </div>
-                    </td>*@
-              @*  </tr>
-            }
-        </tbody>
-    </table>
+@*  <td>
+        <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>
+        @if (state.AllowedAccessLevel >= 1)
+        {
+            <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
 
-</div>*@
+        }
+        @if (state.AllowedAccessLevel >= 2)
+        {
+            <a data-buttontype="btn_edit"  class="btn toolbar-btn "href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+
+        }
+        @if (state.AllowedAccessLevel >= 3)
+        {
+            <a data-buttontype="btn_delete"  class="btn toolbar-btn "href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+
+        }
+
+    </td>*@
+@*<td>
+        <div class="btn-group">
+            <button class="btn edit_button" id="action_@index">Workflow</button>
+            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                {
+                    <li class="edit_button"><a href="javascript:promot_workflow(@item.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>
+                }
+                <li class="divider"></li>
+                <li class="edit_button"><a href="javascript:workflow_history(@item.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
+            </ul>
+        </div>
+    </td>*@
+@*  </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>*@
 <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width: 600px;">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
-    </div>
-    <div class="modal-body" id="modalHistoryBody">History</div>
-    @*    <div class="modal-footer">
-            <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">View In New Window</a>
-        </div>*@
+</div>
+<div class="modal-body" id="modalHistoryBody">History</div>
+@*    <div class="modal-footer">
+        <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">View In New Window</a>
+    </div>*@
 </div>
 @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>

@@ -7,7 +7,7 @@ function init_datepicker(calendar) {
     calendar = calendar ? calendar : "EC";
 
         var date = new Date();
-        $(".cats-datepicker2").each(function ()
+        $(".cats-datepicker2 date-picker").each(function ()
             {
                 if ($(this).val())
                 {
@@ -31,8 +31,17 @@ function init_datepicker(calendar) {
             $(".cats-datepicker2").ethcal_datepicker();
         }
         else 
-        {
-            $(".cats-datepicker2").datepicker();
+    {
+        //$('.cats-datepicker2').datepicker({
+        //    rtl: Metronic.isRTL(),
+        //    orientation: "left",
+        //    autoclose: true
+        //});
+        $(".cats-datepicker2").datepicker({
+            rtl: Metronic.isRTL(),
+            orientation: "left",
+            autoclose: true
+        });
         }
 }
 function init_toolbar_button() {

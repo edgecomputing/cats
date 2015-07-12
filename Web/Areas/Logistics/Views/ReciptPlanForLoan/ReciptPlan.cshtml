@@ -4,65 +4,70 @@
     ViewBag.Title = "ReciptPlan";
     const string pageName = "Logistics.ReciptPlanForLoanAndOthers.ReciptPlan";
 }
-
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate("New Receipt plan from Loan")</h3>
-</div>
-@using (Html.BeginForm("ReciptPlan", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
-{
-    @Html.HiddenFor(m=>m.LoanReciptPlanID)
-    <div class="form-horizontal">
-       @* <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(m => m.MemoRefrenceNumber)
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(m => m.MemoRefrenceNumber)
-                @Html.ValidationMessageFor(m => m.MemoRefrenceNumber) 
-            </div>
-        </div>*@
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(m => m.HubID, @Html.Translate("Hub"))
-            </div>
-            <div class="controls">
-                @Html.DropDownList("HubID")
-                @Html.ValidationMessageFor(m => m.HubID) 
-            </div>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 id="myModalLabel">@Html.Translate("New Receipt plan from Loan")</h4>
         </div>
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(m => m.Amount, @Html.Translate("Amount"))
+        @using (Html.BeginForm("ReciptPlan", "ReciptPlanForLoan", FormMethod.Post, new {@class = "modal-form", id = "myForm"}))
+        {
+            @Html.HiddenFor(m => m.LoanReciptPlanID)
+            <div class="modal-body">
+                <div class="form-horizontal ">
+                    @* <div class="form-group">
+                    <div class="control-label col-sm-5">
+                        @Html.LabelFor(m => m.MemoRefrenceNumber)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.MemoRefrenceNumber)
+                        @Html.ValidationMessageFor(m => m.MemoRefrenceNumber)
+                    </div>
+                </div>*@
+                    <div class="form-group">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.HubID, @Html.Translate("Hub"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.DropDownList("HubID", null, new {@class = "form-control"})
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.HubID)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label col-sm-5">
+                            @Html.LabelFor(m => m.Amount, @Html.Translate("Amount"))
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Amount, String.Empty, new {@class = "form-control"})
+                            <span class="help-block">@Html.ValidationMessageFor(m => m.Amount)</span>
+                            @if (Model.Amount > Model.Remaining)
+                            {
+                                <span class="alert alert-error">
+                            @ViewBag.Errors
+                        </span>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="controls">
-                @Html.TextBoxFor(m => m.Amount)
-                @Html.ValidationMessageFor(m => m.Amount) 
-                @if (Model.Amount > Model.Remaining)
-                {
-                    <span class="alert alert-error">
-                        @ViewBag.Errors
-                    </span>
-                }
+            <div class="modal-footer">
+                <button class="btn green" type="submit">@Html.Translate("Save") </button>
+                <button class="btn red" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
             </div>
-        </div>
-    
-        <div class="modal-footer"> <button class="btn btn-primary" type="submit">@Html.Translate("Save") </button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
-       
-        </div>
+        }
     </div>
-}
-@*<script>
-function ValidateAmount(){
-    var remaining;
-    var amount;
-    remaining = document.getElementById("Remaining").value;
-    amount = document.getElementById("Amount").value;
-    if (amount > remaining) {
-        alert(amount - remaining);
-        document.body.style.background = "orange";
-    }
 
-}
-    </script>*@
+    </div>
+    @*<script>
+    function ValidateAmount(){
+        var remaining;
+        var amount;
+        remaining = document.getElementById("Remaining").value;
+        amount = document.getElementById("Amount").value;
+        if (amount > remaining) {
+            alert(amount - remaining);
+            document.body.style.background = "orange";
+        }
+
+    }
+        </script>*@

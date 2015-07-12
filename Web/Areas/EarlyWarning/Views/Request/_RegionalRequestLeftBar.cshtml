@@ -2,32 +2,36 @@
 @using Cats.Models.Constant
 @using Cats.Security
 @using Cats.Services.Security
-<div class="col-md-2  col-sm-3 skin-blue ">
-    <div class="row sidebar left-side">
-        <div class="hdr-blck ">Sidebar Menu</div>
-        <ul class="sidebar-menu">
+<div class="portlet box" style="background-color: #2b3643;">
+    <div class="portlet-title line">
+        <div class="caption">
+            <i class="fa fa-list-alt"></i> @Html.Translate("Request Types")
+        </div>
+    </div>
 
+    <div class="portlet-body" style="padding: 0px;">
+
+        <ul class="ver-inline-menu tabbable">
             <li>
                 @Html.EarlyWarningOperationButton(
-                    @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Draft}),
+                    @Url.Action("Index", "Request", new { id = (int)RegionalRequestStatus.Draft }),
                     EarlyWarningConstants.Operation.View_Draft_requests, "<i class=\"fa fa-inbox\"></i> Draft ")
             </li>
             <li>
                 @Html.EarlyWarningOperationButton(
-                    @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Approved}),
+                    @Url.Action("Index", "Request", new { id = (int)RegionalRequestStatus.Approved }),
                     EarlyWarningConstants.Operation.View_submitted_requests, "<i class=\"fa fa-envelope\"></i> Submited ")
             </li>
             <li>
                 @Html.EarlyWarningOperationButton(
-                    @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.FederalApproved}),
+                    @Url.Action("Index", "Request", new { id = (int)RegionalRequestStatus.FederalApproved }),
                     EarlyWarningConstants.Operation.View_Approved_Request, "<i class=\"fa fa-check\"></i> Approved ")
             </li>
             <li>
                 @Html.EarlyWarningOperationButton(
-                    @Url.Action("Index", "Request", new{id=-1}),
+                    @Url.Action("Index", "Request", new { id = -1 }),
                     EarlyWarningConstants.Operation.View_request, "<i class=\"fa fa-list-ul\"></i> All ")
             </li>
-   
         </ul>
     </div>
 </div>

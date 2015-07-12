@@ -33,9 +33,7 @@ namespace Cats.ViewModelBinder
             requisition.Zone = reliefRequisition.AdminUnit1.Name;
             requisition.Commodity = reliefRequisition.Commodity.Name;
             requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
-            if (reliefRequisition.RegionalRequest != null) 
-                requisition.RequestRefNo = reliefRequisition.RegionalRequest.ReferenceNumber;
-
+            requisition.RequestRefNo = reliefRequisition.RegionalRequest != null ? reliefRequisition.RegionalRequest.ReferenceNumber : "Transfer/Swap Requisition";
 
 
                 if (reliefRequisition.RationID != null && reliefRequisition.RationID > 0)
@@ -84,9 +82,11 @@ namespace Cats.ViewModelBinder
         {
             decimal? contingencyValue = 0;
             // Calculate contingency of the saved value is Null
-            if (reliefRequisitionDetail != null && reliefRequisitionDetail.ReliefRequisition.RegionalRequest.Contingency)
-                contingencyValue = (reliefRequisitionDetail.Amount.ToPreferedWeightUnit()*(decimal) 0.05);
-
+            if (reliefRequisitionDetail != null && reliefRequisitionDetail.ReliefRequisition.RegionalRequestID != null)
+            {
+                if (reliefRequisitionDetail.ReliefRequisition.RegionalRequest.Contingency)
+                    contingencyValue = (reliefRequisitionDetail.Amount.ToPreferedWeightUnit()*(decimal) 0.05);
+            }
 
             return new ReliefRequisitionDetailViewModel()
             {
@@ -104,7 +104,7 @@ namespace Cats.ViewModelBinder
                 DonorID = reliefRequisitionDetail.DonorID,
                 RationAmount =RationAmount,
                 Contingency = contingencyValue,
-                IsContengency = reliefRequisitionDetail.ReliefRequisition.RegionalRequest.Contingency,
+                IsContengency = reliefRequisitionDetail.ReliefRequisition.RegionalRequestID.HasValue && reliefRequisitionDetail.ReliefRequisition.RegionalRequest.Contingency,
                 Total = (decimal) (reliefRequisitionDetail.Amount.ToPreferedWeightUnit() - contingencyValue)
                 //_GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID);
                // GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID)

@@ -5,169 +5,214 @@
 @model Cats.Areas.Logistics.Models.LocalPurchaseWithDetailViewModel
 @{
     ViewBag.Title = Html.Translate("Details");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Receipt Plan From Local Purchase Detail");
+    ViewBag.PageTitleDescription = "";
 }
 
 @section Toolbar
 {
-   
-   
-    <div class="btn-group" style="margin-right: 8px;">
-    <button class="btn dropdown-toggle " data-toggle="dropdown"> @Html.Translate("Actions") 
-        <span class="caret"></span>
-    </button>
-         @if(Model.StatusID==1)
-         {
-             <ul class="dropdown-menu">
-           
-                 <li><a  href="@Url.Action("Approve", "LocalPurchase", new {id = Model.LocalPurchaseID})" >@Html.Translate("Approve(Send to Hub)")</a></li>
-             </ul>
-              <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase" title="Save"></a>
-         }
-          <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "LocalPurchase")" title="Cancel"></a>
-        
-    </div>
+    <a class="btn grey-salt " data-buttontype="btn_cancel"  href="@Url.Action("Index", "LocalPurchase")"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
+    @*<div class="btn-group" style="margin-right: 8px;">
+        <button class="btn dropdown-toggle " data-toggle="dropdown">
+            @Html.Translate("Actions")
+            <span class="caret"></span>
+        </button>
+        @if (Model.StatusID == 1)
+        {
+            <ul class="dropdown-menu">
+
+                <li><a href="@Url.Action("Approve", "LocalPurchase", new {id = Model.LocalPurchaseID})">@Html.Translate("Approve(Send to Hub)")</a></li>
+            </ul>
+            <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase" title="Save"></a>
+        }
+        <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "LocalPurchase")" title="Cancel"></a>
+
+    </div>*@
 }
-<h4>@Html.Translate("Receipt Plan From Local Purchase Detail") </h4>
+
 
 @using (Html.BeginForm("UpdateLocalPurchase", "LocalPurchase", FormMethod.Post, new { id = "frm_create_localPurchase" }))
 {
     @Html.HiddenFor(m => m.LocalPurchaseID)
-    <div class="form-horizontal well">
-        <table border="0">
-            <tr>
-                <td>
-               
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("SI Number"))
-                    </div>
-                    <div class="controls">
-                        @(Html.Kendo().AutoComplete()
-                              .Name("SINumber")
-                              .HtmlAttributes(new { style = "width:215px;" })
-                              .Filter("startswith")
-                              .Placeholder(@Html.Translate("Enter or Select SINumber..."))
-                              .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
+    <div class="portlet light bordered bg-inverse">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <i class="fa fa-list font-green-sharp"></i>
+                <span class="caption-subject bold uppercase"> @Html.Translate("Header")</span>
+                <span class="caption-helper">  </span>
+            </div>
+            <div class="tools">
+                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                    @*<a href="javascript:;" class="remove" data-original-title="" title=""></a>*@
+                </div>
+            <div class="actions">
+                    @if (Model.StatusID == 1)
+                    {
+                        <div class="btn-group">
+                            <button class="btn green dropdown-toggle" data-toggle="dropdown">
+                                @Html.Translate("Actions")
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a class="btn green-sharp-stripe" href="@Url.Action("Approve", "LocalPurchase", new {id = Model.LocalPurchaseID})"> @Html.Translate("Approve(Send to Hub)")</a></li>
+                            </ul>
+                        </div>
+                        <a class="btn green btn-xs toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase"><i class="fa fa-save"></i> @Html.Translate("Save Changes")</a>
+                        <a class="btn red btn-xs toolbar-btn " data-buttontype="btn_cancel" href=""><i class="fa fa-times"></i> @Html.Translate("Cancel Changes")</a>
+                
+                    }
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="form-horizontal well">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("SI Number"))
+                            </div>
+                            <div class="col-sm-7">
+                                @(Html.Kendo().AutoComplete()
+                                      .Name("SINumber")
+                                      .HtmlAttributes(new {style = "width:215px;", @class = "form-control"})
+                                      .Filter("startswith")
+                                      .Placeholder(@Html.Translate("Enter or Select SINumber..."))
+                                      .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
 
-                              )
+                                      )
+                            </div>
+                        </div>
                     </div>
-                
-                </td>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Commodity Type"))
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Commodity Type"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.DropDownList("CommodityTypeID", null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                    <div class="controls">
-                        @Html.DropDownList("CommodityTypeID")
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Commodity Source"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.CommoditySource, new {Disabled = true, @class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                
-                </td>
-            </tr>
-            <tr>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Commodity Source"))
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Commodity"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.DropDownList("CommodityID", null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(m => m.CommoditySource, new { Disabled = true })
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Project Code"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.ProjectCode, null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                
-                </td>
-                <td>
-               
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Commodity"))
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Program"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.DropDownList("ProgramID", null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                    <div class="controls">
-                        @Html.DropDownList("CommodityID")
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Supplier Name"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.SupplierName, null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Project Code"))
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Donor"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.DropDownList("DonorID", null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(m => m.ProjectCode)
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("PurchaseOrder"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.PurchaseOrder, null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                
-                </td>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Program"))
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Quantity in MT"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.Quantity, null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                    <div class="controls">
-                        @Html.DropDownList("ProgramID")
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(Html.Translate("Reference Number"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.ReferenceNumber, null, new {@class = "form-control"})
+                            </div>
+                        </div>
                     </div>
-                
-                </td>
-            </tr>
-            <tr>
-                <td>
-               
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Supplier Name"))
-                    </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(m => m.SupplierName)
-                    </div>
-               
-                </td>
-                <td>
-              
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Donor"))
-                    </div>
-                    <div class="controls">
-                        @Html.DropDownList("DonorID")
-                    </div>
-               
-                </td>
-            </tr>
-            <tr>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("PurchaseOrder"))
-                    </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(m => m.PurchaseOrder)
-                    </div>
-                
-                </td>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Quantity in MT"))
-                    </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(m => m.Quantity)
-                    </div>
-               
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-               
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Reference Number"))
-                    </div>
-                    <div class="controls" style="height: 10px">
-                        @Html.TextBoxFor(m => m.ReferenceNumber)
-                    </div>
-                
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        @(Html.Kendo().Grid(Model.LocalPurchaseDetailViewModels)
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <i class="fa fa-list font-green-sharp"></i>
+                <span class="caption-subject bold uppercase"> @Html.Translate("Detail")</span>
+                <span class="caption-helper">  </span>
+            </div>
+            @*<div class="tools">
+                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                    <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+                </div>*@
+            <div class="actions">
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-responsive">
+                @(Html.Kendo().Grid(Model.LocalPurchaseDetailViewModels)
               .Name("LocalPurchaseDetail")
               .Columns(columns =>
               {
@@ -178,10 +223,10 @@
                   columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Html.Translate("Allocated Amonut in MT")).HtmlAttributes(new { align = "right" })
                   .ClientTemplate("#= AllocatedAmonut #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].AllocatedAmonut' value='#= AllocatedAmonut #' />");
-                //  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Html.Translate("Recieved Amount in MT")).HtmlAttributes(new { align = "right" })
-                //  .ClientTemplate("#= RecievedAmonut #" +
-                //"<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />");
-                //  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Html.Translate("Remaining Amonut in MT")).HtmlAttributes(new { align = "right" });
+                  //  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Html.Translate("Recieved Amount in MT")).HtmlAttributes(new { align = "right" })
+                  //  .ClientTemplate("#= RecievedAmonut #" +
+                  //"<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />");
+                  //  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Html.Translate("Remaining Amonut in MT")).HtmlAttributes(new { align = "right" });
 
                   columns.Bound(m => m.LocalPurchaseID).Hidden(true).ClientTemplate("#= LocalPurchaseID #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].LocalPurchaseID' value='#= LocalPurchaseID #' />");
@@ -194,6 +239,7 @@
 
               .Editable(edit => edit.Mode(GridEditMode.InCell))
               .Navigatable()
+              .TableHtmlAttributes(new{@class="table table-condensed"})
               .DataSource(dataSource => dataSource
                                             .Ajax()
                                             .Model(model =>
@@ -207,15 +253,17 @@
                                             .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new { localPurchaseID = Model.LocalPurchaseID }))
         //.Update(update => update.Action("Commodity_Update", "Request"))
               )
-              )
+                )
+            </div>
+        </div>
     </div>
 }
 <script type="text/javascript">
     function onAdditionalData(e) {
-      
+
         return {
             term: $("#SINumber").val()
-           
+
         };
     }
     function index(dataItem) {
@@ -223,4 +271,4 @@
 
         return data.indexOf(dataItem);
     }
-    </script>
+</script>

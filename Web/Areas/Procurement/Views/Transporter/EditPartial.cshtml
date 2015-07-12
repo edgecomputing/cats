@@ -1,350 +1,365 @@
-﻿@model Cats.Models.Transporter
+﻿@using Cats.Helpers
+@model Cats.Models.Transporter
 
 @{
     ViewBag.Title = "Edit";
-  
+
 }
 
 
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+    <div class="form-horizontal form">
         @Html.ValidationSummary(true)
 
 
-        <div style="border: solid 1px #CCC; padding: 4px;">
-            <div id="navbar" class="tabbable tabs-left">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Address</a></li>
-                    <li><a href="#tab2" data-toggle="tab">Capacity</a></li>
-                    <li><a href="#tab3" data-toggle="tab">Management</a></li>
+        <div class="form-body">
+            <div id="navbar" class="tabbable-line form-horizontal">
+                <ul class="nav nav-tabs ">
+                    <li class="active">
+                        <a href="#tab1" data-toggle="tab" aria-expanded="true">
+                            @Html.Translate("Address")
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab2" data-toggle="tab" aria-expanded="false">
+                            @Html.Translate("Capacity")
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab3" data-toggle="tab">
+                            @Html.Translate("Management")
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab1">
-                        <fieldset>
-                            <legend>Address</legend>
-                            @Html.HiddenFor(model => model.TransporterID)
-                            <!-- Input Name-->
-                            <div class="control-group">
-                                <label class="control-label" for="Name">Name</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", @placeholder = "Name" })
-                                    @Html.ValidationMessageFor(model => model.Name)
-                                </div>
-                            </div>
-                            <!-- Input Region-->
-                            <div class="control-group">
-                                <label class="control-label" for="Region">Region</label>
-                                <div class="controls">
-                                    @Html.DropDownListFor(model => model.Region, new SelectList(ViewBag.Regions, "AdminUnitID", "Name"), "--Please Select Region--")
-                                    @Html.ValidationMessageFor(model => model.Region)
-                                </div>
-                            </div>
 
-                            <!-- Input SubCity-->
-                            <div class="control-group">
-                                <label class="control-label" for="SubCity">Sub City</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.SubCity, new { @class = "input-xlarge", @placeholder = "Sub City" })
-                                    @Html.ValidationMessageFor(model => model.SubCity)
-                                </div>
+                        @Html.HiddenFor(model => model.TransporterID)
+                        <!-- Input Name-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Name">Name</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @placeholder = "Name"})
+                                @Html.ValidationMessageFor(model => model.Name)
                             </div>
-
-                            <!-- Input Zone-->
-                            <div class="control-group">
-                                <label class="control-label" for="Zone">Zone</label>
-                                <div class="controls">
-                                    @Html.DropDownListFor(model => model.Zone, Enumerable.Empty<SelectListItem>())
-                                    @Html.ValidationMessageFor(model => model.Zone)
-                                </div>
+                        </div>
+                        <!-- Input Region-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Region">Region</label>
+                            <div class="col-md-5">
+                                @Html.DropDownListFor(model => model.Region, new SelectList(ViewBag.Regions, "AdminUnitID", "Name"), "--Please Select Region--", new {@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.Region)
                             </div>
+                        </div>
 
-                            <!-- Input Woreda-->
-                            <div class="control-group">
-                                <label class="control-label" for="Woreda">Woreda</label>
-                                <div class="controls">
-                                    @Html.DropDownListFor(model => model.Woreda, Enumerable.Empty<SelectListItem>())
-                                    @Html.ValidationMessageFor(model => model.Woreda)
-                                </div>
+                        <!-- Input SubCity-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="SubCity">Sub City</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.SubCity, new {@class = "form-control", @placeholder = "Sub City"})
+                                @Html.ValidationMessageFor(model => model.SubCity)
                             </div>
+                        </div>
 
-                            <!-- Input Kebele-->
-                            <div class="control-group">
-                                <label class="control-label" for="Kebele">Kebele</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Kebele, new { @class = "input-xlarge", @placeholder = "Kebele" })
-                                    @Html.ValidationMessageFor(model => model.Kebele)
-                                </div>
+                        <!-- Input Zone-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Zone">Zone</label>
+                            <div class="col-md-5">
+                                @Html.DropDownListFor(model => model.Zone, Enumerable.Empty<SelectListItem>(), new {@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.Zone)
                             </div>
+                        </div>
 
-                            <!-- Input HouseNo-->
-                            <div class="control-group">
-                                <label class="control-label" for="HouseNo">House No</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.HouseNo, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.HouseNo)
-                                </div>
+                        <!-- Input Woreda-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Woreda">Woreda</label>
+                            <div class="col-md-5">
+                                @Html.DropDownListFor(model => model.Woreda, Enumerable.Empty<SelectListItem>(), new {@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.Woreda)
                             </div>
+                        </div>
 
-                            <!-- Input TelephoneNo-->
-                            <div class="control-group">
-                                <label class="control-label" for="TelephoneNo">Telephone No</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.TelephoneNo)
-                                </div>
+                        <!-- Input Kebele-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Kebele">Kebele</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.Kebele, new {@class = "form-control", @placeholder = "Kebele"})
+                                @Html.ValidationMessageFor(model => model.Kebele)
                             </div>
+                        </div>
 
-                            <!-- Input MobileNo-->
-                            <div class="control-group">
-                                <label class="control-label" for="MobileNo">Mobile No</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.MobileNo)
-                                </div>
+                        <!-- Input HouseNo-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="HouseNo">House No</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.HouseNo, new {@class = "form-control", @placeholder = "-"})
+                                @Html.ValidationMessageFor(model => model.HouseNo)
                             </div>
+                        </div>
 
-                        </fieldset>
+                        <!-- Input TelephoneNo-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="TelephoneNo">Telephone No</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.MobileNo, new {@class = "form-control", @placeholder = "-"})
+                                @Html.ValidationMessageFor(model => model.TelephoneNo)
+                            </div>
+                        </div>
+
+                        <!-- Input MobileNo-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="MobileNo">Mobile No</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.MobileNo, new {@class = "form-control", @placeholder = "-"})
+                                @Html.ValidationMessageFor(model => model.MobileNo)
+                            </div>
+                        </div>
+
                     </div>
                     <div class="tab-pane" id="tab2">
-                        <fieldset>
-                            <legend>Capacity</legend>
 
-                            <!-- Input Ownership-->
-                            <div class="control-group">
-                                <label class="control-label" for="Ownership">Ownership</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Ownership, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.Ownership)
-                                </div>
+
+                        <!-- Input Ownership-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Ownership">Ownership</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.Ownership, new {@class = "form-control", @placeholder = "-"})
+                                @Html.ValidationMessageFor(model => model.Ownership)
                             </div>
+                        </div>
 
-                            <!-- Input VehicleCount-->
-                            <div class="control-group">
-                                <label class="control-label" for="VehicleCount">Vehicle Count</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.VehicleCount, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.VehicleCount)
-                                </div>
+                        <!-- Input VehicleCount-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="VehicleCount">Vehicle Count</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.VehicleCount, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.VehicleCount)
                             </div>
+                        </div>
 
 
-                            <!-- Input LiftCapacityFrom-->
-                            <div class="control-group">
-                                <label class="control-label" for="LiftCapacityFrom">Lift Capacity</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.LiftCapacityFrom, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
-                                </div>
+                        <!-- Input LiftCapacityFrom-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="LiftCapacityFrom">Lift Capacity</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.LiftCapacityFrom, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
                             </div>
-                            <!-- Input LiftCapacityTo-->
+                        </div>
+                        <!-- Input LiftCapacityTo-->
 
-                            <div class="control-group">
-                                <label class="control-label" for="LiftCapacityTo">To</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.LiftCapacityTo, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.LiftCapacityTo)
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="LiftCapacityTo">To</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.LiftCapacityTo, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.LiftCapacityTo)
                             </div>
+                        </div>
 
 
-                            <!-- Input LiftCapacityTotal-->
-                            <div class="control-group">
-                                <label class="control-label" for="LiftCapacityTotal">Total Lift Capacity</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.LiftCapacityTotal, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
-                                </div>
+                        <!-- Input LiftCapacityTotal-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="LiftCapacityTotal">Total Lift Capacity</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.LiftCapacityTotal, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
                             </div>
+                        </div>
 
-                            <!-- Input Capital-->
-                            <div class="control-group">
-                                <label class="control-label" for="Capital">Capital</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Capital, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.Capital)
-                                </div>
+                        <!-- Input Capital-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Capital">Capital</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.Capital, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.Capital)
                             </div>
+                        </div>
 
-                            <!-- Input EmployeeCountMale-->
-                            <div class="control-group">
-                                <label class="control-label" for="EmployeeCountMale">Employee Count Male</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.EmployeeCountMale, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.EmployeeCountMale)
-                                </div>
+                        <!-- Input EmployeeCountMale-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="EmployeeCountMale">Employee Count Male</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.EmployeeCountMale, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.EmployeeCountMale)
                             </div>
+                        </div>
 
-                            <!-- Input EmployeeCountFemale-->
-                            <div class="control-group">
-                                <label class="control-label" for="EmployeeCountFemale">Employee Count Female</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.EmployeeCountFemale, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
-                                </div>
+                        <!-- Input EmployeeCountFemale-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="EmployeeCountFemale">Employee Count Female</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.EmployeeCountFemale, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
                             </div>
+                        </div>
 
-                        </fieldset>
+
                     </div>
                     <div class="tab-pane" id="tab3">
-                        <fieldset>
-                            <legend>Management</legend>
-                            <!-- Input OwnerName-->
-                            <div class="control-group">
-                                <label class="control-label" for="OwnerName">Owner Name</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.OwnerName, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.OwnerName)
-                                </div>
-                            </div>
 
-                            <!-- Input OwnerMobile-->
-                            <div class="control-group">
-                                <label class="control-label" for="OwnerMobile">Owner Mobile</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.OwnerMobile, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.OwnerMobile)
-                                </div>
-                            </div>
 
-                            <!-- Input ManagerName-->
-                            <div class="control-group">
-                                <label class="control-label" for="OwnerMobile">Manager Name</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ManagerName, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ManagerName)
-                                </div>
+                        <!-- Input OwnerName-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="OwnerName">Owner Name</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.OwnerName, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.OwnerName)
                             </div>
+                        </div>
 
-                            <!-- Input ManagerMobile-->
-                            <div class="control-group">
-                                <label class="control-label" for="ManagerMobile">Manager Mobile</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ManagerMobile, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ManagerMobile)
-                                </div>
+                        <!-- Input OwnerMobile-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="OwnerMobile">Owner Mobile</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.OwnerMobile, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.OwnerMobile)
                             </div>
+                        </div>
 
-                            <!-- Input ExperienceFrom-->
-                            <div class="control-group">
-                                <label class="control-label" for="ExperienceFrom">Experience From</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ExperienceFrom)
-                                </div>
+                        <!-- Input ManagerName-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="OwnerMobile">Manager Name</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.ManagerName, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.ManagerName)
                             </div>
+                        </div>
 
-                            <!-- Input ExperienceTo-->
-                            <div class="control-group">
-                                <label class="control-label" for="ExperienceTo">Experience To</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ExperienceTo)
-                                </div>
+                        <!-- Input ManagerMobile-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="ManagerMobile">Manager Mobile</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.ManagerMobile, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.ManagerMobile)
                             </div>
-                            
-                            <div class="control-group">
-                                <label class="control-label" for="ExperienceTo">Owned By DRMFSS</label>
-                                <div class="controls">
-                                    @Html.CheckBoxFor(model => model.OwnedByDRMFSS)
-                                    @Html.ValidationMessageFor(model => model.OwnedByDRMFSS)
-                                </div>
-                            </div>
+                        </div>
 
-                            <p>
-                                <input type="submit" value="Save" />
-                            </p>
-                        </fieldset>
+                        <!-- Input ExperienceFrom-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="ExperienceFrom">Experience From</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.ExperienceFrom, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.ExperienceFrom)
+                            </div>
+                        </div>
+
+                        <!-- Input ExperienceTo-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="ExperienceTo">Experience To</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.ExperienceTo, new {@class = "form-control", @placeholder = "0"})
+                                @Html.ValidationMessageFor(model => model.ExperienceTo)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="ExperienceTo">Owned By DRMFSS</label>
+                            <div class="col-md-5">
+                                @Html.CheckBoxFor(model => model.OwnedByDRMFSS, new {@control = "form-control"})
+                                @Html.ValidationMessageFor(model => model.OwnedByDRMFSS)
+                            </div>
+                        </div>
+
+                        
+
                     </div>
                 </div>
             </div>
 
         </div>
-    <script>
-        var SelectedRegion = "";
-        var SelectedZone = "";
-        var SelectedWoreda = "";
-        @{
+        @*<div class="form-actions">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-8">
+                    <button type="submit" class="btn blue">Save</button>
+                </div>
+            </div>
+        </div>*@
+        <script>
+            var SelectedRegion = "";
+            var SelectedZone = "";
+            var SelectedWoreda = "";
+            @{
             if (@Model != null)
             {
                 <text>
-                    SelectedRegion = "@Model.Region";
-                    SelectedZone = "@Model.Zone";
-                    SelectedWoreda = "@Model.Woreda";
-                </text>
-                
+            SelectedRegion = "@Model.Region";
+            SelectedZone = "@Model.Zone";
+            SelectedWoreda = "@Model.Woreda";
+            </text>
+
             }
         }
-        
-        function AjaxSubmit(frm) {
-            var container = $(frm).parent();
-            var attrib = {};
-            var url = frm.action;
-            for (var i in frm.elements) {
-                var elem = frm.elements[i];
-                if (elem.name) {
-                    attrib[elem.name] = elem.value;
+
+            function AjaxSubmit(frm) {
+                var container = $(frm).parent();
+                var attrib = {};
+                var url = frm.action;
+                for (var i in frm.elements) {
+                    var elem = frm.elements[i];
+                    if (elem.name) {
+                        attrib[elem.name] = elem.value;
+                    }
                 }
-            }
-            $.post(url, attrib, function(data) {
+                $.post(url, attrib, function (data) {
                     if (data == "{}") {
                         editorWindow.close();
                     }
                     container.html(data);
                 }
-            );
+                );
 
-        }
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#Zone").prop('disabled', true);
-            $("#Woreda").prop('disabled', true);
-        });
-        $("#Region").change(function() {
-            $("#Zone").empty(); $("#Woreda").empty(); $("#Woreda").prop('disabled', true);
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("GetAdminUnitsList", "Transporter")',
-                dataType: 'json',
-                data: { parentId: $("#Region").val(), type: "Zone" },
-                success: function(zones) {
-                    $("#Zone").append('<option value="">-- Please Select Zone --</option>');
-                    $.each(zones, function(i, zone) {
-                        $("#Zone").append('<option value="' + zone.Value + '">' + zone.Text + '</option>');
-                    });
-                    $("#Zone").prop('disabled', false);
-                },
-                error: function(ex) {
-                    alert('Failed to retrieve Zones for the selected Region.' + ex);
-                    $("#Zone").prop('disabled', true);
-                    $("#Woreda").prop('disabled', true);
-                }
+            }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#Zone").prop('disabled', true);
+                $("#Woreda").prop('disabled', true);
             });
-        });
-        $("#Zone").change(function () {
-            $("#Woreda").empty();
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("GetAdminUnitsList", "Transporter")',
-                dataType: 'json',
-                data: { parentId: $("#Zone").val(), type: "Woreda" },
-                success: function (woredas) {
-                    $("#Zone").append('<option value="">-- Please Select Woreda --</option>');
-                    $.each(woredas, function (i, woreda) {
-                        $("#Woreda").append('<option value="' + woreda.Value + '">' + woreda.Text + '</option>');
-                    });
-                    $("#Woreda").prop('disabled', false);
-                },
-                error: function (ex) {
-                    alert('Failed to retrieve Woredas for the selected Zone.' + ex);
-                    $("#Woreda").prop('disabled', true);
-                }
+            $("#Region").change(function () {
+                $("#Zone").empty(); $("#Woreda").empty(); $("#Woreda").prop('disabled', true);
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetAdminUnitsList", "Transporter")',
+                    dataType: 'json',
+                    data: { parentId: $("#Region").val(), type: "Zone" },
+                    success: function (zones) {
+                        $("#Zone").append('<option value="">-- Please Select Zone --</option>');
+                        $.each(zones, function (i, zone) {
+                            $("#Zone").append('<option value="' + zone.Value + '">' + zone.Text + '</option>');
+                        });
+                        $("#Zone").prop('disabled', false);
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Zones for the selected Region.' + ex);
+                        $("#Zone").prop('disabled', true);
+                        $("#Woreda").prop('disabled', true);
+                    }
+                });
             });
-        });
-        
-    </script>
+            $("#Zone").change(function () {
+                $("#Woreda").empty();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetAdminUnitsList", "Transporter")',
+                    dataType: 'json',
+                    data: { parentId: $("#Zone").val(), type: "Woreda" },
+                    success: function (woredas) {
+                        $("#Zone").append('<option value="">-- Please Select Woreda --</option>');
+                        $.each(woredas, function (i, woreda) {
+                            $("#Woreda").append('<option value="' + woreda.Value + '">' + woreda.Text + '</option>');
+                        });
+                        $("#Woreda").prop('disabled', false);
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Woredas for the selected Zone.' + ex);
+                        $("#Woreda").prop('disabled', true);
+                    }
+                });
+            });
+
+        </script>
     </div>
 }
 

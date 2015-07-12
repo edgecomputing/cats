@@ -3,138 +3,96 @@
 @{
     ViewBag.ViewWidth = "Wide";
     ViewBag.Title = @Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Dispatch allocation");
+    ViewBag.PageTitleDescription = "";
 }
 
-<style>
-    #tab0 {
-    height: 400px;
-}
-
-       #tab1 {
-    height: 400px;
-}
-          #tab2 {
-    height: 400px;
-}
-
-</style>
-
-<fieldset>
-    <legend>
-        @Html.Translate("Dispatch allocation")
-    </legend>
-</fieldset>
-
-@section Toolbar
-{
-    <!-- 
-    <div class="input-prepend" style="margin-top:10px; margin-right:5px; ">
-        <span class="add-on">Region</span>
-        <select>
-            <option value="1">One</option>
-            <option value="2">One</option>
-            <option value="3">One</option>
-            <option value="4">One</option>
-        </select>
-    </div>-->
-    <div class="btn-group">
-        <button class="btn">@Html.Translate("Action")</button>
-        @{
-            if (ViewBag.regionId != -1)
-            {
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            }
-            else
-            {
-            <button class="btn dropdown-toggle disabled" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            }
-        }
-
-
-        <ul class="dropdown-menu">
-            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">@Html.Translate("Hub allocation")</a></li>
-            <!--<li><a href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId })">PC/SI code allocation</a></li>-->
-            <li><a href="@Url.Action("CreateTransportRequisition", "TransportRequisition", new { regionId = ViewBag.regionId })">@Html.Translate("Generate Transport Requisition")</a></li>
-
-            <li><a href="#"></a></li>
-        </ul>
-
-    </div>
-
-}
-
-
-
-@{
-
-
-    var ddl = Html.Kendo().DropDownList()
-        .Name("Region")
-        .OptionLabel( @Html.Translate("Select a Region..."))
-        .DataTextField("Name")
-        .DataValueField("AdminUnitID")
-        .HtmlAttributes(new { style = "width:200px" })
-        .Events(e => e.Change("regionsChange"))
-        .DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
-
-
-    ddl.Render(); //displays the dropdown list
-
-    var selected = ddl.ToComponent().Value;//gets the selected value
-}
-
-
-<div style="float: right; margin-right: 100px">
-    
-</div>
-
-<div class="row-fluid">
-    <div class="span3 column-divider">
-        <div id="HubAllocationPartial">
-            @Html.Partial("HubAllocation", (int)ViewBag.regionId)
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Dispatch Allocation Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            @*<a href="#" class="collapse" data-original-title="" title=""></a>*@
+            @*<a href="javascript:;" class="remove" data-original-title="" title=""></a>*@
+        </div>
+        <div class="actions">
+            <div class="btn-group">
+                @if (ViewBag.regionId != -1)
+                {
+                    <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Action") <i class="fa fa-angle-down"></i>
+                    </button>
+                }
+                <ul class="dropdown-menu pull-right">
+                    <li><a class="btn green-haze-stripe" href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">@Html.Translate("Hub allocation")</a></li>
+                    <!--<li><a  class="btn green-haze-stripe" href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId })">PC/SI code allocation</a></li>-->
+                    <li><a class="btn green-haze-stripe" href="@Url.Action("CreateTransportRequisition", "TransportRequisition", new { regionId = ViewBag.regionId })">@Html.Translate("Generate Transport Requisition")</a></li>
+                </ul>
+            </div>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
         </div>
     </div>
-    <div class="span9">
-        <div class="row-fluid">
-        <ul class="nav nav-tabs ">
-            <li class="active">
-                <a href="#tab0" data-toggle="tab"><b>@Html.Translate("Approved Requisitions")</b></a>
-            </li>
-
-            <li>
-                <a href="#tab1" data-toggle="tab"><b>@Html.Translate("Hub Allocated Requisitions")</b></a>
-            </li>
-            <li>
-                <a href="#tab2" data-toggle="tab"><b>@Html.Translate("Project /SI Code Allocated")</b></a>
-            </li>
-
-        </ul>
-        <div class="tab-content ">
-            <div id="tab0" class="tab-pane active">
-                <div id="ApprovedRequisitionPartial">
-                    @Html.Partial("_ApprovedRequisitions", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved } })
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="well">
+                    @{var ddl = Html.Kendo().DropDownList().Name("Region").OptionLabel(@Html.Translate("Select a Region...")).DataTextField("Name").DataValueField("AdminUnitID")
+                            .HtmlAttributes(new { style = "width:200px" }).Events(e => e.Change("regionsChange")).DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
+                    ddl.Render(); //displays the dropdown list
+                    var selected = ddl.ToComponent().Value;//gets the selected value
+                    }
+                </div>
+                <div id="HubAllocationPartial">
+                    @Html.Partial("HubAllocation", (int)ViewBag.regionId)
                 </div>
             </div>
-            <div id="tab1" class="tab-pane">
-                <div id="HubAllocatedPartial">
-                    @Html.Partial("AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.HubAssigned } })
-                </div>
-            </div>
-            <div id="tab2" class="tab-pane">
-                <div id="ProjectCodeAllocatedPartial">
-                    @Html.Partial("_AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.ProjectCodeAssigned } })
+            <div class="col-sm-9">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a href="#tab1" data-toggle="tab" aria-expanded="false">
+                                @Html.Translate("Approved Requisitions")
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tab2" data-toggle="tab" aria-expanded="false">
+                                @Html.Translate("Hub Allocated Requisitions")
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tab3" data-toggle="tab" aria-expanded="true">
+                                @Html.Translate("Project /SI Code Allocated")
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane active">
+                            <div id="ApprovedRequisitionPartial">
+                                @Html.Partial("_ApprovedRequisitions", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved } })
+                            </div>
+                        </div>
+                        <div id="tab2" class="tab-pane">
+                            <div id="HubAllocatedPartial">
+                                @Html.Partial("AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.HubAssigned } })
+                            </div>
+                        </div>
+                        <div id="tab3" class="tab-pane">
+                            <div id="ProjectCodeAllocatedPartial">
+                                @Html.Partial("_AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.ProjectCodeAssigned } })
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-</div>
-        
     </div>
 </div>
+
 
 <script>
 
@@ -164,7 +122,7 @@
         }
 
     }
-    
+
 
 
 </script>

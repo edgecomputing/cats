@@ -1,50 +1,41 @@
 ﻿@{
     ViewBag.Title = "WoredasWithOutBidOffer";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Woredas Bid Status";
+    ViewBag.PageTitleDescription = "";
 }
-<h3>Woredas Bid Status</h3>
-@using (Html.BeginForm())
+<div class="well">
+    @using (Html.BeginForm())
     {
-        <div>
-            <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
+        <div class="form-horizontal row">
+            <div class="col-md-12" @*style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;"*@>
                 @*<div><h5>Please specify the BID number, Region and Transporter to continue</h5></div>*@
-                <div class="span3" align="center">
-                    <div class="control-group">
-                        <div class="controls">
-                            <label>BID Reference Number</label>
-                            <div>
-                                @Html.DropDownList("BidID")
-                            </div>
-                        </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">BID Reference Number</label>
+                        @Html.DropDownList("BidID", null, new { @class = "form-control input-medium" })
                     </div>
                 </div>
-                <div class="span3" align="center">
-                    <div class="control-group">
-                        <div class="controls">
-                            <label>Region</label>
-                            <div>
-                                @Html.DropDownList("RegionID")
-                            </div>
-                        </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Region</label>
+                        @Html.DropDownList("RegionID", null, new { @class = "form-control input-medium" })
                     </div>
                 </div>
-                <div class="span3" align="center">
-                    <div class="control-group">
-                        <div class="controls">
-                            <label>Warehouse</label>
-                            <div>
-                                 @Html.DropDownList("HubID", (SelectList)ViewBag.HubID, "-- ALL --")
-                            </div>
-                        </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Warehouse</label>
+                        @Html.DropDownList("HubID", (SelectList)ViewBag.HubID, "--- ALL ---", new { @class = "form-control input-medium" })
                     </div>
                 </div>
-                 <div class="span3" align="center">
-                    <div class="controls">
-                        <div>
-                            <input type="submit" value="Get Data" class="btn btn-default" style="margin-top: 25px"/>  
-                        </div>
+
+                <div class="col-md-3">
+                    <div class="" style="margin: 25px 0;">
+                        <input type="submit" value="Get Data" class="btn btn-default" />
                     </div>
                 </div>
             </div>
-       </div>
+        </div>
     }
+</div>
