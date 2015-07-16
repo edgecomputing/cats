@@ -8,186 +8,196 @@
     ViewBag.Title = @Html.Translate("AssignTransporter");
 }
 <div style="display: none;">
- @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
- {    
-     
-     @Html.HiddenFor(model => model.SelectedTransporterID)
-     if (Model.TransReqwithOutTransporters != null)
-     {
-         for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
-         {
+    @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
+    {
 
-             @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
-             @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].RequisitionID)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].HubID)
-             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].TransportRequisitionID)
-             <br />
+    @Html.HiddenFor(model => model.SelectedTransporterID)
+        if (Model.TransReqwithOutTransporters != null)
+        {
+            for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
+            {
+
+    @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
+    @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].RequisitionID)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].HubID)
+    @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].TransportRequisitionID)
+    <br />
 
 
-         }
-     }
+            }
+        }
 
- }  
-</div>  
-
-<h5> @Html.Translate("Transport Requisitions Without Winner Transporter")</h5> 
-<div class="input-prepend">
-    <span class="add-on">@Html.Translate("Transporter")</span>
-     @Html.DropDownList("TransporterID", null, new { @class = "input-small" })
-   
-</div>
-<div class="input-prepend">
-    <span class="add-on">@Html.Translate("Transport Requisition")</span>
-
-    @Html.DropDownList("TransReq", null, new { @class = "input-large" })
-</div>
-<div class="input-prepend">
-    <span class="add-on">@Html.Translate("Zone")</span>
-    <select id="Zones" name="Zones" ></select>
-    @*@Html.DropDownList("Zones",null, new { @class = "input-small" })*@
-    
-</div>
-<div class="input-prepend">
-    <span class="add-on">@Html.Translate("Woreda")</span>
-    <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
+    }
 </div>
 
+@*<h5> @Html.Translate("Transport Requisitions Without Winner Transporter")</h5>*@
+<div class="portlet light bordered bg-inverse">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Transport Requisitions Without Winner Transporter")</div>
+        <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a>
+        </div>
+        <div class="actions"><a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="well">
+            <div class="form-horizontal row">
+                <div class="form-group form-md-line-input col-md-5">
+                    <label class="col-md-2 control-label">@Html.Translate("Transporter")</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("TransporterID", null, new {@class = "form-control"})
+                    </div>
 
+                </div>
+                <div class="form-group form-md-line-input col-md-4">
+                    <label class="col-md-5 control-label">@Html.Translate("Transport Requisition")</label>
+                    <div class="col-md-6">
+                        @Html.DropDownList("TransReq", null, new {@class = "form-control"})
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input col-md-2">
+                    <label class="col-md-3 control-label">@Html.Translate("Zone")</label>
+                    <div class="col-md-9">
+                        <select id="Zones" name="Zones" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input col-md-2">
+                    <label class="col-md-3 control-label">@Html.Translate("Woreda")</label>
+                    <div class="col-md-9">
+                        <select id="Woredas" name="Woredas" class="form-control" onchange=" onWoredaChange(this.value); "></select>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  
-<div id="div_select" >
-    
-  
-  
-          
-    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">@Html.Translate("Assign Transporter")</a>
-    
-    
-    @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
-          .Name("grid")
-          .Columns(columns =>
-                       {
+        <div id="div_select">
+            <a class="btn green toolbar-btn" data-buttontype=" " id="btnAssign" data-submittedform="frm_assign_transporter">@Html.Translate("Assign Transporter")</a><hr />
+            @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
 
-                           columns.Bound(p => p.Woreda).Title(@Html.Translate("Woreda"));
-                           columns.Bound(p => p.RequisitionNo).Title(@Html.Translate("Requisition No"));
-                           columns.Bound(p => p.Commodity).Title(@Html.Translate("Commodity"));
-                           columns.Bound(p => p.FDP).Title(@Html.Translate("Destination"));
-                           columns.Bound(P => P.OriginWarehouse).Title(@Html.Translate("Warehouse Origin"));
-                           columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-                 
-                       })
-          .Scrollable()
-          .DataSource(datasource => datasource.Server()
-           
-                                        .Model(model => model.Id(p => p.TransReqWithoutTransporterID))
+                      columns.Bound(p => p.Woreda).Title(@Html.Translate("Woreda"));
+                      columns.Bound(p => p.RequisitionNo).Title(@Html.Translate("Requisition No"));
+                      columns.Bound(p => p.Commodity).Title(@Html.Translate("Commodity"));
+                      columns.Bound(p => p.FDP).Title(@Html.Translate("Destination"));
+                      columns.Bound(P => P.OriginWarehouse).Title(@Html.Translate("Warehouse Origin"));
+                      columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new {align = "right"}).Format("{0:n2}").HeaderHtmlAttributes(new {@class = "cats-unit-pref-grid"});
 
-          ))
+                  })
+                  .Scrollable().TableHtmlAttributes(new{@class="table table-condensed"})
+                  .DataSource(datasource => datasource.Server()
+
+                      .Model(model => model.Id(p => p.TransReqWithoutTransporterID))
+
+                  ))
+        </div>
+    </div>
 </div>
-    
-<script type="text/javascript">
+        <script type="text/javascript">
 
-    
-    $('#TransReq').change(function () {
-        var selectedValue = $(this).val();
-        $('#Zones').html('Loading ....');
-        $.getJSON('@Url.Action("GetZonesByTransReqNo", "TransportOrder")' + "?selectedValue=" + selectedValue, function (data) {
-              var items = '<option>@Html.Translate("Select Zone")</option>';
+
+            $('#TransReq').change(function () {
+                var selectedValue = $(this).val();
+                $('#Zones').html('Loading ....');
+                $.getJSON('@Url.Action("GetZonesByTransReqNo", "TransportOrder")' + "?selectedValue=" + selectedValue, function (data) {
+                    var items = '<option>@Html.Translate("Select Zone")</option>';
                     $.each(data, function (i, zone) {
                         items += "<option value='" + zone.Value + "'>" + zone.Text + "</option>";
                     });
                     $('#Zones').html(items);
                 });
-      });
-</script>
- 
-<script>
-    $(function() {
-        $("#div_select tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
-        $("#div_select thead tr").prepend("<th class='k-header'></th>");
-        $("#div_select tfoot tr").prepend("<td class='k-header'></td>");
-        $("#div_select tbody .checker").click(
-            function (event) {
-                $(this).parent().toggleClass("k-state-selected");
-                update_selection_data();
-              
             });
-    }
-    );
+        </script>
 
-    function update_selection_data() {
-        var i = 0;
-        $("#div_select tbody tr").each(function () {
-            var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
-            if ($(this).hasClass("k-state-selected")) {
-                inp.val(true);
-                
-            } else {
-                inp.val(false);
-            }
-            i++;
-        });
-    }
+        <script>
+            $(function () {
+                $("#div_select tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
+                $("#div_select thead tr").prepend("<th class='k-header'></th>");
+                $("#div_select tfoot tr").prepend("<td class='k-header'></td>");
+                $("#div_select tbody .checker").click(
+                    function (event) {
+                        $(this).parent().toggleClass("k-state-selected");
+                        update_selection_data();
 
-    $("#TransporterID").change(function () {
-        
-        var selected = $("#TransporterID").val();
-        $("#SelectedTransporterID").val(selected);
-    });
-
-    $(document).ready(function () {
-        var selected = $("#TransporterID").val();
-        $("#SelectedTransporterID").val(selected);
-        
-    });
-            
-   
-        $(function () {
-            $('#Zones').change(function () {
-                $('#Woredas').html('');
-                var TransReqId = $("#TransReq").val();
-                $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val() + "&transReqId=" + TransReqId, function (data) {
-                    var items = '<option>@Html.Translate("Select Woreda")</option>';
-                    $.each(data, function (i, woreda) {
-                        items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
                     });
-                    $('#Woredas').html(items);
+            }
+            );
+
+            function update_selection_data() {
+                var i = 0;
+                $("#div_select tbody tr").each(function () {
+                    var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
+                    if ($(this).hasClass("k-state-selected")) {
+                        inp.val(true);
+
+                    } else {
+                        inp.val(false);
+                    }
+                    i++;
+                });
+            }
+
+            $("#TransporterID").change(function () {
+
+                var selected = $("#TransporterID").val();
+                $("#SelectedTransporterID").val(selected);
+            });
+
+            $(document).ready(function () {
+                var selected = $("#TransporterID").val();
+                $("#SelectedTransporterID").val(selected);
+
+            });
+
+
+            $(function () {
+                $('#Zones').change(function () {
+                    $('#Woredas').html('');
+                    var TransReqId = $("#TransReq").val();
+                    $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val() + "&transReqId=" + TransReqId, function (data) {
+                        var items = '<option>@Html.Translate("Select Woreda")</option>';
+                        $.each(data, function (i, woreda) {
+                            items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
+                        });
+                        $('#Woredas').html(items);
+                    });
                 });
             });
-        });
-
-  
-         function onWoredaChange(e) {
-      
 
 
-        var value = e;
-        var zone = $('#Zones').val();
-        var transporter = $("#TransporterID").val();
-        var TransReqId = $("#TransReq").val();
-            
-        if (value == "") {
+            function onWoredaChange(e) {
 
-            window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId ;
 
-        }
-        else {
-           
-            window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId;
-        }
 
-    }
+                var value = e;
+                var zone = $('#Zones').val();
+                var transporter = $("#TransporterID").val();
+                var TransReqId = $("#TransReq").val();
 
-    
-</script>
-<style>
-    .table-compact {
-    }
-</style>
+                if (value == "") {
+
+                    window.location = null;
+                    window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId;
+
+                }
+                else {
+
+                    window.location = null;
+                    window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId;
+                }
+
+            }
+
+
+        </script>
+        <style>
+            .table-compact {
+            }
+        </style>
 

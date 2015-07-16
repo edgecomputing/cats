@@ -9,35 +9,30 @@
 
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List Of Transport Orders");
+    ViewBag.PageTitleDescription = "";
 }
 
-
-<h4 class="page-header">@Html.Translate("List Of Transport Orders")</h4>
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
-    
-    
-     <div class="btn-group">
-        <button class="btn">@Html.Translate("Action")</button>
-     
-            
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-          
-        
+    @*<a data-buttontype="btn_new_record" class="btn green toolbar-btn " href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
 
 
-        <ul class="dropdown-menu">
-            <li><a id="btnApproveMultipleTos" href="@Url.Action("MultipleApproval", "TransportOrder",new {Area="Procurement"})">@Html.Translate("Approve Multiple TOs")</a></li>
-            <li><a id="btnReverseRequsition" href="@Url.Action("RevertRequsitions","TransportOrder",new {Area="Procurement"})">@Html.Translate("Revert Requsitions")</a></li>  
+<div class="btn-group">
+    <button class="btn green dropdown-toggle" data-toggle="dropdown">
+        @Html.Translate("Action")
+        <span class="caret"></span>
+    </button>
 
-            <li><a href="#"></a></li>
-        </ul>
+    <ul class="dropdown-menu pull-right">
+        <li><a id="btnApproveMultipleTos" href="@Url.Action("MultipleApproval", "TransportOrder",new {Area="Procurement"})">@Html.Translate("Approve Multiple TOs")</a></li>
+        <li><a id="btnReverseRequsition" href="@Url.Action("RevertRequsitions","TransportOrder",new {Area="Procurement"})">@Html.Translate("Revert Requsitions")</a></li>
 
-    </div>      
+    </ul>
+
+</div>*@
 }
 
 <script type="text/javascript">
@@ -74,49 +69,86 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+<div id='dialogDiv' class='modal fade'>
     <div id='dialogContent'></div>
 </div>
 
 <div>
-    <div class="input-prepend">
-        <span class="add-on">@Html.Translate("Program")</span>
-        @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
-    </div>
-    <div class="input-prepend">
-        <span class="add-on">@Html.Translate("Status")</span>
-        @Html.DropDownList("StatusID", null, new { @class = "input-small" })
-    </div>
-    <div class="input-prepend">
-        <span class="add-on">@Html.Translate("Region")</span>
-        @Html.DropDownList("RegionID", null, new { @class = "input-small" })
-    </div>
+    
 </div>
-<div>
-@(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
-      {
-          columns.Template(t => { }).Title("No").ClientTemplate(
-             "#= renderNumber(data) #").Width(50);
-          columns.Bound(to => to.ContractNumber).Title(@Html.Translate("Contract Number")).Width(250).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-    //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-          columns.Bound(to => to.Transporter).Title(@Html.Translate("Transporter")).Width(150);
-          columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-    //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.StartDate).Width(100).Title(Html.Translate("Start Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.EndDate).Width(100).Title(Html.Translate("End Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.TransportOrderNo).Title(Html.Translate("Transport Order No")).Width(100).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
-    columns.Bound(to => to.Status).Title(Html.Translate("Status")).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
-          columns.Command(p =>
+<div class="portlet light bordered bg-inverse">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("List Of Transport Orders")</div>
+        <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a></div>
+        <div class="actions">
+            <a data-buttontype="btn_new_record" class="btn green" href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"><i class="fa fa-plus"></i> @Html.Translate("Create New")</a>
+
+            <div class="btn-group">
+                <button class="btn green dropdown-toggle" data-toggle="dropdown">
+                    @Html.Translate("Action")
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu pull-right">
+                    <li><a class="btn green-sharp-stripe" id="btnApproveMultipleTos" href="@Url.Action("MultipleApproval", "TransportOrder", new {Area = "Procurement"})">@Html.Translate("Approve Multiple TOs")</a></li>
+                    <li><a class="btn green-sharp-stripe" id="btnReverseRequsition" href="@Url.Action("RevertRequsitions", "TransportOrder", new {Area = "Procurement"})">@Html.Translate("Revert Requsitions")</a></li>
+
+                    @*<li><a href="#"></a></li>*@
+                </ul>
+
+            </div>
+            <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="well">
+            <div class="form-horizontal row">
+                <div class="form-group form-md-line-input col-md-2">
+                    <label class="col-md-4 control-label">@Html.Translate("Program")</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("ProgramID", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input col-md-2">
+                    <label class="col-md-4 control-label">@Html.Translate("Status")</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("StatusID", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input col-md-3">
+                    <label class="col-md-4 control-label">@Html.Translate("Region")</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("RegionID", null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
+          {
+              columns.Template(t => { }).Title("No").ClientTemplate(
+                  "#= renderNumber(data) #").Width(25);
+              columns.Bound(to => to.ContractNumber).Title(@Html.Translate("Contract Number")).Width(140).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new {Area = "Procurement", id = "#=TransportOrderID#"}) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+              //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+              columns.Bound(to => to.Transporter).Width(140).Title(@Html.Translate("Transporter"));
+              columns.Bound(to => to.BidDocumentNo).Width(65).Title(Html.Translate("Bid Document #")).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+              //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+              columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(60).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+              columns.Bound(to => to.StartDate).Width(60).Title(Html.Translate("Start Date")).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+              columns.Bound(to => to.EndDate).Width(60).Title(Html.Translate("End Date")).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+              columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(60).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+              columns.Bound(to => to.TransportOrderNo).Title(Html.Translate("Transport Order No")).Width(80).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+              ;
+              columns.Bound(to => to.Status).Title(Html.Translate("Status")).Width(45).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
+              ;
+              columns.Command(p =>
               {
-                 
+
                   //if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
                   //{
-                      p.Custom("Approve").Click("onApprove");
+                  p.Custom("Approve").Click("onApprove");
                   //}
 
-                      p.Custom("Signed").Click("onSigned");
+                  p.Custom("Signed").Click("onSigned");
 
                   p.Custom("Edit").Click("onEdit");
 
@@ -126,162 +158,168 @@
 
 
 
-      })
-     .Scrollable()
-     .Filterable()
-     .Sortable()
-     .Events(e => e.DataBound("onDataBound"))
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .Model(model =>model.Id(p => p.TransportOrderID))
-        .Read(read => read.Action("TransportOrder_Read", "TransportOrder").Data("filterData"))
-    )
-      )
+          })
+              .Scrollable()
+              .Filterable()
+              .Sortable().TableHtmlAttributes(new {@class="table table-condensed"})
+              .Events(e => e.DataBound("onDataBound"))
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Model(model => model.Id(p => p.TransportOrderID))
+                  .Read(read => read.Action("TransportOrder_Read", "TransportOrder").Data("filterData"))
+              )
+              )
     </div>
-<div>
-    <hr/>
 </div>
-@if (@ViewBag.TransportOrderTitle == "Draft") 
-{
- @Html.Partial("AssignTransporter",Model)
-}
-
-<script>
-    function onEdit(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Edit", "TransportOrder")" + "/" + dataItem.TransportOrderID;
-
-    }
-    function onApprove(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Approve","TransportOrder")" + "/" + dataItem.TransportOrderID;
+    <div>
+        <hr />
+    </div>
+    @if (@ViewBag.TransportOrderTitle == "Draft")
+    {
+        @Html.Partial("AssignTransporter", Model)
     }
 
-    function onSigned(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Signed","TransportOrder")" + "/" + dataItem.TransportOrderID;
-    }
-    
-    function onRevert(e) {
-
-        var result = confirm("Revert Transport Order to Draft?");
-        if (result) {
+    <script>
+        function onEdit(e) {
             e.preventDefault();
 
             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-            window.location = "@Url.Action("reverseTOFromClosedtoDraft","TransportOrder")" + "/" + dataItem.TransportOrderID;
+            window.location = "@Url.Action("Edit", "TransportOrder")" + "/" + dataItem.TransportOrderID;
+
         }
-    }
- @*   function onRevert(e) {
+        function onApprove(e) {
+            e.preventDefault();
+
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            window.location = "@Url.Action("Approve","TransportOrder")" + "/" + dataItem.TransportOrderID;
+        }
+
+        function onSigned(e) {
+            e.preventDefault();
+
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            window.location = "@Url.Action("Signed","TransportOrder")" + "/" + dataItem.TransportOrderID;
+        }
+
+        function onRevert(e) {
+
+            var result = confirm("Revert Transport Order to Draft?");
+            if (result) {
+                e.preventDefault();
+
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                window.location = "@Url.Action("reverseTOFromClosedtoDraft","TransportOrder")" + "/" + dataItem.TransportOrderID;
+            }
+        }
+        @*   function onRevert(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("Revert","TransportOrder")" + "/" + dataItem.TransportOrderID;
     }*@
 
-    function filterData() {
+        function filterData() {
 
-        return {
-            id: $("#StatusID").val(),
-            programId: $("#ProgramID").val(),
-            regionId: $("#RegionID").val()
-
-
-        };
-    }
-    
+            return {
+                id: $("#StatusID").val(),
+                programId: $("#ProgramID").val(),
+                regionId: $("#RegionID").val()
 
 
+            };
+        }
 
-    $(document).ready(function () {
-       
-        $('#ProgramID').change(function () {
 
-            $("#Grid").data("kendoGrid").dataSource.read();
-        });
-    });
-    
-    $(document).ready(function () {
 
-        $('#StatusID').change(function () {
 
-            $("#Grid").data("kendoGrid").dataSource.read();
-        });
-        
-        $('#RegionID').change(function () {
-           
-            $("#Grid").data("kendoGrid").dataSource.read();
+        $(document).ready(function () {
+
+            $('#ProgramID').change(function () {
+
+                $("#Grid").data("kendoGrid").dataSource.read();
+            });
         });
 
-    });
-    
+        $(document).ready(function () {
+
+            $('#StatusID').change(function () {
+
+                $("#Grid").data("kendoGrid").dataSource.read();
+            });
+
+            $('#RegionID').change(function () {
+
+                $("#Grid").data("kendoGrid").dataSource.read();
+            });
+
+        });
 
 
-    function onDataBound(e) {
-        resetRowNumber(e);
-        var grid = $("#Grid").data("kendoGrid");
-        var gridData = grid.dataSource.view();
-        //alert(gridData.length);
-        for (var i = 0; i < gridData.length; i++) {
-            var currentUid = gridData[i].uid;
-            //alert(gridData[i].Status);
-            var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-            if (gridData[i].Status == "Signed") {
-                var approveButton4 = $(currentRow).find(".k-grid-Approve");
-                approveButton4.hide();
-                var signedButton2 = $(currentRow).find(".k-grid-Signed");
-                signedButton2.hide();
-                var editButton3 = $(currentRow).find(".k-grid-Edit");
-                editButton3.hide();
-                var revertButton3 = $(currentRow).find(".k-grid-RevertTO");
-                revertButton3.hide();
-            }
-            else if (gridData[i].Status == "Approved") {
-                var approveButton1 = $(currentRow).find(".k-grid-Approve");
-                approveButton1.hide();
-                var revertButton1 = $(currentRow).find(".k-grid-RevertTO");
-                revertButton1.hide();
-            }
-            else if (gridData[i].Status == "Draft") {
-                var signedButton1 = $(currentRow).find(".k-grid-Signed");
-                signedButton1.hide();
-                var revertButton2 = $(currentRow).find(".k-grid-RevertTO");
-                revertButton2.hide();
-            }
-            else if (gridData[i].Status == "Closed") {
-                var revertButton = $(currentRow).find(".k-grid-RevertTO");
-                revertButton.show();
-                var approveButton = $(currentRow).find(".k-grid-Approve");
-                approveButton.hide();
-                var signedButton = $(currentRow).find(".k-grid-Signed");
-                signedButton.hide();
-                var editButton = $(currentRow).find(".k-grid-Edit");
-                editButton.hide();
+
+        function onDataBound(e) {
+            resetRowNumber(e);
+            var grid = $("#Grid").data("kendoGrid");
+            var gridData = grid.dataSource.view();
+            //alert(gridData.length);
+            for (var i = 0; i < gridData.length; i++) {
+                var currentUid = gridData[i].uid;
+                //alert(gridData[i].Status);
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                if (gridData[i].Status == "Signed") {
+                    var approveButton4 = $(currentRow).find(".k-grid-Approve");
+                    approveButton4.hide();
+                    var signedButton2 = $(currentRow).find(".k-grid-Signed");
+                    signedButton2.hide();
+                    var editButton3 = $(currentRow).find(".k-grid-Edit");
+                    editButton3.hide();
+                    var revertButton3 = $(currentRow).find(".k-grid-RevertTO");
+                    revertButton3.hide();
+                }
+                else if (gridData[i].Status == "Approved") {
+                    var approveButton1 = $(currentRow).find(".k-grid-Approve");
+                    approveButton1.hide();
+                    var revertButton1 = $(currentRow).find(".k-grid-RevertTO");
+                    revertButton1.hide();
+                }
+                else if (gridData[i].Status == "Draft") {
+                    var signedButton1 = $(currentRow).find(".k-grid-Signed");
+                    signedButton1.hide();
+                    var revertButton2 = $(currentRow).find(".k-grid-RevertTO");
+                    revertButton2.hide();
+                }
+                else if (gridData[i].Status == "Closed") {
+                    var revertButton = $(currentRow).find(".k-grid-RevertTO");
+                    revertButton.show();
+                    var approveButton = $(currentRow).find(".k-grid-Approve");
+                    approveButton.hide();
+                    var signedButton = $(currentRow).find(".k-grid-Signed");
+                    signedButton.hide();
+                    var editButton = $(currentRow).find(".k-grid-Edit");
+                    editButton.hide();
+                }
             }
         }
-    }
-</script>
-<script type="text/javascript">
-    var rowNumber = 0;
+    </script>
+    <script type="text/javascript">
+        var rowNumber = 0;
 
-    function resetRowNumber(e) {
-        rowNumber = 0;
-    }
+        function resetRowNumber(e) {
+            rowNumber = 0;
+        }
 
-    function renderNumber(data) {
-        return ++rowNumber;
-    }
+        function renderNumber(data) {
+            return ++rowNumber;
+        }
 
-    function renderRecordNumber(data) {
-        var page = parseInt($("#Grid").data("kendoGrid").dataSource.page()) - 1;
-        var pagesize = $("#Grid").data("kendoGrid").dataSource.pageSize();
-        return parseInt(rowNumber + (parseInt(page) * parseInt(pagesize)));
-    }
+        function renderRecordNumber(data) {
+            var page = parseInt($("#Grid").data("kendoGrid").dataSource.page()) - 1;
+            var pagesize = $("#Grid").data("kendoGrid").dataSource.pageSize();
+            return parseInt(rowNumber + (parseInt(page) * parseInt(pagesize)));
+        }
 
-</script>  
+    </script>
+<style type="text/css">
+    table > tbody > tr > td, table > tbody > tr > th, table > tfoot > tr > td, table > tfoot > tr > th, table > thead > tr > td, table > thead > tr > th {
+        white-space: nowrap;
+    }
+</style>
