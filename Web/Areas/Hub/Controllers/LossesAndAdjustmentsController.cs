@@ -67,7 +67,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
 
-            var commodity = _commodityService.GetAllParents();
+            var commodity = _commodityService.GetAllCommodity();
             var stores = _hubService.GetAllStoreByUser(user);
             var adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
             var adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
@@ -81,7 +81,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult CreateAdjustment()
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var commodity = _commodityService.GetAllParents();
+            var commodity = _commodityService.GetAllCommodity();
             var stores = _hubService.GetAllStoreByUser(user);
             var adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
             var adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
@@ -96,7 +96,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
 
-            var commodity = _commodityService.GetAllParents();
+            var commodity = _commodityService.GetAllCommodity();
             var stores = _hubService.GetAllStoreByUser(user);
             var adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
             var adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();

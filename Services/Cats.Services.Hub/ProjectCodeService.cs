@@ -126,9 +126,9 @@ namespace Cats.Services.Hub
             return projectCodes;
         }
 
-        public List<ProjectCodeViewModel> GetProjectCodesForCommodity(int hubID, int parentCommodityId)
+        public List<ProjectCodeViewModel> GetProjectCodesForCommodity(int hubID, int commodityID)
         {
-            var transactions = _unitOfWork.TransactionRepository.FindBy(m=>m.HubID==hubID && m.ParentCommodityID==parentCommodityId);
+            var transactions = _unitOfWork.TransactionRepository.FindBy(m => m.HubID == hubID && m.CommodityID == commodityID);
 
           
 

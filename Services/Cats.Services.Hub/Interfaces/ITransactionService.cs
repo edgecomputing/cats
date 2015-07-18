@@ -131,7 +131,7 @@ namespace Cats.Services.Hub
         /// <param name="si">The SI.</param>
         /// <param name="project">The project.</param>
         /// <returns></returns>
-        decimal GetCommodityBalanceForStore(int storeId, int parentCommodityId, int si, int project);
+        decimal GetCommodityBalanceForStore(int storeId, int commodityId, int si, int project);
 
 
         decimal GetCommodityBalanceForHub(int HubId, int parentCommodityId, int si, int project);

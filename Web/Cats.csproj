@@ -203,6 +203,7 @@
     <Compile Include="Areas\Finance\Models\TransporterPaymentRequestViewModel.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubSettingController.cs" />
     <Compile Include="Areas\Hub\Controllers\ReceiveNewController.cs" />
     <Compile Include="Areas\Hub\Models\DonorViewModel.cs" />
     <Compile Include="Areas\Hub\Models\GRNViewModel.cs" />
@@ -285,7 +286,6 @@
     <Compile Include="Areas\Hub\Controllers\HomeController.cs" />
     <Compile Include="Areas\Hub\Controllers\HubController.cs" />
     <Compile Include="Areas\Hub\Controllers\HubOwnerController.cs" />
-    <Compile Include="Areas\Hub\Controllers\HubSettingController.cs" />
     <Compile Include="Areas\Hub\Controllers\InternalMovementController.cs" />
     <Compile Include="Areas\Hub\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Hub\Controllers\LetterTemplateController.cs" />
@@ -2967,11 +2967,8 @@
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Iconsd41d.eot" />
-
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Adjustment.cshtml" />
-
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
-
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

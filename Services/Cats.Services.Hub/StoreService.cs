@@ -88,13 +88,13 @@ namespace Cats.Services.Hub
             return stacks;
         }
 
-        public List<Store> GetStoresWithBalanceOfCommodityAndSINumber(int parentCommodityId, int SINumber, int hubId)
+        public List<Store> GetStoresWithBalanceOfCommodityAndSINumber(int commodityId, int SINumber, int hubId)
         {
             Models.Hubs.Hub hub = FindHubById(hubId);
             List<Store> result = new List<Store>();
             foreach (var store in hub.Stores)
             {
-                var balance = _unitOfWork.TransactionRepository.FindBy(s => s.StoreID == store.StoreID && parentCommodityId == s.ParentCommodityID &&
+                var balance = _unitOfWork.TransactionRepository.FindBy(s => s.StoreID == store.StoreID && commodityId == s.CommodityID &&
                                 s.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND && s.ShippingInstructionID == SINumber).Select(q => q.QuantityInMT);
                     
                 if (balance.Any() && balance.Sum() > 0)

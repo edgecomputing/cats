@@ -395,10 +395,10 @@ namespace Cats.Services.Hub
             return siBalance;
 
         }
-        public List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId, int projectCodeId, int ParentCommodityID)
+        public List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId, int projectCodeId, int commodityID)
         {
             var tempShippingInstructions =
-                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId && t.ParentCommodityID == ParentCommodityID);
+                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId && t.CommodityID == commodityID);
             var shippingInstructions = (from v in tempShippingInstructions
                                         where v.StoreID != null && v.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND
                                         select
