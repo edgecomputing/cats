@@ -2031,7 +2031,7 @@ namespace Cats.Services.Hub
             Commodity commodity = _unitOfWork.CommodityRepository.FindById(viewModel.CommodityId);
             transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
-            transactionOne.LedgerID = 14;
+            transactionOne.LedgerID = Cats.Models.Ledger.Constants.LOSS_IN_TRANSIT;//14;
             transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
             transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
             transactionOne.HubID = user.DefaultHub.Value;
@@ -2055,7 +2055,7 @@ namespace Cats.Services.Hub
 
             transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
-            transactionTwo.LedgerID = 2;
+            transactionTwo.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;// 2;
             transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
             transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
             transactionTwo.HubID = user.DefaultHub;
