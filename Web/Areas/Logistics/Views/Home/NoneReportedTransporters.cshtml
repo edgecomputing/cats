@@ -1,76 +1,60 @@
-﻿@{
+﻿@using Cats.Helpers
+@{
     ViewBag.Title = "None Reported Transporters";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("None Reported Transporters");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h2>None Reported Transporters</h2>
 <div ng-app="myApp">
-    <div id="NonReportedTransportContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="NonReportedTransportController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Transporters which did not report back completely to DRMFSS
-                            </h3>
-                            
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-
-                                        <th>Transporter</th>
-                                        <th>Bid Number</th>
-                                        <th>FDP</th>
-                                        <th>Dispatched Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned'">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-
-                                        <td>{{req.TransporterName}}</td>
-                                        <td>{{req.BidNo}}</td>
-                                        <td>{{req.FDPName}}</td>
-                                        <td>{{req.DispatchedDate}}</td>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
+    <div id="NonReportedTransportContent">
+        <div ng-controller="NonReportedTransportController">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Transporters which did not report back completely to DRMFSS")</div>
+                    @*<div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a></div>*@
+                    <div class="actions">
+                        @*<a href="@Url.Action("NoneReportedTransporters", "Home")" class="btn green"><i class="fa fa-list"></i> @Html.Translate("Show Details")</a>*@
+                        <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
                     </div>
-
-
                 </div>
-
-
-
+                <div class="portlet-body">
+                    <table id="" class="table table-striped table-checkable table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="hidden-xs">Number</th>
+                                <th>Transporter</th>
+                                <th>Bid Number</th>
+                                <th>FDP</th>
+                                <th>Dispatched Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned'" ng-cloak>
+                                <td class="hidden-xs">{{$index + 1}}</td>
+                                <td>{{req.TransporterName}}</td>
+                                <td>{{req.BidNo}}</td>
+                                <td>{{req.FDPName}}</td>
+                                <td>{{req.DispatchedDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-    
     var myApp = angular.module('myApp', []);
-
     myApp.controller('NonReportedTransportController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-
-
         $scope.qty = 6;
         $scope.NonReportedTransporters = {};
         $http({ method: 'GET', url: '@Url.Action("GetNonReportedTransporters","Home")' }).success(function (data, status, headers, config) { $scope.NonReportedTransporters.request = data; })
             .error(function (data, status, headers, config) {
 
             });
-
         $rootScope.regionName = "";
     }]);
 </script>
