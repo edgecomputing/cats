@@ -7,46 +7,79 @@
 
 @{
     ViewBag.Title = @Html.Translate("TransportRequisitions");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Approved Transport Requisition");
+    ViewBag.PageTitleDescription = "";
 }
-@section LeftBar{
-    @Html.Partial("_TransportOrderLeftBar");
-}
+@*@section LeftBar{
+        @Html.Partial("_TransportOrderLeftBar");
+    }*@
 @*<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
-</div>*@
-<h4 class="page-header">@Html.Translate("Approved Transport Requisition")</h4>
-@Html.Translate("Transport Requisition Code"): <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
+        <div id='dialogContent'></div>
+    </div>*@
+@*<h4 class="page-header">@Html.Translate("Approved Transport Requisition")</h4>*@
+
 @*<a class="btn toolbar-btn" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"><i class="ui-icon-cancel"></i></a>*@
-@(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
-{
 
-    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
-    columns.Bound(requisition => requisition.Region).Title(@Html.Translate("Region"));
-    columns.Bound(requisition => requisition.Program).Title(@Html.Translate("Program"));
-    columns.Bound(requisition => requisition.RequestedBy).Title(@Html.Translate("Requested By"));
-    columns.Bound(requisition => requisition.DateRequested).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(requisition => requisition.CertifiedBy).Title(@Html.Translate(" Certified By"));
-    //columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(requisiton => requisiton.Status).Title(@Html.Translate(" Status"));
-    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a class='btn-generate-transportorder' href='" + Url.Action("ConfirmGenerateTransportOrder", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>Generate Transport Order</a>  ").Title(" ");
+<div class="portlet light bordered bg-inverse">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Approved Transport Requisition Lists")</div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+        </div>
+        <div class="actions">
+            @*<a class="btn green " href="#" target="_blank" id="toolbar_button_print" title="Print"><i class="fa fa-print"></i> @Html.Translate("Print")</a>*@
+            <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-4 form-group form-md-line-input has-info " style="padding-top: 0px;">
+                    <div class="input-group input-group-sm" style="padding-top: 0px;">
+                        <div class="input-group-control">
+                            <input id="searchIndex" type="text" class="form-control input-sm">
+                            <label for="searchIndex">@Html.Translate("Transport Requisition Code"):</label>
+                        </div>
+                        <span class="input-group-btn btn-right">
+                            <a data-buttontype="" class="btn green" onclick=" reloadTDRGrid() "><i class="fa fa-search"></i> @Html.Translate("Search")</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
+              {
+                  columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a class=' btn green-sharp-stripe btn-xs' href='" + Url.Action("Details", "TransportRequisition", new {Area = "Logistics", id = "#=TransportRequisitionID#"}) + " '>#=TransportRequisitionNo#</a>  ");
+                  columns.Bound(requisition => requisition.Region).Title(@Html.Translate("Region"));
+                  columns.Bound(requisition => requisition.Program).Title(@Html.Translate("Program")).Width(80);
+                  columns.Bound(requisition => requisition.RequestedBy).Title(@Html.Translate("Requested By"));
+                  columns.Bound(requisition => requisition.DateRequested).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid"});
+                  columns.Bound(requisition => requisition.CertifiedBy).Title(@Html.Translate(" Certified By"));
+                  //columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                  columns.Bound(requisiton => requisiton.Status).Title(@Html.Translate(" Status")).Width(90);
+                  columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a class='btn-generate-transportorder btn green btn-xs' href='" + Url.Action("ConfirmGenerateTransportOrder", "TransportRequisition", new {Area = "Logistics", id = "#=TransportRequisitionID#"}) + " '>Generate Transport Order</a>  ").Title(" ");
 
-})
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        .Model(model =>model.Id(p => p.TransportRequisitionID))
-        .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition",new {Area="Logistics",status=(int)TransportRequisitionStatus.Approved}).Data("searchIndexObj"))
-    ).Pageable()
-)
+              })
+                  .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                  .Pageable()
+                  .Sortable().TableHtmlAttributes(new {@class = "table table-condensed"})
+                  .Scrollable()
+                  .HtmlAttributes(new {style = "height:430px;"})
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(20)
+                      .Model(model => model.Id(p => p.TransportRequisitionID))
+                      .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition", new {Area = "Logistics", status = (int) TransportRequisitionStatus.Approved}).Data("searchIndexObj"))
+                  ).Pageable()
+                  )
+        </div>
+    </div>
+</div>
 
-
-<script>
+        <script>
     function searchIndexObj() {
         //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
         var searchIndexValue = $("#searchIndex").val();
@@ -59,22 +92,22 @@
         var grid = $("#Grid").data("kendoGrid");
         grid.dataSource.read();
     }
-</script>
-@*<script type="text/javascript">
-    $(function () {
+        </script>
+        @*<script type="text/javascript">
+                $(function () {
 
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
+                    //Optional: turn the chache off
+                    $.ajaxSetup({ cache: false });
 
-        $('.btn-generate-transportorder').click(function () {
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
-    });
-</script>*@
+                    $('.btn-generate-transportorder').click(function () {
+                        $('#dialogContent').load(this.href, function () {
+                            $('#dialogDiv').modal({
+                                backdrop: 'static',
+                                keyboard: true
+                            }, 'show');
+                            //bindForm(this);
+                        });
+                        return false;
+                    });
+                });
+            </script>*@
