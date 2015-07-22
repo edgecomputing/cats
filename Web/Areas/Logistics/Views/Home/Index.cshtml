@@ -4,963 +4,680 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string PAGE_NAME = "Logistics.Index";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Logistics Dashboard");
+    ViewBag.PageTitleDescription = "";
 }
 
 @{
     var ben = new[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
     int index = 0;
 }
+<style>
+    .portlet .dashboard-stat:last-child {
+        margin-bottom: 25px;
+    }
+</style>
 
-@section styles
-{
-    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
-}
+
 <div ng-app="myApp">
-    <div class="container" style="display:none;">
-        <div ng-controller="Regions" class="container row">
-            limit
-
-            <div class="span12">
-                <h4>Region:</h4>
-                <select ng-change="onChange(regionName)" ng-model="regionName" ng-options="r.name as r.name for r in regions">
-                    <option> Choose a Region </option>
-                </select>
-                <pre>Region: {{regionName}}</pre>
-            </div>
-            <hr />
-        </div>
-    </div>
+    
     <div class="container">
-        <div ng-controller="ImportantNumbers" class="container row">
-            <div class="span12">
-                <div class="dashboard-stat">
-                    <div class="visual">
-                        @*<i class="icon-star"></i>*@
-                    </div>
-                    <!-- /.visual -->
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">Approved Requests</span>
-                        <span class="value">{{totalApproved }}</span>
-                    </div>
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">Hub Assigned</span>
-                        <span class="value">{{pendingHubAloocation}}</span>
-                    </div>
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">SI/PC Assigned</span>
-                        <span class="value">{{pendingSIPCAllocation}} </span>
-                    </div>
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">transport Requisition(s)</span>
-                        <span class="value">{{pendingTransportOrder}} </span>
+        <div class="portlet solid bordered " ng-controller="ImportantNumbers">
+            <div class="portlet-title">
+                <div class="">
+                    <div class="row" ng-controller="Regions" ng-cloak>
+                        <div class="col-md-3">
+                            <div class="form-group form-md-line-input">
+                                <select class="form-control" id="idregionid" ng-change="onChange(regionName)" ng-model="regionName" ng-options="r.name as r.name for r in regions">
+                                    <option value=''> Select a Region </option>
+                                </select>
+                                <label for="idregionid">Region: </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group form-md-line-input">
+                                <select class="form-control" id="idprogramid" ng-change="onRequestTypeChange(requestName)" ng-model="requestName" ng-options="p.name as p.name for p in requestType">
+                                    <option value=''>All</option>
+                                </select>
+                                <label for="idprogramid">Program: </label>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="details column-divider-regional center">
-                        <span class="content">Donation(s)</span>
-                        <span class="value">{{DonationAmount}} </span>
-                    </div>
-                    <div ng-controller="Regions">
-                        <div>
-                            <span class="content">Region</span>
-                            <div class="value">
-                                <select ng-change="onChange(regionName)" ng-model="regionName" ng-options="r.name as r.name for r in regions">
-                                    <option> Choose a Region </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="content">Program</span>
-                            <div class="value">
-                                <select ng-change="onRequestTypeChange(requestName)" ng-model="requestName" ng-options="p.name as p.name for p in requestType">
-                                    <option value=''> All </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- /.details -->
+                </div>
+                <div class="actions">
 
                 </div>
-                <!-- /.dashboard-stat -->
+            </div>
+            <div class="portlet-body">
+                <div @*style="margin: 20px 0 10px 30px"*@>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="dashboard-stat green-haze">
+                                <div class="visual"><i class="fa fa-archive"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number" ng-cloak>{{DonationAmount}}</div>
+                                    <div class="desc">Donation(s)</div>
+                                </div><a class="more" href="#">.</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-6">
+                            <div class="dashboard-stat green-haze">
+                                <div class="visual"><i class="fa fa-truck"></i></div>
+                                <div class="details">
+                                    <div class="number" ng-cloak>{{pendingTransportOrder}}</div>
+                                    <div class="desc">transport Requisition(s)</div>
+                                </div><a class="more" href="#">.</a>
+                            </div>
+                        </div>
+<div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="dashboard-stat green-haze">
+                                <div class="visual"><i class="fa fa-envelope-square"></i></div>
+                                <div class="details">
+                                    <div class="number" ng-cloak>{{pendingSIPCAllocation}}</div>
+                                    <div class="desc">SI/PC Assigned</div>
+                                </div><a class="more" href="#">.</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="dashboard-stat green-haze">
+                                <div class="visual"><i class="fa fa-home"></i></div>
+                                <div class="details">
+                                    <div class="number" ng-cloak>{{pendingHubAloocation}}</div>
+                                    <div class="desc">Hub Assigned</div> 
+                                </div><a class="more" href="#">.</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <div class="dashboard-stat green-haze">
+                                <div class="visual"><i class="fa fa-check"></i></div>
+                                <div class="details">
+                                    <div class="number" ng-cloak>{{totalApproved }}</div>
+                                    <div class="desc">Approved Requests</div>
+                                </div><a class="more" href="#">.</a>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
             </div>
         </div>
+        
     </div>
     <div class="container">
-        <div class="dashboard-widget">
-            <div class="header"> </div>
-        </div>
-
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Approved Requests</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id ="ApprovedRequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
+        <div class="row">
+            
+            <div class="col-md-12">
+                <div id="ApprovedRequestContent">
+                    <div ng-controller="ApprovedRequestsController">
+                        <div class="portlet light bordered bg-inverse">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Approved Requests")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    <a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Detail")</a>
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Number</th>
+                                                <th>Req No</th>
+                                                <th>Zone</th>
+                                                <th>Round</th>
+                                                <th>Year</th>
+                                                <th>Month</th>
+                                                <th class="number">Beneficiaries</th>
+                                                <th class="number">Amount(mt)</th>
+                                                <th>Commodity</th>
+                                                <th></th>
+                                                <th class="align-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName  }  | limitTo:5" ng-cloak>
+                                                <td class="hidden-xs">{{$index + 1}}</td>
+                                                <td>{{req.reqNo}}</td>
+                                                <td>{{req.zone}}</td>
+                                                <td>{{req.round}}</td>
+                                                <td>{{req.year}}</td>
+                                                <td>{{req.month}}</td>
+                                                <td class="number">{{req.beneficiaries | number}}</td>
+                                                <td class="number">{{req.amount | number}}</td>
+                                                <td>{{req.commodity}}</td>
+                                                <td><span class="label label-danger label-sm">Pending</span></td>
+                                                <td class="align-center">
+                                                    <a class="btn btn-xs default green-sharp-stripe" data-original-title="Approve" ng-click="assignHub(req)"> Assign Hub </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-                -->
-            <div id="ApprovedRequestContent" class="row">
-                <div>&nbsp;</div>
-                <div ng-controller="ApprovedRequestsController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
 
-                                <i class=""></i>
-                                Approved Requests
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button ng-click="Detail()" class="btn btn-sm btn-default">
-                                        Detail
-                                    </button>
+            <div class="col-md-12">
+                <div id="CurrentHRDContent">
+                    <div ng-controller="CurrentHRDController">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Current HRD")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    @*<a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Detail")</a>*@
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
 
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Req No</th>
-                                            <th>Zone</th>
-                                            <th>Round</th>
-                                            <th>Year</th>
-                                            <th>Month</th>
-                                            <th class="number">Beneficiaries</th>
-                                            <th class="number">Amount(mt)</th>
-                                            <th>Commodity</th>
-
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName  }  | limitTo:5">
-                                            <td class="hidden-xs">{{$index + 1}}</td>
-                                            <td>{{req.reqNo}}</td>
-                                            <td>{{req.zone}}</td>
-                                            <td>{{req.round}}</td>
-                                            <td>{{req.year}}</td>
-                                            <td>{{req.month}}</td>
-                                            <td class="number">{{req.beneficiaries | number}}</td>
-                                            <td class="number">{{req.amount | number}}</td>
-                                            <td>{{req.commodity}}</td>
-
-
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td class="align-center">
-
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve" ng-click="assignHub(req)"> Assign Hub </a>
-                                            </td>
-
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-
-                        </div>
-
-                    </div>  <!-- /.portlet-content -->
-
-                </div>
-
-            </div>
-        </div>
-
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Current HRD</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="CurrentHRDHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="CurrentHRDContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="CurrentHRDController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Current HRD
-                            </h3>
-
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-
-                                    <thead>
-                                        <tr>
-
-                                            @foreach (System.Data.DataColumn col in Model.Columns)
-                                            {
-                                                if (col.IsNumeric())
+                                                @foreach (System.Data.DataColumn col in Model.Columns)
                                                 {
-                                            <th class="number">@col.Caption </th>
-                                                }
-                                                else
-                                                {
-                                            <th>@col.Caption </th>
-                                                }
-                                            }
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach (System.Data.DataRow row in Model.Rows)
-                                        {
-                                        <tr>
-                                            @{ index = 0; }
-                                            @foreach (var cell in row.ItemArray)
-                                                {
-                                                    if (cell is decimal || cell is int)
+                                                    if (col.IsNumeric())
                                                     {
-                                                        ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
-                                                        index++;
-                                                <td class="number">@String.Format("{0:n0}", @cell)</td>
+                                                        <th class="number">@col.Caption </th>
                                                     }
                                                     else
                                                     {
-                                                <td>@String.Format("{0:n0}", @cell)</td>
+                                                        <th>@col.Caption </th>
+                                                    }
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (System.Data.DataRow row in Model.Rows)
+                                            {
+                                                <tr>
+                                                    @{ index = 0; }
+                                                    @foreach (var cell in row.ItemArray)
+                                                    {
+                                                        if (cell is decimal || cell is int)
+                                                        {
+                                                            ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
+                                                            index++;
+                                                            <td class="number">@String.Format("{0:n0}", @cell)</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@String.Format("{0:n0}", @cell)</td>
+
+                                                        }
 
                                                     }
+                                                </tr>
 
+                                            }
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="number">Total:</th>
+                                                @foreach (double t in @ben)
+                                                {
+                                                    <th class="number">@String.Format("{0:n0}", @t) </th>
                                                 }
-                                        </tr>
-
-                                        }
-
-                                    </tbody>
-                                    <tr>
-                                        <th class="number">Total:</th>
-                                        @foreach (double t in @ben)
-                                        {
-                                        <th class="number">@String.Format("{0:n0}", @t) </th>
-                                        }
-                                    </tr>
-                                </table>
-
-                            </th>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-                <!-- /.portlet -->
-            </div>
-        </div>
-
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Bid</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="BidWinnersHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="BidWinnerContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="BidWinnersController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Bid Winners 
-                            </h3>
-
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-
-
-                                            Bid:
-                                            <select ng-change="onChange(bid)" ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids">
-                                                <option> Choose a Bid </option>
-                                            </select>
-                                            <pre>Bid: {{bid}}</pre>
-
-
-
-                                        </tr>
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Transporter Name</th>
-                                            <th>Capital</th>
-                                            <th>Sub City</th>
-                                            <th>Mobile No</th>
-                                            <th>FDP</th>
-                                            <th>Zone</th>
-                                            <th>Region</th>
-
-
-
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}">
-                                            <td class="hidden-xs">{{$index + 1}}</td>
-                                            <td>{{req.Name}}</td>
-                                            <td>{{req.Capital}}</td>
-                                            <td>{{req.SubCity}}</td>
-                                            <th>{{req.MobileNo}}</th>
-                                            <th>{{req.Fdp}}</th>
-                                            <th>{{req.ZoneName}}</th>
-                                            <th>{{req.RegioName}}</th>
-
-
-
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-                <!-- /.portlet -->
-            </div>
-        </div>
-        
-        
-        <!--UI Region for bid winners with date expired without signing a contract-->
-         <div>
-       
-             <div id="UnContractedBidWinnersContent" 
-                
-                  class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="UnContractedBidWinnersController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Un Contracted Bid Winners 
-                            </h3>
-                            
-                              <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button ng-click="Detail();" class="btn btn-sm btn-default">
-                                        Detail
-                                    </button>
-
-                                </li>
-                            </ul>
-
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-
-                                            Bid:
-                                            <select ng-change="onChange(bid)" ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids">
-                                                <option> Choose a Bid </option>
-                                            </select>
-                                            <pre>Bid: {{bid}}</pre>
-                                            
-
-                                        </tr>
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Transporter Name</th>
-                                            <th>Capital</th>
-                                            <th>Sub City</th>
-                                            <th>Mobile No</th>
-                                            <th>FDP</th>
-                                            <th>Zone</th>
-                                            <th>Region</th>
-
-
-
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}">
-                                            <td class="hidden-xs">{{$index + 1}}</td>
-                                            <td>{{req.Name}}</td>
-                                            <td>{{req.Capital}}</td>
-                                            <td>{{req.SubCity}}</td>
-                                            <th>{{req.MobileNo}}</th>
-                                            <th>{{req.Fdp}}</th>
-                                            <th>{{req.ZoneName}}</th>
-                                            <th>{{req.RegioName}}</th>
-
-
-
-                                        </tr>
-
-                                      
-                                    </tbody>
-                                    
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-                <!-- /.portlet -->
-            </div>
-        </div>
-        
-
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>SI Allocation</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="SIPCHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="SIPCContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="SIPCController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Requistions to be SI Allocated
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "DeliveryReconcile", new { Area="Logistics", regionID= ViewBag.RegionID })">FDP Commodity Receipt</a>*@
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Req No</th>
-                                            <th>Program</th>
-                                            <th>Zone</th>
-                                            <th class="number">Beneficiaries</th>
-                                            <th class="number">Amount</th>
-                                            <th>Commodity</th>
-                                            <th>Allocation Type</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="req in requestsSIPCAllocated.request  |  filter:{RegionName:regionName} | limitTo:2 ">
-                                            <td class="hidden-xs">{{$index + 1}}</td>
-                                            <td>{{req.reqNo}}</td>
-                                            <td>{{req.program}}</td>
-                                            <td>{{req.zone}}</td>
-                                            <th class="number">{{req.beneficiaries | number}}</th>
-                                            <th class="number">{{req.amount | number}}</th>
-                                            <th>{{req.commodity}}</th>
-                                            <th>{{req.allocationType}}</th>
-
-
-
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            @*<td class="align-center">
-                                                    <a class="btn btn-sm btn-default" data-original-title="Approve">Create Transport Requisition</a>
-                                                </td>*@
-                                        </tr>
-
-
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-                <!-- /.portlet -->
-            </div>
-        </div>
-
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Transporters with transport orders</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="TransportOrderHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="TransportOrderContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="TransportOrderController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Transporters
-                            </h3>
-
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <label>Search by Transport order</label>
-                            <input type="text" ng-model="search.transportOrderNo" />
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-
-                                        <th>Transporter</th>
-                                        <th>Tranport Order</th>
-                                        <th>Region</th>
-                                        <th>Zone</th>
-                                        <th>Mobile No</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in TransportOrder | filter:search ">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-
-                                        <td>{{req.name}}</td>
-                                        <td>{{req.transportOrderNo}}</td>
-                                        <th>{{req.region}}</th>
-                                        <th>{{req.zone}}</th>
-                                        <th>{{req.mobileNo}}</th>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-            </div>
-        </div>
-        
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Transporters with transport orders</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="TransportOrderHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="DelayedTransportContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="DelayedTransportController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Delayed Transporters
-                            </h3>
-                            
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-
-                                        <th>Transporter</th>
-                                        <th>Transport Order</th>
-                                        <th>Signed Date</th>
-                                        <th>Order Expired Date</th>
-                                        <th>Days Passed After Signed</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in DelayedTransportOrders.request | orderBy:'-DaysPassedAfterSigned'">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-
-                                        <td>{{req.TransporterName}}</td>
-                                        <td>{{req.TransportOrderNo}}</td>
-                                        <th>{{req.SignedDate}}</th>
-                                        <th>{{req.OrderExpiryDate}}</th>
-                                        <th>{{req.DaysPassedAfterSigned | number}}</th>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-            </div>
-        </div>
-        
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Transporters with transport orders</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="TransportOrderHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="NonReportedTransportContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="NonReportedTransportController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Transporters which did not report back completely to DRMFSS
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <a href="@Url.Action("NoneReportedTransporters","Home")"  class="btn btn-sm btn-default">
-                                        Show Details
-                                    </a>
-
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-
-                                        <th>Transporter</th>
-                                        <th>Bid Number</th>
-                                        <th>FDP</th>
-                                        <th>Dispatched Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned' | limitTo:10">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-
-                                        <td>{{req.TransporterName}}</td>
-                                        <td>{{req.BidNo}}</td>
-                                        <td>{{req.FDPName}}</td>
-                                        <td>{{req.DispatchedDate}}</td>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-            </div>
-        </div>
-
-        <div>
-            <!--
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Transport Requisition</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="TransportRequisitionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-                -->
-            <div id="TransportRequisitionContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="TransportRequisitionController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Current Transport Requisition
-                            </h3>
-                            <ul class=" pull-right portlet-tools ">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-
-                                        <th>Req No</th>
-                                        <th>Zone</th>
-                                        <th class="number">Beneficiaries</th>
-                                        <th class="number">Amount</th>
-                                        <th>Commodity</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.reqNo}}</td>
-                                        <td>{{req.zone}}</td>
-                                        <th class="number">{{req.beneficiaries}}</th>
-                                        <th class="number">{{req.amount}}</th>
-                                        <th>{{req.commodity}}</th>
-
-
-                                        <td><span class="label label-default">On process</span></td>
-                                        <td>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">
-                                                View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-
-                <!-- /.portlet -->
-            </div>
-               <div id="DispatchAllocationContent" class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="SummaryController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Hubs Diapatch Allocation
-                            </h3>
-                           @* <ul class=" pull-right portlet-tools ">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-
-                                </li>
-                            </ul>*@
-                        </div>
-
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                
-                      <div class="row-fluid form-horizontal ">
-                    <div class="form-control span12">
-                        <div class="span3">
-
-                            <label>Select As of Date</label>
-                            <input id="txtDate1" class="cats-datepicker2  input-medium" type="text" placeholder="As of date">
-                        </div>
-
-                        <div class="span3">
-                            <div class="control-group">
-                                <div class="toolbar">
-                                    <label class="category-label" for="category">Select a Program</label>
-                                    <select ng-model="reqParam.program">
-                                        <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
-                                    </select>
-                                    @*<select ng-model="selectedProgram" ng-options="p.Name for p in ProgramsCollection">*@
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
-                                <div class="controls">
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="BidWinnerContent">
+                    <div ng-controller="BidWinnersController">
+                        <div class="portlet light bordered bg-inverse">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Bid Winners")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    @*<a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Detail")</a>*@
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input">
+                                            <select class="form-control" id="bid4bidwinner" ng-change="onChange(bid)" ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids">
+                                                <option> Choose a Bid </option>
+                                            </select>
+                                            <label for="bid4bidwinner">BID: </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Number</th>
+                                                <th>Transporter Name</th>
+                                                <th>Capital</th>
+                                                <th>Sub City</th>
+                                                <th>Mobile No</th>
+                                                <th>FDP</th>
+                                                <th>Zone</th>
+                                                <th>Region</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}" ng-cloak>
+                                                <td class="hidden-xs">{{$index + 1}}</td>
+                                                <td>{{req.Name}}</td>
+                                                <td>{{req.Capital}}</td>
+                                                <td>{{req.SubCity}}</td>
+                                                <th>{{req.MobileNo}}</th>
+                                                <th>{{req.Fdp}}</th>
+                                                <th>{{req.ZoneName}}</th>
+                                                <th>{{req.RegioName}}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.portlet-content -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--UI Region for bid winners with date expired without signing a contract-->
+            <div class="col-md-12">
+                <div id="UnContractedBidWinnersContent">
+                    <div ng-controller="UnContractedBidWinnersController">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Un Contracted Bid Winners")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    <a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Detail")</a>
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input">
+                                            <select class="form-control" id="bid4uncontractedbidwinners" ng-change="onChange(bid)" ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids">
+                                                <option> Choose a Bid </option>
+                                            </select>
+                                            <label for="bid4uncontractedbidwinners">BID: </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Number</th>
+                                                <th>Transporter Name</th>
+                                                <th>Capital</th>
+                                                <th>Sub City</th>
+                                                <th>Mobile No</th>
+                                                <th>FDP</th>
+                                                <th>Zone</th>
+                                                <th>Region</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}" ng-cloak>
+                                                <td class="hidden-xs">{{$index + 1}}</td>
+                                                <td>{{req.Name}}</td>
+                                                <td>{{req.Capital}}</td>
+                                                <td>{{req.SubCity}}</td>
+                                                <th>{{req.MobileNo}}</th>
+                                                <th>{{req.Fdp}}</th>
+                                                <th>{{req.ZoneName}}</th>
+                                                <th>{{req.RegioName}}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="SIPCContent">
+                    <div ng-controller="SIPCController">
+                        <div class="portlet light bordered bg-inverse">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Requistions to be SI Allocated")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    <a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Show more")</a>
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Number</th>
+                                                <th>Req No</th>
+                                                <th>Program</th>
+                                                <th>Zone</th>
+                                                <th class="number">Beneficiaries</th>
+                                                <th class="number">Amount</th>
+                                                <th>Commodity</th>
+                                                <th>Allocation Type</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="req in requestsSIPCAllocated.request  |  filter:{RegionName:regionName} | limitTo:2 " ng-cloak>
+                                                <td class="hidden-xs">{{$index + 1}}</td>
+                                                <td>{{req.reqNo}}</td>
+                                                <td>{{req.program}}</td>
+                                                <td>{{req.zone}}</td>
+                                                <th class="number">{{req.beneficiaries | number}}</th>
+                                                <th class="number">{{req.amount | number}}</th>
+                                                <th>{{req.commodity}}</th>
+                                                <th>{{req.allocationType}}</th>
+
+
+
+                                                <td><span class="label label-danger">Pending</span></td>
+                                                @*<td class="align-center">
+                                                        <a class="btn btn-sm btn-default" data-original-title="Approve">Create Transport Requisition</a>
+                                                    </td>*@
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="span3">
-                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="getSummary()">Get</button>
-                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="TransportOrderContent">
+                    <div ng-controller="TransportOrderController">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Transporters")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    @*<a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Show more")</a>*@
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input">
+                                            <input type="text" class="form-control" id="serachto" ng-model="search.transportOrderNo" placeholder="Enter Transport Order Number">
+                                            <label for="serachto">Search by Transport order</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
                                         <tr>
-                                            <th>HUb</th>
-                                            <th class="number">Total Free Stock</th>
-                                             <th class="number">Total Physical Stock</th>
-                                             <th class="number">Dispatched</th>
-                                             <th class="number">Remaining</th>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Transporter</th>
+                                            <th>Tranport Order</th>
+                                            <th>Region</th>
+                                            <th>Zone</th>
+                                            <th>Mobile No</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="sd in summaryData">
-                                           
-                                            <td>{{sd.HubName}}</td>
-                                            <td class="number">{{sd.TotalFreestock |number:2}}</td>
-                                            <td class="number">{{sd.TotalPhysicalStock |number:2}}</td>
-                                            <td class="number">{{sd.DispatchedAmount |number:2}}</td>
-                                            <td class="number">{{sd.Remaining |number:2}}</td>
-
+                                        <tr ng-repeat="req in TransportOrder | filter:search " ng-cloak>
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.name}}</td>
+                                            <td>{{req.transportOrderNo}}</td>
+                                            <th>{{req.region}}</th>
+                                            <th>{{req.zone}}</th>
+                                            <th>{{req.mobileNo}}</th>
                                         </tr>
                                     </tbody>
                                 </table>
-
+                            </div>
                         </div>
-                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.portlet-content -->
-
                 </div>
+            </div>
+            <div class="col-md-12">
+                <div id="DelayedTransportContent">
+                    <div ng-controller="DelayedTransportController">
+                        <div class="portlet light bordered bg-inverse">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Delayed Transporters")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    @*<a class="btn green" ng-click="Detail()"><i class="fa fa-list"></i> @Html.Translate("Show more")</a>*@
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Number</th>
+                                                <th>Transporter</th>
+                                                <th>Transport Order</th>
+                                                <th>Signed Date</th>
+                                                <th>Order Expired Date</th>
+                                                <th>Days Passed After Signed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="req in DelayedTransportOrders.request | orderBy:'-DaysPassedAfterSigned'" ng-cloak>
+                                                <td class="hidden-xs">{{$index + 1}}</td>
+                                                <td>{{req.TransporterName}}</td>
+                                                <td>{{req.TransportOrderNo}}</td>
+                                                <th>{{req.SignedDate}}</th>
+                                                <th>{{req.OrderExpiryDate}}</th>
+                                                <th>{{req.DaysPassedAfterSigned | number}}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-md-12">
+                <div id="NonReportedTransportContent">
+                    <div ng-controller="NonReportedTransportController">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Transporters which did not report back completely to DRMFSS")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    <a href="@Url.Action("NoneReportedTransporters", "Home")" class="btn green"><i class="fa fa-list"></i> @Html.Translate("Show Details")</a>
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <table id="" class="table table-striped table-checkable table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Transporter</th>
+                                            <th>Bid Number</th>
+                                            <th>FDP</th>
+                                            <th>Dispatched Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned' | limitTo:10" ng-cloak>
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.TransporterName}}</td>
+                                            <td>{{req.BidNo}}</td>
+                                            <td>{{req.FDPName}}</td>
+                                            <td>{{req.DispatchedDate}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="TransportRequisitionContent">
+                    <div ng-controller="TransportRequisitionController">
+                        <div class="portlet light bordered bg-inverse">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Current Transport Requisition")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    <a href="@Url.Action("NoneReportedTransporters", "Home")" class="btn green"><i class="fa fa-list"></i> @Html.Translate("Show More")</a>
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Number</th>
+                                                <th>Req No</th>
+                                                <th>Zone</th>
+                                                <th class="number">Beneficiaries</th>
+                                                <th class="number">Amount</th>
+                                                <th>Commodity</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2" ng-cloak>
+                                                <td class="hidden-xs">{{$index + 1}}</td>
+                                                <td>{{req.reqNo}}</td>
+                                                <td>{{req.zone}}</td>
+                                                <td class="number">{{req.beneficiaries}}</td>
+                                                <td class="number">{{req.amount}}</td>
+                                                <td>{{req.commodity}}</td>
+                                                <td><span class="label label-default label-sm">On process</span></td>
+                                                <td><a href="javascript:;" class="btn default btn-xs green-sharp-stripe">View <i class="icon-chevron-right"></i></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <!-- /.portlet -->
+            <div class="col-md-12">
+                <div id="DispatchAllocationContent">
+                    <div ng-controller="SummaryController">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Hubs Dispatch Allocation")</div>
+                                <div class="tools">
+                                    <a href="#" class="collapse" data-original-title="" title=""></a>
+                                </div>
+                                <div class="actions">
+                                    @*<a class="btn green"><i class="fa fa-list"></i> @Html.Translate("Show More")</a>*@
+                                    <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row form-horizontal ">
+                                    <div class="col-md-4 form-group">
+                                        <label class="control-label col-md-6">Select As of Date</label>
+                                        <div class="col-md-6">
+                                            <input id="txtDate1" class="cats-datepicker2  form-control" type="text" placeholder="mm/dd/yyyy">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <label class="control-label col-md-6">Select a Program</label>
+                                        <div class="col-md-5">
+                                            <select ng-model="reqParam.program" class="form-control">
+                                                <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <div class="col-md-5">
+                                            <button type="button" class="btn green " ng-click="getSummary()">Get</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="" class="table table-striped table-checkable table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>HUb</th>
+                                                <th class="number">Total Free Stock</th>
+                                                <th class="number">Total Physical Stock</th>
+                                                <th class="number">Dispatched</th>
+                                                <th class="number">Remaining</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sd in summaryData" ng-cloak>
+                                                <td>{{sd.HubName}}</td>
+                                                <td class="number">{{sd.TotalFreestock |number:2}}</td>
+                                                <td class="number">{{sd.TotalPhysicalStock |number:2}}</td>
+                                                <td class="number">{{sd.DispatchedAmount |number:2}}</td>
+                                                <td class="number">{{sd.Remaining |number:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 <style>
@@ -992,12 +709,7 @@
 </style>
 
 
-        <script>
-    
-  
-
-
-
+<script>
             $(".portlet").hover(function () { $(this).addClass("hovered"); });
             $(".portlet").mouseleave(function () { $(this).removeClass("hovered"); });
 
@@ -1025,7 +737,7 @@
             $("#BidWinnersHeader").click(function () {
                 $("#BidWinnerContent").slideToggle("slow", "linear");
             });
-    
+
             $("#UnContractedBidWinnersHeader").click(function () {
                 $("#UnContractedBidWinnersContent").slideToggle("slow", "linear");
             });
@@ -1033,7 +745,7 @@
     $("#DelayedTransportHeader").click(function () {
         $("#DelayedTransportContent").slideToggle("slow", "linear");
     });
-    
+
     $("#NonReportedTransportHeader").click(function () {
         $("#NonReportedTransportContent").slideToggle("slow", "linear");
     });
@@ -1055,7 +767,7 @@
                 $("#TransportOrderContent").slideToggle("slow", "linear");
             });
 
-        </script>
+</script>
 
 <script>
 
@@ -1113,41 +825,39 @@
         $scope.bidWinners = {};
         $rootScope.regionName = "";
         $rootScope.BidId = 0;
-        $rootScope.Bidz =[];
-        
+        $rootScope.Bidz = [];
+
         $scope.bids = [];
-        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config)
-        {
+        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config) {
             $scope.bids = data;
             $rootScope.Bidz = data;
         });
 
 
 
-        $scope.onChange = function (bidId)
-        {
-          
+        $scope.onChange = function (bidId) {
+
             var id = bidId;
             for (var i = 0; i < $rootScope.Bidz.length; ++i) {
                 if ($rootScope.Bidz[i]["BidNo"] == id) {
                     $rootScope.BidId = $rootScope.Bidz[i]["BidId"];
                 }
-                   
+
             }
-        
+
             $http({ method: 'GET', params: { id: bidId }, url: '@Url.Action("GetListOfUnContractedBidWinners","Home")' }).success(function (data, status, headers, config) { $scope.bidWinners.bid = data; });
         };
-        
+
 
         $scope.Detail = function (bid) {
-            
-           
-             
+
+
+
             //alert($rootScope.BidNo);
-            
+
             window.location = "@Url.Action("List", "UnContractedTransporters", new {Area = "Logistics" })" + "/" + $rootScope.BidId;//+ "/" + bidId ;
-            
-           
+
+
         };
 
     }]);
@@ -1165,7 +875,7 @@
             .success(function (data, status, headers, config) { $scope.requests.request = data; console.log($scope.requests.request); });
         $rootScope.regionName = "";
         $rootScope.requestType = "";
-        
+
 
         $scope.assignHub = function (url) {
 
@@ -1213,7 +923,7 @@
         });
 
     }]);
-    
+
     myApp.controller('DelayedTransportController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
 
@@ -1223,7 +933,7 @@
             .error(function (data, status, headers, config) {
 
             });
-        
+
         $rootScope.regionName = "";
     }]);
 
@@ -1263,15 +973,15 @@
             .error(function (data, status, headers, config) {
 
             });
-        
-        
+
+
 
         $http({ method: 'GET', url: '@Url.Action("GetDonation", "Home")' })
             .success(function (data, status, headers, config) { $rootScope.DonationAmount = data; })
             .error(function (data, status, headers, config) {
 
             });
-        
+
         $http({ method: 'GET', url: '@Url.Action("GetRequestType", "Home")' })
             .success(function (data, status, headers, config) { $scope.requestType = data; })
             .error(function (data, status, headers, config) {
@@ -1288,28 +998,28 @@
                 $rootScope.pendingHubAloocation = 0;
                 $rootScope.pendingSIPCAllocation = 0;
                 $rootScope.pendingTransportOrder = 0;
-            
+
                 $.each(data, function (i, item) {
 
                     switch (item.Status) {
-                    case 1:
-                        $rootScope.totalRequisitions = item.Count;
-                        break;
-                    case 2:
-                        $rootScope.totalApproved = item.Count;
-                        break;
-                    case 3:
-                        $rootScope.pendingHubAloocation = item.Count;
-                        break;
-                    case 4:
-                        $rootScope.pendingSIPCAllocation = item.Count;
-                        break;
-                    case 5:
-                        $rootScope.pendingTransportOrder = item.Count;
-                        break;
-                    case 6:
-                        break;
-                    default:
+                        case 1:
+                            $rootScope.totalRequisitions = item.Count;
+                            break;
+                        case 2:
+                            $rootScope.totalApproved = item.Count;
+                            break;
+                        case 3:
+                            $rootScope.pendingHubAloocation = item.Count;
+                            break;
+                        case 4:
+                            $rootScope.pendingSIPCAllocation = item.Count;
+                            break;
+                        case 5:
+                            $rootScope.pendingTransportOrder = item.Count;
+                            break;
+                        case 6:
+                            break;
+                        default:
                     }
 
                 });
@@ -1332,28 +1042,28 @@
                 $rootScope.pendingHubAloocation = 0;
                 $rootScope.pendingSIPCAllocation = 0;
                 $rootScope.pendingTransportOrder = 0;
-            
+
                 $.each(data, function (i, item) {
 
                     switch (item.Status) {
-                    case 1:
-                        $rootScope.totalRequisitions = item.Count;
-                        break;
-                    case 2:
-                        $rootScope.totalApproved = item.Count;
-                        break;
-                    case 3:
-                        $rootScope.pendingHubAloocation = item.Count;
-                        break;
-                    case 4:
-                        $rootScope.pendingSIPCAllocation = item.Count;
-                        break;
-                    case 5:
-                        $rootScope.pendingTransportOrder = item.Count;
-                        break;
-                    case 6:
-                        break;
-                    default:
+                        case 1:
+                            $rootScope.totalRequisitions = item.Count;
+                            break;
+                        case 2:
+                            $rootScope.totalApproved = item.Count;
+                            break;
+                        case 3:
+                            $rootScope.pendingHubAloocation = item.Count;
+                            break;
+                        case 4:
+                            $rootScope.pendingSIPCAllocation = item.Count;
+                            break;
+                        case 5:
+                            $rootScope.pendingTransportOrder = item.Count;
+                            break;
+                        case 6:
+                            break;
+                        default:
                     }
 
                 });
@@ -1393,14 +1103,14 @@
         };
 
         $scope.getSummary = function () {
-            
+
             $scope.reqParam.date = $("#txtDate1").val();
             $http.post("@Url.Action("GetDispatchAllocation", "Home", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
         };
 
         $scope.getPrograms = function () {
 
-           
+
             $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
         };
 
@@ -1409,4 +1119,3 @@
     }
 
 </script>
-
