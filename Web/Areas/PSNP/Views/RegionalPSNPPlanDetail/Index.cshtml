@@ -319,21 +319,27 @@
         <script>
 
 
-            var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
-            function promot_workflow(BusinessProcessID, nextstate, actionname) {
+    function promot_workflow(BusinessProcessID, nextstate, actionname) {
+       
+       @* if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
+           
+            alert("Plan can not be rejected! Requests have already been requested.\nPlease revert the requests under this plan first.");
+        } else {*@
+            $('#ParentBusinessProcessID').val(BusinessProcessID);
+            $('#stateID').val(nextstate);
+            $('#modalPromotionLabel').html(actionname);
 
-                if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
+            $('#modalPromotion').modal();
+        //}
+    }
+    //function workflow_history(BusinessProcessID) {
+    //    $('#modalHistory').modal();
+    //    $.post(history_link + BusinessProcessID, {},
+    //        function (data) {
+    //            $("#modalHistoryBody").html(data);
 
-                    alert("Plan can not be rejected! Requests have already been requested.\nPlease revert the requests under this plan first.");
-                } else {
-                    $('#ParentBusinessProcessID').val(BusinessProcessID);
-                    $('#stateID').val(nextstate);
-                    $('#modalPromotionLabel').html(actionname);
-
-                    $('#modalPromotion').modal();
-                }
-            }
+    //        }
             function workflow_history(BusinessProcessID) {
                 $('#modalHistory').modal();
                 $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");

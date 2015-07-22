@@ -98,6 +98,7 @@
     <Compile Include="Contact.cs" />
     <Compile Include="FreeStockStatus.cs" />
     <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
+    <Compile Include="StockAdjustmentViewModel.cs" />
     <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
     <Compile Include="Mapping\VWTransferredStockMap.cs" />
     <Compile Include="ViewModels\AllocationStatusViewModel.cs" />

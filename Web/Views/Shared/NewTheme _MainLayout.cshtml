@@ -472,9 +472,10 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
 
 
     <script type="text/javascript">
-        var datepreferencedisplay = "@Html.Translate(@Html.UserCalendarPreference())";
-        var unitpreferencedisplay = "@Html.Translate(@Html.UserUnitPreference())";
+        var datepreferencedisplay = "@Html.UserCalendarPreference()";
+        var unitpreferencedisplay = "@Html.UserUnitPreference()";
 
+        
         $(function () {
 
             //For label
@@ -490,8 +491,9 @@ Like: www.facebook.com/Eng.Biruk.Tilahun
         });
 
         function toCatsPreferedUnit(data) {
-            if (unitpreferencedisplay.toLowerCase() != "mt") {
-                return data / 10;
+           
+            if (unitpreferencedisplay.toLowerCase().trim() != "mt") {
+                return data * 10;
             } else {
                 return data;
             }

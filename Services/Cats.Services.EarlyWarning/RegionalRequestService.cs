@@ -223,8 +223,8 @@ namespace Cats.Services.EarlyWarning
 
         public HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan)
         {
-            if (CheckDurationOfAssisstance(plan))
-            {
+            //if (CheckDurationOfAssisstance(plan))
+            //{
                 HRDPSNPPlanInfo result = new HRDPSNPPlanInfo();
                 List<BeneficiaryInfo> beneficiaryInfos = new List<BeneficiaryInfo>();
                 result.HRDPSNPPlan = plan;
@@ -333,8 +333,8 @@ namespace Cats.Services.EarlyWarning
                 }
                 result.BeneficiaryInfos = beneficiaryInfos;
                 return result;
-            }
-            return null;
+            //}
+            //return null;
         }
 
         private List<BeneficiaryInfo> HRDToRequest(List<HRDDetail> plandetail)

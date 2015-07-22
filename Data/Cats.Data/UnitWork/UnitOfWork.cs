@@ -621,63 +621,63 @@ namespace Cats.Data.UnitWork
                 var newEntities = new List<DbEntityEntry>();
                 UserProfile cuUser = UserProfileRepository.FindBy(t => t.UserName == CurrentUserName).FirstOrDefault();
 
-                using (var scope = new TransactionScope(TransactionScopeOption.Required,new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
-                {
-                    foreach (
-                              var ent in
-                                       _context.ChangeTracker.Entries().Where(
-                               p =>
-                               p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
-                               p.State == System.Data.EntityState.Modified)
-                           )
-                    {
+                //using (var scope = new TransactionScope(TransactionScopeOption.Required,new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+                //{
+                //    foreach (
+                //              var ent in
+                //                       _context.ChangeTracker.Entries().Where(
+                //               p =>
+                //               p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
+                //               p.State == System.Data.EntityState.Modified)
+                //           )
+                //    {
 
-                        if (ent.State == System.Data.EntityState.Added)
-                        {
-                            newEntities.Add(ent);
-                        }
-                        else
-                        {
-                            // For each changed record, get the audit record entries and add them
-                            foreach (Audit x in GetAuditRecordsForChange(ent, cuUser.UserProfileID))
-                            {
-                                _context.Audits.Add(x);
-                            }
-                        }
+                //        if (ent.State == System.Data.EntityState.Added)
+                //        {
+                //            newEntities.Add(ent);
+                //        }
+                //        else
+                //        {
+                //            // For each changed record, get the audit record entries and add them
+                //            foreach (Audit x in GetAuditRecordsForChange(ent, cuUser.UserProfileID))
+                //            {
+                //                _context.Audits.Add(x);
+                //            }
+                //        }
 
                       
-                    }
+                //    }
 
-                    // Save First
-                    _context.SaveChanges();
-
-
+                //    // Save First
+                //    _context.SaveChanges();
 
 
-                    // Do something else
-                    foreach (var ent in newEntities)
-                    {
-                        // For each changed record, get the audit record entries and add them
-                        foreach (Audit changeDescription in GetAuditRecordsForChange(ent, cuUser.UserProfileID,true))
-                        {
-                            _context.Audits.Add(changeDescription);
-                        }
 
-                        //save second
-                        _context.SaveChanges();
-                    }
 
-                    
+                //    // Do something else
+                //    foreach (var ent in newEntities)
+                //    {
+                //        // For each changed record, get the audit record entries and add them
+                //        foreach (Audit changeDescription in GetAuditRecordsForChange(ent, cuUser.UserProfileID,true))
+                //        {
+                //            _context.Audits.Add(changeDescription);
+                //        }
+
+                //        //save second
+                //        _context.SaveChanges();
+                //    }
 
                     
 
-                    scope.Complete();
-                }
+                    
+
+                //    scope.Complete();
+                //}
 
                
 
 
-                //_context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException e)
             {
