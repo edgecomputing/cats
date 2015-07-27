@@ -458,6 +458,16 @@ namespace Cats.Areas.Logistics.Controllers
            
         }
 
+        public ActionResult FlaseAndTueGRNStockStatus(int programId = -1, int hubId = -1)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+             if (programId != -1 && hubId != -1)
+             {
+                 var result = _stockStatusService.FlaseGRNStatuses(programId, hubId);
+                 return Json(result.ToDataSourceResult(), JsonRequestBehavior.AllowGet);
+             }
+            return null;
+        }
         #endregion
 
     }
