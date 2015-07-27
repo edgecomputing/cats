@@ -94,7 +94,7 @@
              columns.Bound(p => p.Region).Width(15).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Zone).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Woreda).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
-             columns.Bound(p => p.NumberOfBeneficiaries).Width(40).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.NumberOfBeneficiaries).Width(40).Title("Beneficiary").ClientGroupFooterTemplate("<div style='float: right'>#= kendo.toString(sum, 'N2') #</div>").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.DurationOfAssistance).Width(40).Title(Html.Translate("Duration")).HtmlAttributes(new { align = "Right" });
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(40);
              //columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
@@ -117,6 +117,13 @@
       .Navigatable()
       .DataSource(datasource=>datasource
       .Ajax()
+       .Aggregates(aggregates =>
+                       {
+                           aggregates.Add(p => p.NumberOfBeneficiaries).Sum();
+                           //aggregates.Add(p => p.UnitsOnOrder).Average();
+                           //aggregates.Add(p => p.ProductName).Count();
+                           //aggregates.Add(p => p.UnitPrice).Sum();
+                       })
       .Group(group =>
            {
                group.Add(m => m.Region);

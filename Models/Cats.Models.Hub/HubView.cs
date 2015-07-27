@@ -40,7 +40,20 @@ namespace Cats.Models.Hubs
         public decimal TotalFreestock { get; set; }
         public decimal TotalPhysicalStock { get; set; }
     }
-
+    public class TrueAndFlaseGRNStatus
+    {
+        public int HubID { get; set; }
+        public string HubName { get; set; }
+        public int CommodityID { get; set; }
+        public string CommodityName { get; set; }
+        public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
+        public string SINo { get; set; }
+        public decimal FalseAmount { get; set; }
+        public decimal TrueAmount { get; set; }
+        public decimal Balance { get; set; }
+       
+    }
     public class HubRecentDispachesViewModel
     {
         public string BidNumber { get; set; }
