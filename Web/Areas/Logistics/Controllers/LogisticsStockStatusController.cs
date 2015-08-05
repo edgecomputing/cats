@@ -458,13 +458,19 @@ namespace Cats.Areas.Logistics.Controllers
            
         }
 
-        public ActionResult FlaseAndTueGRNStockStatus(int programId = -1, int hubId = -1)
+      
+        public ActionResult FalseAndTrueGRNStockStatus()
         {
-            var user = _userProfileService.GetUser(User.Identity.Name);
+            return View();
+        }
+
+        public ActionResult FlaseAndTueGRNStockStatus([DataSourceRequest] DataSourceRequest request, int programId = -1, int hubId = -1, DateTime date = default(DateTime))
+        {
+          
              if (programId != -1 && hubId != -1)
              {
                  var result = _stockStatusService.FlaseGRNStatuses(programId, hubId);
-                 return Json(result.ToDataSourceResult(), JsonRequestBehavior.AllowGet);
+                 return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
              }
             return null;
         }

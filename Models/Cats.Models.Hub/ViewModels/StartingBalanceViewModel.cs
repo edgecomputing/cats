@@ -11,6 +11,7 @@ namespace Cats.Models.Hubs.ViewModels
     {
 
         public String CommodityName { get; set; }
+        public String ChildCommodity { get; set; }
         public String SINumber { get; set; }
         public String ProjectCode { get; set; }
         public String ProgramName { get; set; }

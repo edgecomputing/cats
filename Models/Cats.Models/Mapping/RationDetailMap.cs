@@ -24,7 +24,7 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-            this.Property(t => t.Amount).HasColumnName("Amount");
+            this.Property(t => t.Amount).HasColumnName("Amount").HasPrecision(18, 6);
             this.Property(t => t.UnitID).HasColumnName("UnitID");
 
             // Relationships

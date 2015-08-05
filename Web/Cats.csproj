@@ -2969,6 +2969,7 @@
     <Content Include="Content\assetss\global\plugins\simple-line-icons\fonts\Simple-Line-Iconsd41d.eot" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Adjustment.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\FalseAndTrueGRNStockStatus.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

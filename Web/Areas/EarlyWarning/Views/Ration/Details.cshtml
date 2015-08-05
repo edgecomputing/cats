@@ -75,7 +75,7 @@
                       columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable) ViewData["commodities"], "CommodityID", "Name").Title(Html.Translate("Commodity")).Width(50);
                       columns.Bound(p => p.RationID).Title(Html.Translate("Ration Id")).Width(100).Visible(false);
                       columns.Bound(p => p.RationDetailID).Title(Html.Translate("Ration Detail Id")).Visible(false);
-                      columns.Bound(p => p.Amount).Title(Html.Translate("Amount (kg)")).Width(50).HtmlAttributes(new {align = "right"}).Format("{0:N2}");
+                      columns.Bound(p => p.Amount).Title(Html.Translate("Amount (kg)")).Width(50).HtmlAttributes(new {align = "right"}).Format("{0:N4}");
                       columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>) ViewData["UnitMeasures"], "UnitID", "Name").Title(Html.Translate("Unit")).Width(100).Visible(false);
                       columns.Command(command =>
                       {

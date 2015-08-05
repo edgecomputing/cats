@@ -74,7 +74,7 @@ namespace Cats.Areas.Hub.Controllers
 
             var user = _userProfileService.GetUser(User.Identity.Name);
 
-            Commodities = _commodityService.GetAllCommodity();//.Where(c=>c.ParentID != null).ToList();
+            Commodities = _commodityService.GetAllCommodity().Where(c=>c.ParentID != null).ToList();
             Programs = _programService.GetAllProgram().ToList();
             Stores =_storeService.GetAllStore().Where(h=>h.HubID == user.DefaultHub.Value).ToList();
             Units = _unitService.GetAllUnit().ToList();

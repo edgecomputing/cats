@@ -2195,10 +2195,15 @@ namespace Cats.Services.Hub
             transactionOne.ShippingInstructionID = repositoryShippingInstructionGetSINumberIdWithCreateShippingInstructionID;
             transactionOne.ProgramID = startingBalance.ProgramID;
             var comm = _unitOfWork.CommodityRepository.FindById(startingBalance.CommodityID);
-            transactionOne.ParentCommodityID = (comm.ParentID != null)
-                                                       ? comm.ParentID.Value
-                                                       : comm.CommodityID;
-            transactionOne.CommodityID = startingBalance.CommodityID;
+
+            transactionOne.CommodityID = (comm.ParentID != null)
+                                                      ? comm.ParentID.Value
+                                                      : comm.CommodityID;
+
+            //transactionOne.ParentCommodityID = (comm.ParentID != null)
+            //                                           ? comm.ParentID.Value
+            //                                           : comm.CommodityID;
+            transactionOne.CommodityChildID = startingBalance.CommodityID;
             transactionOne.CommodityGradeID = null;
             transactionOne.QuantityInMT = 0 - startingBalance.QuantityInMT;
             transactionOne.QuantityInUnit = 0 - startingBalance.QuantityInUnit;
@@ -2219,10 +2224,15 @@ namespace Cats.Services.Hub
             transactionTwo.ProjectCodeID = repositoryProjectCodeGetProjectCodeIdWIthCreateProjectCodeID;
             transactionTwo.ShippingInstructionID = repositoryShippingInstructionGetSINumberIdWithCreateShippingInstructionID;
             transactionTwo.ProgramID = startingBalance.ProgramID;
-            transactionTwo.ParentCommodityID = (comm.ParentID != null)
-                                                       ? comm.ParentID.Value
-                                                       : comm.CommodityID;
-            transactionTwo.CommodityID = startingBalance.CommodityID;
+
+            transactionTwo.CommodityID = (comm.ParentID != null)
+                                                      ? comm.ParentID.Value
+                                                      : comm.CommodityID;
+
+            //transactionTwo.ParentCommodityID = (comm.ParentID != null)
+            //                                           ? comm.ParentID.Value
+            //                                           : comm.CommodityID;
+            transactionTwo.CommodityChildID = startingBalance.CommodityID;
             transactionTwo.CommodityGradeID = null; // How did I get this value ? 
             transactionTwo.QuantityInMT = startingBalance.QuantityInMT;
             transactionTwo.QuantityInUnit = startingBalance.QuantityInUnit;
@@ -2272,9 +2282,12 @@ namespace Cats.Services.Hub
 
                     join d in _unitOfWork.DonorRepository.Get() on t.Account.EntityID equals d.DonorID
                     where t.Account.EntityType == "Donor"
+                    let firstOrDefault = _unitOfWork.CommodityRepository.FindBy(c=>c.CommodityID == t.CommodityChildID).FirstOrDefault()
+                    where firstOrDefault != null
                     select new StartingBalanceViewModelDto()
                     {
                         CommodityName = t.Commodity.Name,
+                        ChildCommodity = firstOrDefault.Name,
                         SINumber = t.ShippingInstruction.Value,
                         ProgramName = t.Program.Name,
                         ProjectCode = t.ProjectCode.Value,
