@@ -50,6 +50,7 @@
                     keyboard: true
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
             return false;
         });
@@ -62,6 +63,7 @@
                     keyboard: true
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
             return false;
         });
@@ -69,7 +71,7 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal fade'>
+<div id='dialogDiv' class='modal fade bs-modal-lg'>
     <div id='dialogContent'></div>
 </div>
 

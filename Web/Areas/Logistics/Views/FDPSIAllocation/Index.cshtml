@@ -3,21 +3,23 @@
 
 @{
     ViewBag.Title = Html.Translate("Hub Allocated Requesitions");
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
-
-   
+    //Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("SI/Project Code Allocation");
+    ViewBag.PageTitleDescription = "";
 }
 
 
 @section Toolbar
 {
 
-<a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" onclick="window.location.reload(false)" ></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
+    @*<a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" onclick="window.location.reload(false)"></a>*@
+    <a class="btn grey-salt" data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
 }
 
-
+<link href="~/Content/assetss/global/plugins/jquery-nestable/jquery.nestable.css" rel="stylesheet" type="text/css" />
+<script src="~/Content/assetss/global/plugins/jquery-nestable/jquery.nestable.js"></script>
 
 <script src="~/Scripts/angular/angular-dragdrop.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery-ui.min.js"> </script>
@@ -30,7 +32,7 @@
     }
     .allocationscreen *
     {
-        font-size:12px;
+        font-size: 12px;
     }
 
     #accordion_zone .ui-draggable-disabled
@@ -38,35 +40,35 @@
         opacity: 0.75;
     }
     .button-remove
-        {
-            display: none;
-        }
+    {
+        display: none;
+    }
 
-        #accordion_zone .ui-draggable-disabled .icon-move
-        {
-            visibility: hidden;
-        }
-        #accordion_zone .ui-draggable-disabled .button-remove
-        {
-            
-            display: inline;
-        }
+    #accordion_zone .ui-draggable-disabled .icon-move
+    {
+        visibility: hidden;
+    }
+    #accordion_zone .ui-draggable-disabled .button-remove
+    {
+
+        display: inline;
+    }
     .drag-reciever
     {
         margin-top: 5px;
         border: solid 1px #EEE;
         border-radius: 4px;
     }
-    
+
     [ng-app] .SI
     {
         background: #95d0db;
     }
-     [ng-app] .PC
+    [ng-app] .PC
     {
         background: #6e8f96;
     }
-     .label2
+    .label2
     {
         width: 50%;
         float: left;
@@ -84,7 +86,8 @@
         font-size: 12px;
     }
 </style>
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 150px;  right: 50%; top: 50%; margin: auto;">
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 150px;  right: 50%; top: 50%; margin: auto;">
     <div class="progress progress-success  progress-striped active" style="height: 20px;">
         <div class="bar" style="width:100%"></div>
     </div>
@@ -92,132 +95,171 @@
     </div>
 </div>
 <div ng-app="drag-and-drop" ng-controller="oneCtrl" class="allocationscreen">
-    <fieldset>
+    @*<fieldset>
         <legend style="font-size:16px;">@Html.Translate("SI/ProjectCode Allocation ")</legend>
 
-    </fieldset>
-    <div>
-
-        <div class="span3">
-            <div style="height: 30px;" data-drop="true" ng-model='list1' data-jqyoui-options="optionsList2" jqyoui-droppable="{multiple:true}">
+    </fieldset>*@
+    <div class="row">
+        <div class="col-sm-3">
+            @*<div style="height: 30px;" data-drop="true" ng-model='list1' data-jqyoui-options="optionsList2" jqyoui-droppable="{multiple:true}">
                 <b>@Html.Translate("Requisition")</b>
             </div>
-            <br />
+            <hr />*@
 
-            <!--  -->
-            <div class="accordion" id="accordion_zone">
-                <div class="accordion-group" id="accordion_zone{{$index}}" data-index="{{zone.id}}" ng-repeat="zone in requests" class="btn-draggable" ng-model="unallocated" data-drag="zone.allocatedAmount<zone.requestedAmount"
-                    data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{zone.id}},placeholder:'keep',animate:true, onStart:'startCallback(zone, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
+            <div class="portlet light bordered bg-inverse">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Requisition")</div>
+                    <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a></div>
+                    @*<div class="actions"><a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a></div>*@
+                </div>
+                <div class="portlet-body">
+                    <div class="accordion dd-item" id="accordion_zone">
+                        <div class="accordion-group" id="accordion_zone{{$index}}" data-index="{{zone.id}}" ng-repeat="zone in requests" class="btn-draggable" ng-model="unallocated" data-drag="zone.allocatedAmount<zone.requestedAmount"
+                             data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{zone.id}},placeholder:'keep',animate:true, onStart:'startCallback(zone, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}" ng-cloak>
 
-                    <div class="accordion-heading">
-                        
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_zone" href="#collapse_zone{{zone.zoneId}}">
-                            <i class="icon-move icon-align-right"></i><span> {{zone.name}} [{{zone.allocatedAmount | number:2}} of {{zone.requestedAmount | number:2}}]</span>
-                        </a>
-                        <div style="margin:auto; text-align:center;">
-                         <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i>@Html.Translate("Commit")</button>
+                            <div class="dd-handle accordion-heading">
 
-                        </div>   
-                     </div>
-                    <div id="collapse_zone{{zone.zoneId}}" class="accordion-body collapse">
-                            <div style="height:70px;">
-                                <div class="label2">@Html.Translate("Region"): </div>
-                                <div class="value2">{{zone.RegionName}}</div>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_zone" href="#collapse_zone{{zone.zoneId}}">
+                                    <i class="icon-move icon-align-right"></i><span> {{zone.name}} [{{zone.allocatedAmount | number:2}} of {{zone.requestedAmount | number:2}}]</span>
+                                </a>
+                                <div style="margin:auto; text-align:center;">
+                                    <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i>@Html.Translate("Commit")</button>
 
-                                <div class="label2">@Html.Translate("Zone"): </div>
-                                <div class="value2">{{zone.name}}</div>
-
-                                <div class="label2">@Html.Translate("Commodity"): </div>
-                                <div class="value2">{{zone.Commodity}}</div>
+                                </div>
                             </div>
-                        <br />
-                        <div class="accordion-inner">
-                            <div>@Html.Translate("Woredas")</div>
-                            <div class="accordion" id="woredas_inzone{{zone.zoneId}}">
-                                <div class="accordion-group" data-index="{{woreda.id}}" ng-repeat="woreda in zone.woredas" class="list-woreda btn-draggable" ng-model="unallocated" data-drag="woreda.allocatedAmount<woreda.requestedAmount"
-                                    data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{woreda.index}},placeholder:'keep',animate:true, onStart:'startCallback(woreda, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
-                                    <div class="accordion-heading">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#woredas_inzone{{zone.zoneId}}" href="#collapse_woreda{{woreda.woredaId}}">
-                                            <i class="icon-move"></i>{{woreda.name}} [{{woreda.allocatedAmount | number:2}} of {{woreda.requestedAmount | number:2}}]
-                                        </a>
-                                    </div>
-                                    <div id="collapse_woreda{{woreda.woredaId}}" class="accordion-body collapse" style="height: 0px;">
-                                        <div class="accordion-inner">
-                                            <div class="list-fdp" ng-repeat="fdp in woreda.fdps">
-                                                <div data-allocated="0" data-index="{{fdp.index}}" class="admin-list btn-draggable" ng-model="unallocated" data-drag="fdp.allocatedAmount<fdp.requestedAmount" data-jqyoui-options="{revert: 'invalid'}"
-                                                    jqyoui-draggable="{index: {{fdp.id}},placeholder:'keep',animate:true, onStart:'startCallback(fdp, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
-                                                    <i class="icon-move"></i>
+                            <div id="collapse_zone{{zone.zoneId}}" class="accordion-body dd-list collapse">
+                                <div style="height:45px;">
+                                    <div class="label2">@Html.Translate("Region"): </div>
+                                    <div class="value2">{{zone.RegionName}}</div>
 
-                                                    <button class="button-remove" ng-click="on_remove_allocation(fdp.index)"><i class="icon-remove"></i></button>
-                                                   
-                                                     {{fdp.name}} [{{fdp.allocatedAmount | number:2}} of {{fdp.requestedAmount | number:2}}] 
-                                                    <!--
-                                                    <span ng-repeat="allocation in fdp.Allocations"> {{allocation.Code}} {{allocation.AllocatedAmount}}  </span>
-                                                        -->
+                                    <div class="label2">@Html.Translate("Zone"): </div>
+                                    <div class="value2">{{zone.name}}</div>
+
+                                    <div class="label2">@Html.Translate("Commodity"): </div>
+                                    <div class="value2">{{zone.Commodity}}</div>
+                                </div>
+                                <br />
+                                <div class="accordion-inner">
+                                    <div>@Html.Translate("Woredas")</div>
+                                    <div class="accordion dd-item" id="woredas_inzone{{zone.zoneId}}">
+                                        <div class="accordion-group" data-index="{{woreda.id}}" ng-repeat="woreda in zone.woredas" class="list-woreda btn-draggable" ng-model="unallocated" data-drag="woreda.allocatedAmount<woreda.requestedAmount"
+                                             data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{woreda.index}},placeholder:'keep',animate:true, onStart:'startCallback(woreda, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
+                                            <div class="accordion-heading dd-handle">
+                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#woredas_inzone{{zone.zoneId}}" href="#collapse_woreda{{woreda.woredaId}}">
+                                                    <i class="icon-move"></i>{{woreda.name}} [{{woreda.allocatedAmount | number:2}} of {{woreda.requestedAmount | number:2}}]
+                                                </a>
+                                            </div>
+                                            <div id="collapse_woreda{{woreda.woredaId}}" class="accordion-body dd-list collapse" style="height: 0px;">
+                                                <div class="accordion-inner">
+                                                    <div class="list-fdp dd-item" ng-repeat="fdp in woreda.fdps">
+                                                        <div data-allocated="0" data-index="{{fdp.index}}" class="admin-list dd-handle btn-draggable" ng-model="unallocated" data-drag="fdp.allocatedAmount<fdp.requestedAmount" data-jqyoui-options="{revert: 'invalid'}"
+                                                             jqyoui-draggable="{index: {{fdp.id}},placeholder:'keep',animate:true, onStart:'startCallback(fdp, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
+                                                            <i class="icon-move"></i>
+
+                                                            <button class="btn red btn-xs button-remove" ng-click="on_remove_allocation(fdp.index)"><i class="fa fa-times-circle"></i></button>
+
+                                                            {{fdp.name}} [{{fdp.allocatedAmount | number:2}} of {{fdp.requestedAmount | number:2}}]
+                                                            <!--
+                                        <span ng-repeat="allocation in fdp.Allocations"> {{allocation.Code}} {{allocation.AllocatedAmount}}  </span>
+                                            -->
+                                                        </div>
+
+                                                    </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>
-        <div class="span9">
-            <div>@Html.Translate("Hub") 
-                <select ng-model="selectedHub">
-                    @foreach (var hub in ViewBag.Hubs)
-                    {
-                        <option value="@hub.HubID">@hub.Name [@hub.HubOwner.Name]</option>
-                    }
-                </select> 
-            </div>
-            <div ng-repeat="si in SIPCCodes" class="span3" style="margin:0; margin-right:2px; " ng-show="si.HubId==selectedHub">
-                <div class="drag-reciever {{si.type}}" style="padding:4px;">
-
-                    <div>{{si.name}} <span style="font-style:italic">[Available={{si.availableAmount}}]</span></div>
-                    <div class="allocated-list" style="background:#FFF; overflow:hidden;  border-radius: 4px;  height: 120px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
-                        <ul class="nav nav-list ">
-                            <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}">
-                                <a href="#" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount | number:2}}]</span></a></li>
-                        </ul>
-                        
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-   
-    <div class="span12" style="display:none;">
-        <table class="table table-stripped">
-            <tr>
-                <td>@Html.Translate("SIPCAllocationID")</td>
-                <td>@Html.Translate("RequisitionDetailID")</td>
-                <td>@Html.Translate("Code")</td>
-                <td>@Html.Translate("AllocatedAmount")</td>
-                <td>@Html.Translate("AllocationType")</td>
+        <div class="col-sm-9">
+            <div class="portlet light bordered bg-inverse">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <div class="form-group form-md-line-input">
+                            <select class="form-control" ng-model="selectedHub" id="hubSelector">
+                                @foreach (var hub in ViewBag.Hubs)
+                                {
+                                    <option value="@hub.HubID">@hub.Name [@hub.HubOwner.Name]</option>
+                                }
+                            </select>
+                            <label for="hubSelector">@Html.Translate("Hub")</label>
+                        </div>
+
+                    </div>
+                    <div class="tools"><a href="#" class="collapse" data-original-title="" title=""></a></div>
+                    <div class="actions">
+                        <a class="btn green toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"><i class="fa fa-save"></i> @Html.Translate("Save")</a>
+                        <a class="btn red toolbar-btn " data-buttontype="btn_cancel" onclick="window.location.reload(false)"><i class="fa fa-times-circle"></i> @Html.Translate("Cancel")</a>
+                        @*<a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>*@
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    @*<div class="well">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input">
+                                    <select class="form-control" ng-model="selectedHub" id="hubSelector">
+                                        @foreach (var hub in ViewBag.Hubs)
+                                        {
+                                            <option value="@hub.HubID">@hub.Name [@hub.HubOwner.Name]</option>
+                                        }
+                                    </select>
+                                    <label for="hubSelector">@Html.Translate("Hub")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="row">
+                        <div ng-repeat="si in SIPCCodes" class="col-sm-4" ng-show="si.HubId==selectedHub" ng-cloak>
+                            <div class="drag-reciever {{si.type}}" style="padding:4px;">
+
+                                <div style="padding: 10px;">{{si.name}} <span style="font-style:italic">[Available={{si.availableAmount}}]</span></div>
+                                <div class="allocated-list" style="background: rgb(248, 248, 248); overflow: hidden; border-radius: 4px; height: 200px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
+                                    <ul class="nav nav-list ">
+                                        <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}">
+                                            <a href="#" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount | number:2}}]</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="col-md-12" style="display:none;">
+    <table class="table table-stripped">
+        <tr>
+            <td>@Html.Translate("SIPCAllocationID")</td>
+            <td>@Html.Translate("RequisitionDetailID")</td>
+            <td>@Html.Translate("Code")</td>
+            <td>@Html.Translate("AllocatedAmount")</td>
+            <td>@Html.Translate("AllocationType")</td>
+        </tr>
+        <tbody ng-repeat="item in requisitionDetail">
+            <tr ng-repeat="alloc in item.Allocations">
+                <td>{{alloc.SIPCAllocationID}}</td>
+                <td>{{item.RequestDetailId}}</td>
+                <td>{{alloc.Code}}</td>
+                <td>{{alloc.AllocatedAmount}}</td>
+                <td>{{alloc.AllocationType}}</td>
             </tr>
-            <tbody ng-repeat="item in requisitionDetail">
-                <tr ng-repeat="alloc in item.Allocations">
-                    <td>{{alloc.SIPCAllocationID}}</td>
-                    <td>{{item.RequestDetailId}}</td>
-                    <td>{{alloc.Code}}</td>
-                    <td>{{alloc.AllocatedAmount}}</td>                
-                     <td>{{alloc.AllocationType}}</td>  
-                </tr>
 
-            </tbody>
-    <tr >
-         
-    </tr>
+        </tbody>
+        <tr></tr>
 
-            </table>
-    </div>
-        
+    </table>
+</div>
+
 </div>
 
 <script type="text/javascript">
@@ -242,7 +284,7 @@
     var $$scope;
 
 
-    App.controller('oneCtrl', function ($scope, $http) 
+    App.controller('oneCtrl', function ($scope, $http)
     {
         $scope.saved=1;
         $scope.response=[];
@@ -259,7 +301,7 @@
         $scope.list4 = [];
         $scope.unallocated = [];
         $scope.allocations = { "si001": [], "si002": [] };
-        
+
         $scope.list5 = [
 
         ];
@@ -280,7 +322,7 @@
             $('#modalContent').html("Commited");
             setTimeout(function(){window.history.back();},3000);
 
-            
+
         }
         var updateError=function()
         {
@@ -290,7 +332,7 @@
         {
             // alert(adminIndex);
             $scope.saved=0;
-            var location = $scope.allAdminRegions[adminIndex]; 
+            var location = $scope.allAdminRegions[adminIndex];
             $scope.removeAllocation(location);
 
             $scope.calculateAllocated();
@@ -298,7 +340,7 @@
         $scope.removeAllocation=function(location)
         {
             // alert(location.allocated);
-            
+
             if(location.allocated)
             {
                 $scope.deleteSIPCAllocation(location.allocated-1,location.index);
@@ -331,7 +373,7 @@
                     location.Allocations[0].AllocatedAmount=0
                 }
 
-                
+
 
             }
         }
@@ -367,7 +409,7 @@
             }
             else
             {
-               
+
                 if(!location.Allocations[0])
                 {
                     location.Allocations[0]={};
@@ -429,7 +471,7 @@
             }
         };
 
-        
+
         $scope.on_Allocation_Done=function(index)
         {
             var Requisition=$scope.allAdminRegions[index];
@@ -438,7 +480,7 @@
         };
         $scope.promot = function (RequisitionId,showmodal) {
             var param = { RequisitionId:RequisitionId };
-            $http.post($scope.promoteUrl, param).success(promotSuccess).error(updateError);  
+            $http.post($scope.promoteUrl, param).success(promotSuccess).error(updateError);
             if (showmodal) {
                 $('#modalContent').html("");
                 $('#myModal').modal('show');
@@ -453,8 +495,8 @@
                 var ind=i/1+1;
                 console.log('  Avaialable: ' + ind);
                // $("#SIPC" + ind).css("visibility", "hidden");
-                
-                
+
+
                 if($scope.SIPCCodes[i].availableAmount/1<item.requestedAmount/1)
                 {
                     $("#SIPC" + ind).css("display", "none");
@@ -525,7 +567,7 @@
             {
                 var location=$scope.allAdminRegions[i];
                // location.name=location.name + i;
-                
+
                 for(var a in location.Allocations)
                 {
                     var siindex=$scope.getSIPCIndex(location.Allocations[a].Code,location.Allocations[a].AllocationType)
@@ -536,7 +578,7 @@
                 }
             }
         };
-        
+
         $scope.overCallback = function (event, ui) {
             console.log('Look, I`m over you');
         };
@@ -603,9 +645,9 @@
                 var requisition=$scope.response[i];
                 var request={name: $scope.response[i].ZoneName, type: "zone", zoneId:$scope.response[i].RequisitionId,Commodity:$scope.response[i].Commodity, woredas:[]
                     ,RequisitionId:requisition.RequisitionId,RegionName:requisition.RegionName};
-                
+
                 var woredasHash={};
-                
+
                 request.FreeSIPCCodes=$scope.response[i].FreeSIPCCodes;
                 for(var f in $scope.response[i].FDPRequests)
                 {
@@ -662,7 +704,7 @@
                 $scope.SIPCCodes[i].index=availSi;
                 availSi++;
             }
-            
+
         };
         $scope.loadPage = function (showmodal) {
             var param = { regionId: $scope.regionId,RequisitionID:$scope.RequisitionID };
@@ -687,7 +729,7 @@
                 }
 
             }
-            $http.post($scope.updateUrl, param).success(updateSuccess).error(updateError);  
+            $http.post($scope.updateUrl, param).success(updateSuccess).error(updateError);
             if (showmodal) {
                 $('#modalContent').html("...");
                 $('#myModal').modal('show');
@@ -697,7 +739,7 @@
     });
 
 
-   
+
 </script>
 
 

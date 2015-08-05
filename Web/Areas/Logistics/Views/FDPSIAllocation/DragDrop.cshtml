@@ -74,12 +74,12 @@
                     <div class="accordion-group" id="accordion_zone{{$index}}" data-index="{{zone.id}}" ng-repeat="zone in requests" class="btn-draggable" ng-model="unallocated" data-drag="zone.allocatedAmount<zone.requestedAmount" 
                     data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{zone.id}},placeholder:'keep',animate:true, onStart:'startCallback(zone, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}" >
 
-                      <div class="accordion-heading">
+                      <div class="dd-handle accordion-heading">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_zone" href="#collapse_zone{{zone.zoneId}}">
                            <i class="icon-move icon-align-right"></i> <span>{{zone.name}} [{{zone.allocatedAmount}} of {{zone.requestedAmount}}]</span>
                         </a>
                       </div>
-                      <div id="collapse_zone{{zone.zoneId}}" class="accordion-body collapse">
+                      <div id="collapse_zone{{zone.zoneId}}" class="accordion-body dd-list collapse">
                         <div class="accordion-inner">
                             <div class="accordion" id="woredas_inzone{{zone.zoneId}}">
                                 <div class="accordion-group" data-index="{{woreda.id}}" ng-repeat="woreda in zone.woredas" class="list-woreda btn-draggable" ng-model="unallocated" data-drag="woreda.allocatedAmount<woreda.requestedAmount" 
@@ -139,7 +139,7 @@
             <div  style="border: solid 1px #CCC; height: 100px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}"  data-index="{{si.index}}"  data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
                 <ul class="nav nav-list ">
                     <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}" >
-                        <a href="#dropdowns" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount}}]</span></a></li>
+                        <a href="#dropdowns" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount}}]</a></li>
                 </ul>
 
             </div>
