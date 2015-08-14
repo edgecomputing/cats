@@ -164,25 +164,37 @@
 </div>
 
 
-<div id='dialogDiv' class='modal hide fade in'>
+<div id="cats-modal"></div>
+<div id='dialogDiv' class='modal fade bs-modal-md' tabindex="-1" aria-hidden="true">
     <div id='dialogContent'></div>
 </div>
 
 <script type="text/javascript">
     $(function () {
+        $('.btn-approve-transportrequisition').click(function (e) {
+            //$('#cats-modal').remove();
+            $("body").css("cursor", "wait");
+            e.preventDefault();
+            var $this = $(this), $remote = $this.data('remote') || $this.attr('href');
+            //, $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
 
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
+            //$('body').append($modal);
+            //$modal.modal({ backdrop: 'static', keyboard: false });
+            //$modal.load($remote);
 
-        $('.btn-approve-transportrequisition').click(function () {
-            $('#dialogContent').load(this.href, function () {
+            $('#dialogContent').load($remote, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',
-                    keyboard: true
+                    keyboard: false
                 }, 'show');
                 //bindForm(this);
+                $(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
             });
+            $("body").css("cursor", "default");
             return false;
         });
     });
+
 </script>
+
+

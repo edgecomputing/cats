@@ -364,7 +364,7 @@ namespace Cats.Areas.Logistics.Controllers
             _transportRequisitionService.EditTransportRequisition(transportRequisition);
             return RedirectToAction("Index","TransportRequisition");
         }
-
+        [HttpGet]
         public ActionResult Approve(int id)
         {
             var transportRequisition = _transportRequisitionService.FindById(id);
