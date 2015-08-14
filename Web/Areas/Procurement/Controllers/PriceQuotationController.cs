@@ -696,7 +696,7 @@ namespace Cats.Areas.Procurement.Controllers
                     _transportOrderService.FindBy(m => m.BidDocumentNo == bid.BidNumber).FirstOrDefault();
                 if (transportOrderCreated!=null)
                 {
-                    TempData["CustomErrorMessage"] = "Bid Winner Can not be generated (Transport Order already created from this bid)";
+                    TempData["CustomErrorMessage"] = "Bid Winner Can not be generated (Transport Order is created from this bid)";
                     return RedirectToAction("GenerateWinners", "PriceQuotation");
                 }
             }
@@ -808,6 +808,74 @@ namespace Cats.Areas.Procurement.Controllers
             
             return RedirectToAction("Winners", new {BidID = bidNumber, RegionID=regionID});
           
+        }
+
+        public ActionResult RevertWinners()
+        {
+            if (TempData["TOCreatedErrorMessage"] != null) { ModelState.AddModelError("Errors", TempData["TOCreatedErrorMessage"].ToString()); }
+            if (TempData["RevertedIsSuccess"] != null) { ModelState.AddModelError("Success", TempData["RevertedIsSuccess"].ToString()); }
+             
+            return View();
+        }
+        public ActionResult ReadGeneratedProposals([DataSourceRequest] DataSourceRequest request)
+        {
+            var proposals = _transportBidQuotationHeaderService.FindBy(m => m.Status > 2);
+
+            var r = (from proposal in proposals
+                     group proposal by proposal.BidId into groupByBidId let transportBidQuotationHeader = groupByBidId.FirstOrDefault() where transportBidQuotationHeader != null select new TransportBidQuotationHeaderViewModel()
+                                {
+                                    TransportBidQuotationHeaderID = transportBidQuotationHeader.TransportBidQuotationHeaderID,
+                                    BidNumber = transportBidQuotationHeader.Bid.BidNumber,
+                                    //BidBondAmount = proposal.BidBondAmount,
+                                    //OffersCount = proposal.TransportBidQuotations.Count,
+                                    Region = transportBidQuotationHeader.AdminUnit.Name,
+                                    Status = transportBidQuotationHeader.Status == 3 ? "Winner Generated" : "-",
+                                    //Transporter = proposal.Transporter.Name,
+                                    //EnteredBy = proposal.EnteredBy,
+                                    BidID = transportBidQuotationHeader.Bid.BidID,
+                                    RegionId = transportBidQuotationHeader.AdminUnit.AdminUnitID,
+                                    ////TransporterId = proposal.Transporter.TransporterID
+                                });
+            return Json(r.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+
+        }
+
+        
+        public ActionResult RevertWinner(int bidNumber, int regionID)
+        {
+            var comparable = new List<TransportBidQuotationHeader>();
+            var bid = _bidService.FindById(bidNumber);
+            if (bid != null)
+            {
+                var transportOrderCreated =
+                    _transportOrderService.FindBy(m => m.BidDocumentNo == bid.BidNumber).FirstOrDefault();
+                if (transportOrderCreated != null)
+                {
+                    TempData["TOCreatedErrorMessage"] = "Bid Winners for the selected bid can not be reversed. Transport Order is created from this bid";
+                    return RedirectToAction("RevertWinners", "PriceQuotation");
+                }
+            }
+
+
+            var bidWinners = _bidWinnerService.FindBy(m => m.BidID == bidNumber);
+            if (bidWinners != null)
+            {
+                comparable =
+                    _transportBidQuotationHeaderService.FindBy(
+                        m => m.RegionID == regionID && m.BidId == bidNumber && m.Status >= 2);
+                foreach (var winner in bidWinners)
+                {
+                    _bidWinnerService.DeleteBidWinner(winner);
+                }
+
+                foreach (var transportBidQuotationHeader in comparable)
+                {
+                    transportBidQuotationHeader.Status = 1;
+                    _transportBidQuotationHeaderService.UpdateTransportBidQuotationHeader(transportBidQuotationHeader);
+                }
+            }
+            TempData["RevertedIsSuccess"] = "Bid is Reversed to draft";
+            return RedirectToAction("RevertWinners", "PriceQuotation");
         }
 
         public ActionResult Winners(int BidID , int RegionID)

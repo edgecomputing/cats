@@ -1,0 +1,80 @@
+﻿
+@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Revert Winners";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+
+}
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title tabbable-line">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Approved bid proposals ")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        
+       
+    </div>
+    <div class="portlet-body">
+        @(Html.Kendo().Grid<TransportBidQuotationHeaderViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+                           {
+                               columns.Bound(p => p.BidNumber);//.ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }) + " '>#=BidNumber#</a>  "); ;
+                               ////columns.Bound(p => p.Transporter);
+                               columns.Bound(p => p.Region);
+                               //columns.Bound(p => p.BidBondAmount);
+                               ////columns.Bound(p => p.OffersCount);
+                               columns.Bound(p => p.Status);
+                               columns.Command(c => c.Custom("Revert").Click("onRevert"));
+                           })
+              .Scrollable()
+              .Filterable()
+              .Groupable()
+              //.Events(events => events.DataBound("onDataBound"))
+              .HtmlAttributes(new { style = "height:430px;" })
+              .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            //.Group(group => @group.Add(m => m.BidNumber))
+                                            //.PageSize(8)
+                                            .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
+                                            .Read(read => read.Action("ReadGeneratedProposals", "PriceQuotation"))
+                   
+
+             
+              ))
+    </div>
+</div>
+
+<script>
+    function onRevert(e) {
+        
+        if (confirm("Are you sure? ")) {
+            e.preventDefault();
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            window.location.href = "@Url.Action("RevertWinner", "PriceQuotation")" + "?bidNumber=" + dataItem.BidID + "&regionID=" + dataItem.RegionId;
+        }
+    }
+</script>
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Revert ?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Revert confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>

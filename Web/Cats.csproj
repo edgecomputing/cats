@@ -2970,6 +2970,7 @@
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Adjustment.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\FalseAndTrueGRNStockStatus.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\RevertWinners.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
