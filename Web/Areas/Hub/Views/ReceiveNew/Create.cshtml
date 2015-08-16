@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 }
-
+                
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.ProjectCode)
@@ -191,7 +191,7 @@
                         <div class="controls">
                             @(Html.Kendo().ComboBox()
                                   .Name("SelectedGRN")
-                                  .Placeholder("Select GRN")
+                                  .Placeholder("")
                                   .DataTextField("Name")
                                   .DataValueField("Id")
                                   .Filter(FilterType.Contains)
@@ -199,6 +199,7 @@
                                                             .ServerFiltering(true))
                                   .Enable(true)
                                   .AutoBind(false)
+                                  
                                   
                                   )
                             @Html.ValidationMessageFor(model => model.SelectedGRN)
@@ -586,4 +587,9 @@
         return allRowsJson;
     }
 
+</script>
+<script type="text/javascript">
+    $(function () {
+        $(document).tooltip();
+    });
 </script>
