@@ -35,7 +35,7 @@ namespace Cats.Services.Hub.Interfaces
         List<HubDispatchAllocationViewModel> GetHubDispatchAllocation(int program, DateTime date);
         List<StockAdjustmentViewModel> Adjustment(int programId, int hubId, int commodityId, int stockType);
         void SaveAdjustment(StockAdjustmentViewModel viewModel, UserProfile user, int stockType);
-        List<TrueAndFlaseGRNStatus> FlaseGRNStatuses(int programId, int hubId);
+        List<TrueAndFlaseGRNStatus> FlaseGRNStatuses(int programId, int hubId,DateTime dateTime);
 
     }
 }

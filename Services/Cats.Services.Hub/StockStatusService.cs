@@ -249,18 +249,18 @@ namespace Cats.Services.Hub
             return _unitOfWork.Database.SqlQuery<StockAdjustmentViewModel>(query).ToList();
         }
 
-        public List<TrueAndFlaseGRNStatus> FlaseGRNStatuses(int programId,int hubId)
+        public List<TrueAndFlaseGRNStatus> FlaseGRNStatuses(int programId,int hubId, DateTime dateTime)
         {
             var query = string.Format(@"SELECT fa.Value as SINo, fa.QuantityInMT as FalseAmount , tr.QuantityInMT as TrueAmount , abs(fa.QuantityInMT) - abs(tr.QuantityInMT) as Balance from (
                                                     (SELECT SUM(ABS(QuantityInMT)) QuantityInMT, ProgramID, HubID,t.ShippingInstructionID,s.Value
 	                                                FROM [Transaction] t inner join ShippingInstruction s on t.ShippingInstructionID = s.ShippingInstructionID 
-	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 0 and t.ShippingInstructionID IS NOT NULL
+	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 0  AND  TransactionDate < =  '{3}' AND  t.ShippingInstructionID IS NOT NULL
 	                                                GROUP BY ProgramID,HubID,t.ShippingInstructionID,s.Value) Tr
 													JOIN
 													(SELECT SUM(ABS(QuantityInMT)) QuantityInMT, ProgramID, HubID,t.ShippingInstructionID,s.Value
 	                                                FROM [Transaction] t inner join ShippingInstruction s on t.ShippingInstructionID = s.ShippingInstructionID 
 	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 1 and t.ShippingInstructionID IS NOT NULL
-	                                                GROUP BY ProgramID,HubID,t.ShippingInstructionID,s.Value) Fa on tr.HubID = fa.HubID and tr.ProgramID=fa.ProgramID and tr.ShippingInstructionID = fa.ShippingInstructionID)", Cats.Models.Ledger.Constants.GOODS_ON_HAND, programId,hubId);
+	                                                GROUP BY ProgramID,HubID,t.ShippingInstructionID,s.Value) Fa on tr.HubID = fa.HubID and tr.ProgramID=fa.ProgramID and tr.ShippingInstructionID = fa.ShippingInstructionID)", Cats.Models.Ledger.Constants.GOODS_ON_HAND, programId,hubId,dateTime);
 
             return _unitOfWork.Database.SqlQuery<TrueAndFlaseGRNStatus>(query).ToList();
         }

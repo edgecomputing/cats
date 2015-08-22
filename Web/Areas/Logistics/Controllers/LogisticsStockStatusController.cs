@@ -469,7 +469,7 @@ namespace Cats.Areas.Logistics.Controllers
           
              if (programId != -1 && hubId != -1)
              {
-                 var result = _stockStatusService.FlaseGRNStatuses(programId, hubId);
+                 var result = _stockStatusService.FlaseGRNStatuses(programId, hubId,date);
                  return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
              }
             return null;

@@ -18,7 +18,7 @@
             <div class="portlet-title">
                 <div class="caption font-green-sharp">
                     <i class="fa fa-cubes font-green-sharp"></i>
-                    <span class="caption-subject bold uppercase"> @Html.Translate("True and False GRN Stock Status")</span>
+                    <span class="caption-subject bold uppercase"> @Html.Translate("Receievable GRN Stock Status")</span>
                     <span class="caption-helper">  </span>
                 </div>
                 <div class="tools">
@@ -44,7 +44,7 @@
                             <div class="col-md-offset-1 col-md-4">
                                 <div class="form-group">
                                     <label class="category-label" for="category">@Html.Translate("Select a hub")</label>
-                                    <select ng-model="requestParam.hub" class="form-control" ng-cloak>
+                                    <select ng-model="requestParam.hubId" class="form-control" ng-cloak>
                                         <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
                                     </select>
                                 </div>
@@ -52,7 +52,7 @@
                             <div class="col-md-offset-1 col-md-2">
                                 <div class="form-group">
                                     <label class="category-label" for="category">@Html.Translate("Select a Program")</label>
-                                    <select ng-model="requestParam.program" class="form-control" ng-cloak>
+                                    <select ng-model="requestParam.programId" class="form-control" ng-cloak>
                                         <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
                                     </select>
                                 </div>
@@ -73,9 +73,9 @@
                         <thead style="background-color: #eee">
                             <tr>
                                 <th style="text-align: center">@Html.Translate("SI No")</th>
-                                <th style="text-align: center" class="cats-unit-pref">@Html.Translate("False stock") </th>
-                                <th style="text-align: center" class="cats-unit-pref">@Html.Translate("True stock")</th>
-                                <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Balance")</th>
+                                <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Receiveable stock") </th>
+                                <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Received stock")</th>
+                                <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Receivable Balance")</th>
 
                             </tr>
                         </thead>
@@ -109,7 +109,7 @@
 
 <script>
     function StockController($scope, $http) {
-        $scope.requestParam = { hub: 1, program: 1, date: new Date() };
+        $scope.requestParam = { hubId: 1, programId: 1, date: new Date() };
         $scope.stockData = [];
         $scope.HubsCollection = [];
         $scope.ProgramsCollection = [];
@@ -117,31 +117,33 @@
         $scope.FalseAmount = 0;
         $scope.TrueAmount = 0;
         $scope.BalanceAmount = 0;
-
+       
+        var falseA = 0;
+        var trueA = 0;
+        var balance = 0;
       
         var onSuccess = function (data) {
 
-            $scope.stockData = data;
-
-           
-
-            var falseA = 0;
-            var trueA = 0;
-            var balance = 0;
-
-      
-            for (var i = 0; i < $scope.stockData.length; i++) {
-                falseA = falseA + $scope.stockData[i].FalseAmount;
-                trueA = trueA + $scope.stockData[i].TrueAmount;
-                balance = balance + $scope.stockData[i].Balance;
-                
-            }
-
+            $scope.stockData = [];
+            $scope.index = 0;
+           for (var key in data) {
+               var obj = data[key];
+               for (var prop in obj) {
+                   //alert(obj[prop]);
+                   $scope.stockData.push(obj[prop]);
+                   falseA = falseA + obj[prop].FalseAmount;
+                   trueA = trueA + obj[prop].TrueAmount;
+                   balance = balance + obj[prop].Balance;
+               }
+           }
            
             $scope.FalseAmount = falseA;
             $scope.TrueAmount = trueA;
             $scope.BalanceAmount = balance;
             
+            falseA = 0;
+            trueA = 0;
+            balance = 0;
         };
 
         var onHubGetSuccess = function (data) {
@@ -155,7 +157,7 @@
         $scope.getStockStatus = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatus", $scope.requestParam).success(onSuccess);
             $scope.requestParam.date = $("#txtDate2").val();
-            $http.post("@Url.Action("FalseAndTrueGRNStockStatus", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
+            $http.post("@Url.Action("FlaseAndTueGRNStockStatus", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
         };
 
         $scope.getHubs = function () {
