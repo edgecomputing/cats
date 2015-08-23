@@ -85,7 +85,10 @@
   <label class="checkbox" style="margin-left:50px;">
     <input type="checkbox" id="chk_closed"> Show closed Plans
   </label>
-
+    
+     <label class="checkbox" style="margin-left:50px;">
+    <input type="checkbox" id="chk_receivable"> Show Receivable Plans
+  </label>
 </form>
 </div>
 
@@ -255,16 +258,22 @@
         $("#FilterCommodityTypeID").change(dataRefresh);
         $("#HubsID").change(dataRefresh);
         $("#chk_closed").change(dataRefresh);
-
+        $("#chk_receivable").change(dataRefresh);
     });
     function getFilterAttributes() {
         var closed = "false";
+        var receivable = "false";
         if (document.getElementById("chk_closed").checked) {
             closed = "true";
         }
+        
+        if (document.getElementById("chk_receivable").checked)
+        {
+            receivable = "true";
+        }
         var commodityType = $("#FilterCommodityTypeID").val();
         var HubID = $("#HubsID").val();
-        return { closed: closed, commodityType: commodityType, HubID: HubID};
+        return { closed: closed, commodityType: commodityType, HubID: HubID, receivable: receivable};
     }
     function dataRefresh(refreshGrids) {
         //alert();
