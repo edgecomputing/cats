@@ -13,6 +13,10 @@
     ViewBag.PageTitleDescription = "";
 }
 
+@section Toolbar
+{
+      <a id="btnAddProposal" data-buttontype="btn_new_record" class="btn btn-fit-height grey-salt" href="@Url.Action("FalseAndTrueGRNStockStatus", "LogisticsStockStatus")">@Html.Translate("Receivable Stock Status")</a>
+}
 <div ng-app>
     <div ng-controller="SummaryController">
         <div class="portlet light bordered bg-inverse">
