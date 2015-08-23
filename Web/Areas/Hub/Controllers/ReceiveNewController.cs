@@ -358,10 +358,10 @@ namespace Cats.Areas.Hub.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetGRNList()
+        public JsonResult GetGRNList(string siNo)
         {
             var GRNs = new List<GRNViewModel>();
-            GRNs.AddRange(_receiveService.FindBy(f => f.ReceiptAllocation.IsFalseGRN).Select(s => new GRNViewModel
+            GRNs.AddRange(_receiveService.FindBy(f => f.ReceiptAllocation.IsFalseGRN && f.ReceiptAllocation.SINumber == siNo).Select(s => new GRNViewModel
                                                                                                     {
                                                                                                         Name = s.GRN,
                                                                                                         Id=s.ReceiveID
@@ -370,6 +370,8 @@ namespace Cats.Areas.Hub.Controllers
 
             return Json(GRNs, JsonRequestBehavior.AllowGet);
         }
+
+
 
         [HttpGet]
         public JsonResult GetStacks(int? storeId)

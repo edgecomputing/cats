@@ -191,15 +191,14 @@
                         <div class="controls">
                             @(Html.Kendo().ComboBox()
                                   .Name("SelectedGRN")
-                                  .Placeholder("")
                                   .DataTextField("Name")
                                   .DataValueField("Id")
                                   .Filter(FilterType.Contains)
-                                  .DataSource(source => source.Read(read => read.Action("GetGRNList", "ReceiveNew").Data("filterStacks"))
+                                  .DataSource(source => source.Read(read => read.Action("GetGRNList", "ReceiveNew").Data("filterGRN"))
                                                             .ServerFiltering(true))
                                   .Enable(true)
-                                  .AutoBind(false)
-                                  
+                                  .AutoBind(true    )
+                                  .SelectedIndex(0)
                                   
                                   )
                             @Html.ValidationMessageFor(model => model.SelectedGRN)
@@ -564,6 +563,12 @@
         };
     }
 
+    function filterGRN() {
+        return {
+            siNo: $("#SiNumber").val(),
+        };
+    }
+    
     kendo.data.DataSource.prototype.GetUnsavedData = function () {
         var that = this,
             idx,
