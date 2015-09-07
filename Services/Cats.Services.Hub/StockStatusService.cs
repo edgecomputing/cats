@@ -251,12 +251,16 @@ namespace Cats.Services.Hub
 
         public List<TrueAndFlaseGRNStatus> FlaseGRNStatuses(int programId,int hubId, DateTime dateTime)
         {
-            var query = string.Format(@"SELECT fa.Value as SINo, fa.QuantityInMT as FalseAmount , tr.QuantityInMT as TrueAmount , abs(fa.QuantityInMT) - abs(tr.QuantityInMT) as Balance from (
-                                                    (SELECT SUM(ABS(QuantityInMT)) QuantityInMT, ProgramID, HubID,t.ShippingInstructionID,s.Value
-	                                                FROM [Transaction] t inner join ShippingInstruction s on t.ShippingInstructionID = s.ShippingInstructionID 
-	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 0  AND  TransactionDate < =  '{3}' AND  t.ShippingInstructionID IS NOT NULL
-	                                                GROUP BY ProgramID,HubID,t.ShippingInstructionID,s.Value) Tr
-													JOIN
+            var query = string.Format(@"SELECT fa.Value as SINo,ISNULL(fa.QuantityInMT,0) as FalseAmount , ISNULL(tr.ReceivedQty,0) as TrueAmount , ISNULL(abs(fa.QuantityInMT),0) - ISNULL(abs(tr.ReceivedQty),0) as Balance from (
+                                                    (SELECT DISTINCT ISNULL(dbo.ReceiveDetail.SentQuantityInMT, 0) AS ReceivedQty, dbo.[Transaction].ProgramID, dbo.[Transaction].HubID, dbo.ShippingInstruction.ShippingInstructionID, dbo.ShippingInstruction.Value
+FROM            dbo.Receive INNER JOIN
+                         dbo.ReceiveDetail ON dbo.Receive.ReceiveID = dbo.ReceiveDetail.ReceiveID INNER JOIN
+                         dbo.ReceiptAllocation ON dbo.Receive.ReceiptAllocationID = dbo.ReceiptAllocation.ReceiptAllocationID INNER JOIN
+                         dbo.[Transaction] ON dbo.ReceiveDetail.TransactionGroupID = dbo.[Transaction].TransactionGroupID INNER JOIN
+                         dbo.ShippingInstruction ON dbo.[Transaction].ShippingInstructionID = dbo.ShippingInstruction.ShippingInstructionID
+						 WHERE LedgerID = 1  AND dbo.[Transaction].ProgramID = {1} and dbo.[Transaction].HubID = {2} and dbo.ReceiptAllocation.IsFalseGRN = 0 and dbo.ShippingInstruction.ShippingInstructionID IS NOT NULL
+						) Tr
+													RIGHT OUTER JOIN
 													(SELECT SUM(ABS(QuantityInMT)) QuantityInMT, ProgramID, HubID,t.ShippingInstructionID,s.Value
 	                                                FROM [Transaction] t inner join ShippingInstruction s on t.ShippingInstructionID = s.ShippingInstructionID 
 	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 1 and t.ShippingInstructionID IS NOT NULL
