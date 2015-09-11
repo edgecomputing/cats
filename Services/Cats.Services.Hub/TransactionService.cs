@@ -681,7 +681,7 @@ namespace Cats.Services.Hub
                 ProgramID = viewModel.ProgramId,
                 StoreID = viewModel.StoreId,
                 Stack = viewModel.StackNumber,
-                IsFalseGRN = viewModel.IsFalseGRN
+                IsFalseGRN = true
             };
 
             //switch (viewModel.CommoditySourceTypeId)
@@ -776,7 +776,7 @@ namespace Cats.Services.Hub
                 ProgramID = viewModel.ProgramId,
                 StoreID = viewModel.StoreId,
                 Stack = viewModel.StackNumber,
-                IsFalseGRN = viewModel.IsFalseGRN
+                IsFalseGRN =true// viewModel.IsFalseGRN
             };
 
             //if (transactionFour.CommoditySourceID == CommoditySource.Constants.DONATION ||

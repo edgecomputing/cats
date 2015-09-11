@@ -134,10 +134,10 @@
               columns.Bound(to => to.Transporter).Width(140).Title(@Html.Translate("Transporter"));
               columns.Bound(to => to.BidDocumentNo).Width(65).Title(Html.Translate("Bid Document #")).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
               //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-              columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(60).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+             // columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(60).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
               columns.Bound(to => to.StartDate).Width(60).Title(Html.Translate("Start Date")).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
               columns.Bound(to => to.EndDate).Width(60).Title(Html.Translate("End Date")).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
-              columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(60).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
+             // columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(60).HeaderHtmlAttributes(new {@class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;"});
               columns.Bound(to => to.TransportOrderNo).Title(Html.Translate("Transport Order No")).Width(80).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
               ;
               columns.Bound(to => to.Status).Title(Html.Translate("Status")).Width(45).HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
@@ -161,7 +161,7 @@
 
 
           })
-              .Scrollable()
+              
               .Filterable()
               .Sortable().TableHtmlAttributes(new {@class="table table-condensed"})
               .Events(e => e.DataBound("onDataBound"))
