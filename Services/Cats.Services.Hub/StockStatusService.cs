@@ -263,7 +263,7 @@ FROM            dbo.Receive INNER JOIN
 													RIGHT OUTER JOIN
 													(SELECT SUM(ABS(QuantityInMT)) QuantityInMT, ProgramID, HubID,t.ShippingInstructionID,s.Value
 	                                                FROM [Transaction] t inner join ShippingInstruction s on t.ShippingInstructionID = s.ShippingInstructionID 
-	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 1 and t.ShippingInstructionID IS NOT NULL
+	                                                WHERE LedgerID = {0}  AND ProgramID = {1} and HubID = {2} and IsFalseGRN = 1 and QuantityInMT > 0 and t.ShippingInstructionID IS NOT NULL
 	                                                GROUP BY ProgramID,HubID,t.ShippingInstructionID,s.Value) Fa on tr.HubID = fa.HubID and tr.ProgramID=fa.ProgramID and tr.ShippingInstructionID = fa.ShippingInstructionID)", Cats.Models.Ledger.Constants.GOODS_ON_HAND, programId,hubId,dateTime);
 
             return _unitOfWork.Database.SqlQuery<TrueAndFlaseGRNStatus>(query).ToList();
