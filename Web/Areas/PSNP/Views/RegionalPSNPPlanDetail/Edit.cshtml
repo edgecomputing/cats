@@ -138,10 +138,11 @@ RegionalPSNPPlanID=0;
 
                             .HtmlAttributes(new { style = "width:100%; height:450px;" })
                             .Editable(editable => editable.Mode(GridEditMode.InCell))
-                                .Selectable(selectable => selectable
-                                    //.Mode(GridSelectionMode.Single)
-                                        .Type(GridSelectionType.Cell)
-                                        )
+                                //.Selectable(selectable => selectable
+                                //    //.Mode(GridSelectionMode.Single)
+                                //        .Type(GridSelectionType.Cell)
+                                //        .
+                                        //)
                            .Events(events => events.DataBound("onDataBound"))
                             .Sortable()
                             .Scrollable()
