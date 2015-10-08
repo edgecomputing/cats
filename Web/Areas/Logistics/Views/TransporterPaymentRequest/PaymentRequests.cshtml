@@ -328,8 +328,10 @@
 <div class="portlet light bordered bg-inverse">
     <div class="portlet-title">
         <div class="caption font-green-sharp">
-            <i class="fa fa-credit-card font-green-sharp"></i> @Html.Translate("Payment Requests")
+            <i class="fa fa-credit-card font-green-sharp"></i> @Html.Translate("Payment Requests for  ") <span style="font-weight: bold; font-size: small; color: black"> @ViewBag.TransportOrderViewModel.Transporter</span> 
         </div>
+         
+        
         @*<div class="tools">
             <a href="#" class="collapse" data-original-title="" title="">
             </a>
