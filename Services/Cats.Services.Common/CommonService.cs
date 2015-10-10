@@ -96,7 +96,7 @@ namespace Cats.Services.Common
                var psnpPlanID = _unitOfWork.RegionalPSNPPlanRepository.FindBy(t => t.AttachedBusinessProcess.CurrentState.BaseStateTemplate.StateNo >2).Select(m => m.PlanId).Distinct();
                return _unitOfWork.PlanRepository.FindBy(m => psnpPlanID.Contains(m.PlanID) && m.ProgramID == programID && m.Status == (int)PlanStatus.PSNPCreated);
            }
-           var planId = _unitOfWork.HRDRepository.FindBy(m => m.Status ==(int)HRDStatus.Approved || m.Status ==(int)HRDStatus.Published).Select(m => m.PlanID).Distinct();
+           var planId = _unitOfWork.HRDRepository.FindBy(m=> m.Status ==(int)HRDStatus.Published).Select(m => m.PlanID).Distinct();
            return _unitOfWork.PlanRepository.FindBy(m => planId.Contains(m.PlanID) && m.ProgramID == programID && m.Status == (int)PlanStatus.HRDCreated);
        }
 
