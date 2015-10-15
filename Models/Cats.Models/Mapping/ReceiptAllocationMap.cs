@@ -54,7 +54,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.OtherDocumentationRef).HasColumnName("OtherDocumentationRef");
             this.Property(t => t.Remark).HasColumnName("Remark");
             this.Property(t => t.IsFalseGRN).HasColumnName("IsFalseGRN");
-
+            this.Property(t => t.ReceiptPlanID).HasColumnName("ReceiptPlanID");
              //Relationships
             this.HasRequired(t => t.Commodity)
                 .WithMany(t => t.ReceiptAllocations)
