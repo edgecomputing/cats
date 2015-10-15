@@ -57,50 +57,84 @@
         <div class="table-responsive">
             @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
                   .Name("grid")
-                  .Pageable()
+                  
                   .Sortable()
                   .Scrollable()
                   //.HtmlAttributes(new { style = "height:430px;" })
-                  .TableHtmlAttributes(new {@class = "table table-condensed"})
+                  //.TableHtmlAttributes(new {@class = "table table-condensed"})
                   .Columns(columns =>
-                  {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new {id = "#=LoanReciptPlanID#"}) + " '>#=SiNumber#</a>  ").Width(100);
-                      columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate("Loan Source")).Width(100);
-                      columns.Bound(m => m.ProgramName).Title(@Html.Translate("Program")).Width(100);
-                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate("Commodity")).Width(100);
-                      columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate("Commodity Source")).Width(100);
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT")).Width(100);
-                      columns.Bound(m => m.CreatedDate).Title(Html.Translate("Created Date")).Width(100);
-                      columns.Bound(m => m.IsFalseGRN).Title(Html.Translate("Receivable")).Width(100).ClientTemplate("# if (IsFalseGRN) { # Receivable # }else {#  #} #").HtmlAttributes(new {@style = "text-align:center"});
-                      ;
-                      columns.Bound(m => m.Status).Title(Html.Translate("Status")).Width(100);
-                      columns.Command(p =>
-                      {
-                          p.Custom("Revert").Click("OnRevert");
-                          p.Custom("Delete").Click("OnDelete");
-                      }).Width(250);
+                               {
+                                   columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new {id = "#=LoanReciptPlanID#"}) + " '>#=SiNumber#</a>  ").Width(100);
+                                   columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate("Loan Source")).Width(100);
+                                   columns.Bound(m => m.ProgramName).Title(@Html.Translate("Program")).Width(100);
+                                   columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate("Commodity")).Width(100);
+                                   columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate("Commodity Source")).Width(100);
+                                   columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT")).Width(100);
+                                   columns.Bound(m => m.CreatedDate).Title(Html.Translate("Created Date")).Width(100);
+                                   columns.Bound(m => m.IsFalseGRN).Title(Html.Translate("Receivable")).Width(100).ClientTemplate("# if (IsFalseGRN) { # Receivable # }else {#  #} #").HtmlAttributes(new {@style = "text-align:center"});
+                                   ;
+                                   columns.Bound(m => m.Status).Title(Html.Translate("Status")).Width(100);
+                                   columns.Command(p =>
+                                                       {
+                                                           p.Custom("Revert").Click("OnRevert");
+                                                           p.Custom("Delete").Click("OnDelete");
+                                                       }).Width(250);
 
 
-                  }
+                               }
 
                   )
 
-                  .Navigatable()
-
+                
+                 
+                  .Filterable()
+                   .ClientDetailTemplateId("template")
                   .Events(e => e.DataBound("onDataBound"))
                   .HtmlAttributes(new {style = "height:430px;"})
                   .DataSource(dataSource => dataSource
-                      .Ajax()
-                      .Model(model => model.Id(m => m.LoanReciptPlanID))
-                      .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoan"))
+                                                .Ajax()
+                                                .Model(model => model.Id(m => m.LoanReciptPlanID))
+                                                .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoan"))
                   //.Update(update => update.Action("Commodity_Update", "Request"))
 
                   )
                   .Resizable(resize => resize.Columns(true))
-            )
+                  )
         </div>
     </div>
 </div>
+
+<script id="template" type="text/kendo-tmpl">
+    
+  @(Html.Kendo().Grid<LoanReciptPlanWithDetailViewModel>()
+              .Name("grid_#=LoanReciptPlanID#")
+              .Columns(columns =>
+                  {
+                      columns.Bound(m => m.MemoRefrenceNumber).Title(@Html.Translate("Memo Reference number"));
+                      columns.Bound(m => m.HubName).Title(@Html.Translate("Hub"));
+                      columns.Bound(m => m.CreatedDate).Title(Html.Translate("Recieved Date"));
+                      columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate("Recieving Amount")).HtmlAttributes(new { align = "right" });
+                      columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate("Remaining")).HtmlAttributes(new { align = "right" });
+                      // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+
+                  }
+
+              )
+
+              
+            .Pageable()
+              ////.TableHtmlAttributes(new { @class = "table table-condensed" })
+              .HtmlAttributes(new { style = "height 60px;" })
+              .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .Group(t => t.Add(m => m.HubName))
+                                            .Model(model => model.Id(m => m.LoanReciptPlanDetailID))
+                                            .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoan", new { loanReciptPlanID = "#=LoanReciptPlanID#" }))
+                    //.Update(update => update.Action("Commodity_Update", "Request"))
+              )
+                .ToClientTemplate()
+            )
+</script>
 <div id='dialogDivSmall' class='modal fade in'>
     <div id='dialogContentSmall'></div>
 </div>
@@ -191,6 +225,7 @@
             wndRevert.close();
         });
     }
+
 </script>
 
 <div id="modalWindow">

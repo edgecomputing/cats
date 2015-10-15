@@ -170,6 +170,7 @@
                   .Model(model => model.Id(p => p.TransportOrderID))
                   .Read(read => read.Action("TransportOrder_Read", "TransportOrder").Data("filterData"))
               )
+              .Resizable(resize => resize.Columns(true))
               )
     </div>
 </div>

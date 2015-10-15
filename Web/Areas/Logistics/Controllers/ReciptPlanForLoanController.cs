@@ -125,6 +125,8 @@ namespace Cats.Areas.Logistics.Controllers
             var reciptPlanToDisplay = BindToViewModel(reciptPlan);
            return Json(reciptPlanToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
+      
         private IEnumerable<LoanReciptPlanViewModel> BindToViewModel(IEnumerable<LoanReciptPlan> loanReciptPlans)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
