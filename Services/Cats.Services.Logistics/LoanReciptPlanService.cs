@@ -84,6 +84,7 @@ namespace Cats.Services.Logistics
                                                        CommoditySourceID = loanReciptPlan.CommoditySourceID,
                                                        ProjectNumber = loanReciptPlan.ProjectCode,
                                                        //SourceHubID = loanReciptPlan.SourceHubID,
+                                                       DonorID = loanReciptPlan.LoanSource,
                                                        PartitionId = 0,
                                                        IsCommited = false,
                                                        IsFalseGRN = loanReciptPlan.IsFalseGRN,
