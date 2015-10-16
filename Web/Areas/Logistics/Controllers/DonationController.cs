@@ -573,24 +573,21 @@ namespace Cats.Areas.Logistics.Controllers
                     var receiptAllocation = new Cats.Models.Hubs.ReceiptAllocation
                                                 {
                                                     ReceiptAllocationID = Guid.NewGuid(),
-                                                    CommodityID =
-                                                        detail.DonationPlanHeader.CommodityID,
+                                                    CommodityID =detail.DonationPlanHeader.CommodityID,
                                                     IsCommited = false,
-                                                    ETA =
-                                                        detail.DonationPlanHeader.ETA,
+                                                    ETA =detail.DonationPlanHeader.ETA,
                                                     ProjectNumber = "PC",
-                                                    SINumber =
-                                                        detail.DonationPlanHeader.ShippingInstruction.Value,
-                                                        
+                                                    SINumber =detail.DonationPlanHeader.ShippingInstruction.Value,
                                                     QuantityInMT = detail.AllocatedAmount,
                                                     HubID = detail.HubID,
-                                                    ProgramID =
-                                                        detail.DonationPlanHeader.ProgramID,
-                                                       
+                                                    ProgramID =detail.DonationPlanHeader.ProgramID,
                                                     GiftCertificateDetailID = detail.DonationPlanHeader.GiftCertificateID,
                                                     CommoditySourceID = 1,
                                                     IsClosed = false,
-                                                    PartitionId = 0
+                                                    PartitionId = 0,
+                                                    DonorID = detail.DonationPlanHeader.DonorID,
+                                                    ReceiptPlanID = detail.DonationDetailPlanID
+                                                    
                                                 };
 
                     _receiptAllocationService.AddReceiptAllocation(receiptAllocation);

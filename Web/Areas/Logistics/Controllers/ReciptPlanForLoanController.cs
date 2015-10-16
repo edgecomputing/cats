@@ -50,6 +50,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",2);
+            ViewBag.LoanSource = new SelectList(_commonService.GetDonors(), "DonorID", "Name");
             //ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             var loanReciptPlanViewModel = new LoanReciptPlanViewModel();
             loanReciptPlanViewModel.CommoditySourceName = _commonService.GetCommditySourceName(2);//commodity source for Loan
@@ -131,6 +132,8 @@ namespace Cats.Areas.Logistics.Controllers
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from loanReciptPlan in loanReciptPlans
+                    let firstOrDefault = _commonService.GetDonors(d=>d.DonorID == loanReciptPlan.LoanSource).FirstOrDefault()
+                    where firstOrDefault != null
                     select new LoanReciptPlanViewModel
                         {
                             LoanReciptPlanID = loanReciptPlan.LoanReciptPlanID,
@@ -138,6 +141,7 @@ namespace Cats.Areas.Logistics.Controllers
                             CommodityName = loanReciptPlan.Commodity.Name,
                             CommoditySourceName = loanReciptPlan.CommoditySource.Name,
                             LoanSource = loanReciptPlan.LoanSource,
+                            Donor = firstOrDefault.Name,
                             //SourceHubName = loanReciptPlan.Hub.Name,
                             RefeenceNumber = loanReciptPlan.ReferenceNumber,
                             SiNumber = loanReciptPlan.ShippingInstruction.Value,

@@ -141,7 +141,8 @@ namespace Cats.Services.Logistics
                            ProjectNumber = localPurchase.ProjectCode,
                            //PurchaseOrder = localPurchase.PurchaseOrder, 
                            PartitionId = 0,
-                           IsCommited = false
+                           IsCommited = false,
+                           ReceiptPlanID = localPurchaseDetail.LocalPurchaseDetailID
                        };
                    _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
                    _unitOfWork.Save();

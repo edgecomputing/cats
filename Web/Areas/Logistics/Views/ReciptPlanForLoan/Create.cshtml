@@ -51,16 +51,21 @@
                         </td>*@
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 form-group">
-                        <div class="control-label col-sm-5">
-                            @Html.LabelFor(m => m.LoanSource, @Html.Translate("Loan Source"))
+                   
+                        
+                           
+                        <div class="col-sm-6 form-group">
+                            <div class="col-sm-5 control-label">
+                                @Html.Label(@Html.Translate("Donor"))
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.DropDownList("LoanSource", null, new { @class = "form-control" })
+                                <span class="help-block"></span>@Html.ValidationMessageFor(m => m.LoanSource)
+                            </div>
+                               
                         </div>
 
-                        <div class="col-sm-7">
-                            @Html.TextBoxFor(m => m.LoanSource, String.Empty, new { @class = "form-control" })
-                            <span class="help-block">@Html.ValidationMessageFor(m => m.LoanSource)</span>
-                        </div>
-                    </div>
+                    
                     <div class="col-sm-6 form-group">
                         <div class="control-label col-sm-5">
                             @Html.LabelFor(m => m.ParentCommodityID, @Html.Translate("Parent Commodity"))

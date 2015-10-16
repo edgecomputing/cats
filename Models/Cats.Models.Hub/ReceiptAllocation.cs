@@ -32,6 +32,7 @@ namespace Cats.Models.Hubs
         public Nullable<int> SourceHubID { get; set; }
         public string OtherDocumentationRef { get; set; }
         public bool IsFalseGRN { get; set; }
+        public int? ReceiptPlanID { get; set; }
         public string Remark { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual CommoditySource CommoditySource { get; set; }

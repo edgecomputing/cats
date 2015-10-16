@@ -86,7 +86,8 @@ namespace Cats.Services.Logistics
                                                        //SourceHubID = loanReciptPlan.SourceHubID,
                                                        PartitionId = 0,
                                                        IsCommited = false,
-                                                       IsFalseGRN = loanReciptPlan.IsFalseGRN
+                                                       IsFalseGRN = loanReciptPlan.IsFalseGRN,
+                                                       ReceiptPlanID = loan.LoanReciptPlanDetailID
                                                    };
 
                        _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);

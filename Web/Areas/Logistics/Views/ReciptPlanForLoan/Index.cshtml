@@ -65,10 +65,10 @@
                   .Columns(columns =>
                                {
                                    columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new {id = "#=LoanReciptPlanID#"}) + " '>#=SiNumber#</a>  ").Width(100);
-                                   columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate("Loan Source")).Width(100);
+                                   columns.Bound(m => m.Donor).Width(200).Title(@Html.Translate("Loan Source")).Width(100);
                                    columns.Bound(m => m.ProgramName).Title(@Html.Translate("Program")).Width(100);
                                    columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate("Commodity")).Width(100);
-                                   columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate("Commodity Source")).Width(100);
+                                   //columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate("Commodity Source")).Width(100);
                                    columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT")).Width(100);
                                    columns.Bound(m => m.CreatedDate).Title(Html.Translate("Created Date")).Width(100);
                                    columns.Bound(m => m.IsFalseGRN).Title(Html.Translate("Receivable")).Width(100).ClientTemplate("# if (IsFalseGRN) { # Receivable # }else {#  #} #").HtmlAttributes(new {@style = "text-align:center"});
