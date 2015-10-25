@@ -108,7 +108,7 @@ namespace Cats.Services.Logistics
                var receiptAllocation =
                    _unitOfWork.ReceiptAllocationReository.FindBy(
                        c => c.CommoditySourceID == CommoditySourceConst.Constants.LOAN && c.SINumber == loanReciptPlan.ShippingInstruction.Value
-                               && c.ProjectNumber == loanReciptPlan.ProjectCode && c.QuantityInMT==loanReciptPlan.Quantity);
+                               && c.ProjectNumber == loanReciptPlan.ProjectCode);
 
                foreach (var allocation in receiptAllocation)
                {
