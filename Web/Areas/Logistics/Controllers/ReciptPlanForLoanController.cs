@@ -109,7 +109,7 @@ namespace Cats.Areas.Logistics.Controllers
                         CommodityID = loanReciptPlanViewModel.CommodityID,
                         CommoditySourceID = 2,//only for loan
                         ShippingInstructionID = _commonService.GetShippingInstruction(loanReciptPlanViewModel.SiNumber),
-                        LoanSource = loanReciptPlanViewModel.LoanSource,
+                        LoanSource = loanReciptPlanViewModel.LoanSource.ToString(),
                         //HubID = loanReciptPlanViewModel.HubID,
                         ProjectCode = loanReciptPlanViewModel.ProjectCode,
                         ReferenceNumber = loanReciptPlanViewModel.RefeenceNumber,
@@ -131,27 +131,63 @@ namespace Cats.Areas.Logistics.Controllers
         private IEnumerable<LoanReciptPlanViewModel> BindToViewModel(IEnumerable<LoanReciptPlan> loanReciptPlans)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            return (from loanReciptPlan in loanReciptPlans
-                    let firstOrDefault = _commonService.GetDonors(d=>d.DonorID == loanReciptPlan.LoanSource).FirstOrDefault()
-                    where firstOrDefault != null
-                    select new LoanReciptPlanViewModel
-                        {
-                            LoanReciptPlanID = loanReciptPlan.LoanReciptPlanID,
-                            ProgramName = loanReciptPlan.Program.Name,
-                            CommodityName = loanReciptPlan.Commodity.Name,
-                            CommoditySourceName = loanReciptPlan.CommoditySource.Name,
-                            LoanSource = loanReciptPlan.LoanSource,
-                            Donor = firstOrDefault.Name,
-                            //SourceHubName = loanReciptPlan.Hub.Name,
-                            RefeenceNumber = loanReciptPlan.ReferenceNumber,
-                            SiNumber = loanReciptPlan.ShippingInstruction.Value,
-                            ProjectCode = loanReciptPlan.ProjectCode,
-                            Quantity = loanReciptPlan.Quantity,
-                            StatusID = loanReciptPlan.StatusID,
-                            CreatedDate = loanReciptPlan.CreatedDate.ToCTSPreferedDateFormat(datePref),
-                            Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, loanReciptPlan.StatusID),
-                            IsFalseGRN = loanReciptPlan.IsFalseGRN
-                        });
+            var list = new List<LoanReciptPlanViewModel>();
+            var reciptPlans = loanReciptPlans as List<LoanReciptPlan> ?? loanReciptPlans.ToList();
+            foreach (var loanReciptPlan in reciptPlans)
+            {
+                var loanSource = loanReciptPlan.LoanSource;
+                var intLoanSource = Convert.ToInt32(loanSource);
+                var firstOrDefault =
+                    _commonService.GetDonors(d => d.DonorID == intLoanSource).FirstOrDefault();
+                var loan = new LoanReciptPlanViewModel
+                               {
+                                   LoanReciptPlanID = loanReciptPlan.LoanReciptPlanID,
+                                   ProgramName = loanReciptPlan.Program.Name,
+                                   CommodityName = loanReciptPlan.Commodity.Name,
+                                   CommoditySourceName = loanReciptPlan.CommoditySource.Name,
+                                   LoanSource = intLoanSource
+                               };
+
+                if (firstOrDefault != null) loan.Donor = firstOrDefault.Name;
+                //SourceHubName = loanReciptPlan.Hub.Name,
+                loan.RefeenceNumber = loanReciptPlan.ReferenceNumber;
+                loan.SiNumber = loanReciptPlan.ShippingInstruction.Value;
+                loan.ProjectCode = loanReciptPlan.ProjectCode;
+                loan.Quantity = loanReciptPlan.Quantity;
+                loan.StatusID = loanReciptPlan.StatusID;
+                loan.CreatedDate = loanReciptPlan.CreatedDate.ToCTSPreferedDateFormat(datePref);
+                loan.Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, loanReciptPlan.StatusID);
+                loan.IsFalseGRN = loanReciptPlan.IsFalseGRN;
+
+                list.Add(loan);
+
+            }
+
+            return list;
+            //return (from loanReciptPlan in reciptPlans
+            //        let loanSource = loanReciptPlan.LoanSource
+            //        where loanSource != null
+            //        let intLoanSource = Convert.ToInt32(loanSource)
+            //        let firstOrDefault = _commonService.GetDonors(d=>d.DonorID == Convert.ToInt32(loanSource)).FirstOrDefault()
+            //        where firstOrDefault != null
+            //        select new LoanReciptPlanViewModel
+            //            {
+            //                LoanReciptPlanID = loanReciptPlan.LoanReciptPlanID,
+            //                ProgramName = loanReciptPlan.Program.Name,
+            //                CommodityName = loanReciptPlan.Commodity.Name,
+            //                CommoditySourceName = loanReciptPlan.CommoditySource.Name,
+            //                LoanSource = intLoanSource,
+            //                Donor = firstOrDefault.Name,
+            //                //SourceHubName = loanReciptPlan.Hub.Name,
+            //                RefeenceNumber = loanReciptPlan.ReferenceNumber,
+            //                SiNumber = loanReciptPlan.ShippingInstruction.Value,
+            //                ProjectCode = loanReciptPlan.ProjectCode,
+            //                Quantity = loanReciptPlan.Quantity,
+            //                StatusID = loanReciptPlan.StatusID,
+            //                CreatedDate = loanReciptPlan.CreatedDate.ToCTSPreferedDateFormat(datePref),
+            //                Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, loanReciptPlan.StatusID),
+            //                IsFalseGRN = loanReciptPlan.IsFalseGRN
+            //            });
 
         }
 
@@ -169,11 +205,33 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Detail(int id)
         {
             var loanReciptPlan = _loanReciptPlanService.FindById(id);
+           
+
+
             if (loanReciptPlan==null)
             {
                 return HttpNotFound();
             }
-            return View(loanReciptPlan);
+
+            var loan = new LoanReciptPlanViewModel
+            {
+                RefeenceNumber = loanReciptPlan.ReferenceNumber,
+                SiNumber = loanReciptPlan.ShippingInstruction.Value,
+                ProjectCode = loanReciptPlan.ProjectCode,
+                Quantity = loanReciptPlan.Quantity,
+                ProgramName = loanReciptPlan.Program.Name,
+                CommodityName = loanReciptPlan.Commodity.Name,
+                CommoditySourceName = loanReciptPlan.CommoditySource.Name,
+                LoanReciptPlanID = loanReciptPlan.LoanReciptPlanID
+            };
+
+            var loanSource = loanReciptPlan.LoanSource;
+            var intLoanSource = Convert.ToInt32(loanSource);
+            var firstOrDefault =
+                _commonService.GetDonors(d => d.DonorID == intLoanSource).FirstOrDefault();
+            if (firstOrDefault != null) loan.Donor = firstOrDefault.Name;
+            loan.StatusID = loanReciptPlan.StatusID;
+            return View(loan);
         }
         public ActionResult LoanReciptPlanDetail_Read([DataSourceRequest] DataSourceRequest request, int loanReciptPlanID)
         {

@@ -16,7 +16,7 @@ namespace Cats.Models
        public int LoanReciptPlanID { get; set; }
        public int ShippingInstructionID { get; set; }
       // public int HubID { get; set; }
-       public int? LoanSource { get; set; }
+       public string LoanSource { get; set; }
        public int ProgramID { get; set; }
        public string ProjectCode { get; set; }
        public DateTime CreatedDate { get; set; }

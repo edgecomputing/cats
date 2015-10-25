@@ -97,7 +97,7 @@ namespace Cats.Services.Logistics
                         QuantityInMT = loanReciptPlanDetail.RecievedQuantity,
                         HubID = loanReciptPlanDetail.HubID,
                         //SourceHubID = loanReciptPlan.SourceHubID,
-                        DonorID = loanReciptPlan.LoanSource,
+                        DonorID = int.Parse(loanReciptPlan.LoanSource),
                         ProgramID = loanReciptPlan.ProgramID,
                         IsClosed = false,
                         IsFalseGRN = loanReciptPlan.IsFalseGRN
