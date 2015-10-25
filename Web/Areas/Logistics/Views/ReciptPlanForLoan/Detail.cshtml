@@ -80,9 +80,9 @@
                 </a>
 
                 <ul class="dropdown-menu pull-right">
-                    <li><a id="btnRecive" class="btn green-sharp-stripe" href="@Url.Action("ReciptPlan", "ReciptPlanForLoan", new { id = Model.LoanReciptPlanID})">@Html.Translate("Recieve Plan")</a></li>
                     @if (Model.StatusID == (int)LocalPurchaseStatus.Draft)
                     {
+                    <li><a id="btnRecive" class="btn green-sharp-stripe" href="@Url.Action("ReciptPlan", "ReciptPlanForLoan", new { id = Model.LoanReciptPlanID})">@Html.Translate("Recieve Plan")</a></li>
                     <li><a id="btnEdit" class="btn green-sharp-stripe" href="@Url.Action("Edit", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate("Edit")</a></li>
                     <li><a id="btnApprove" class="btn green-sharp-stripe" href="@Url.Action("Approve", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate("Approve")</a></li>
                     }
@@ -204,12 +204,16 @@
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.MemoRefrenceNumber).Title(@Html.Translate("Memo Reference number"));
-                      columns.Bound(m => m.HubName).Title(@Html.Translate("Hub"));
-                      columns.Bound(m => m.CreatedDate).Title(Html.Translate("Recieved Date"));
-                      columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate("Recieving Amount")).HtmlAttributes(new { align = "right" });
-                      columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate("Remaining")).HtmlAttributes(new { align = "right" });
+                      columns.Bound(m => m.MemoRefrenceNumber).Width(100).Title(@Html.Translate("Memo Reference number"));
+                      columns.Bound(m => m.HubName).Title(@Html.Translate("Hub")).Width(100);
+                      columns.Bound(m => m.CreatedDate).Title(Html.Translate("Recieved Date")).Width(100);
+                      columns.Bound(m => m.Amount).Width(100).Title(@Html.Translate("Recieving Amount")).HtmlAttributes(new { align = "right" });
+                      columns.Bound(m => m.Remaining).Width(100).Title(@Html.Translate("Remaining")).HtmlAttributes(new { align = "right" });
                       // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+                      if (Model.StatusID == (int)LocalPurchaseStatus.Draft)
+                      {
+                          columns.Command(destroy => destroy.Destroy().HtmlAttributes(new {align = "center"})).Width(100).Title(Html.Translate("Delete"));
+                      }
 
                   }
 
@@ -224,6 +228,7 @@
                                             .Group(t => t.Add(m => m.HubName))
                                             .Model(model => model.Id(m => m.LoanReciptPlanDetailID))
                                             .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoan", new { loanReciptPlanID = Model.LoanReciptPlanID }))
+                                            .Destroy(destroy => destroy.Action("LoanReciptPlanDetail_Delete", "ReciptPlanForLoan" ))
                     //.Update(update => update.Action("Commodity_Update", "Request"))
               )
             )

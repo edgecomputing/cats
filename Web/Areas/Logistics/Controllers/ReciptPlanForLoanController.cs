@@ -256,6 +256,18 @@ namespace Cats.Areas.Logistics.Controllers
                             
                         });
         }
+
+        public ActionResult LoanReciptPlanDetail_Delete([DataSourceRequest] DataSourceRequest request, LoanReciptPlanWithDetailViewModel loanReciptPlanWithDetailViewModel)
+        {
+            if (loanReciptPlanWithDetailViewModel != null)
+            {
+                _loanReciptPlanDetailService.DeleteById(loanReciptPlanWithDetailViewModel.LoanReciptPlanDetailID);
+
+            }
+            return Json(ModelState.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+           
+        }
+
         public ActionResult ReciptPlan(int id)
         {
             var loanReciptPlan = _loanReciptPlanService.FindById(id);
