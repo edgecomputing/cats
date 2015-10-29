@@ -696,7 +696,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
                 {
-                    if (transportOrderDetail.TariffPerQtl <= 0 )
+                    if (transportOrderDetail.TariffPerQtl <= 0 && (transportOrderDetail.TransportOrder.Transporter.TransporterID != 7 && transportOrderDetail.TransportOrder.Transporter.TransporterID != 26)) // DRMFSS (7) and Emergency (26) are allowed be signed without tarrif
                     {
                         orderDetailWithoutTarrif = 1;
                         break;
