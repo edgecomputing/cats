@@ -476,16 +476,17 @@
                 entries+='@Html.Translate("Transporters")';
                 entries+='</th><th></th>';
                 entries+='</tr></thead>';
-
+                var count = 0;
                 for (var i in results.Data){
                     var availablePositions=new Array();
-                    //var count = 0;
+                   
                     var substituteTransport=results.Data[i];
                     entries+='<tr>';
                     entries+='<td style="text-align:center;font-weight: bold;">';
                     entries+=substituteTransport.Woreda;
                     entries+='</td>';
                     entries+='<td style="text-align:Left;">';
+                   
                     //entries+='<select class="anotherTransporter" id="'+substituteTransport.WoredaID+'">';
                     //entries+='<option value="">@Html.Translate("Select a Position") </option>';
                     for (var j in substituteTransport.TransportersStandingList) {
@@ -506,8 +507,10 @@
                         var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[j];
 
 
-
-                        entries+='<div class="md-checkbox"><input type="checkbox" onclick="return OptionsSelected(this)" value ="'+ transportersStanding.IsChecked +'" Id="'+ transportersStanding.TransporterID +'" name="' + substituteTransport.WoredaID +'" class="md-check"><label for="'+ transportersStanding.TransporterID +'"><span></span><span class="check"></span><span class="box"></span>'+transportersStanding.Transporter + '</label></div><hr style="margin: 10px 0;"/>';
+                        var tempId = substituteTransport.WoredaID + "_" + transportersStanding.TransporterID;
+                        
+                        entries+='<input type="checkbox" onclick="return OptionsSelected(this)" value ="'+ transportersStanding.IsChecked +'" Id="' + tempId + '" name="' + substituteTransport.WoredaID +'" ><label for="'+ transportersStanding.TransporterID +'"><span></span><span class="check"></span><span class="box"></span>'+transportersStanding.Transporter + '</label></div><hr style="margin: 10px 0;"/>';
+                        count++;
                         //}
                         //}
 
@@ -541,12 +544,13 @@
                 $("#modalWindow").html(entries);
             }
             function OptionsSelected(param) {
-
+                
                 var index = getIndexOfValue(woredaWithTransportersStanding.Data, param.name);
                 var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList;
                 for(var c=0;c<transportersStanding.length;c++){
-
-                    if (woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c].TransporterID == param.id ) {
+                    var k = param.id.indexOf("_");
+                    alert(param.id.substring(k+1));
+                    if (woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c].TransporterID == param.id.substring(k+1) ) {
                         var checked = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c];
                         if (document.getElementById(param.id).checked) {
                             checked.IsChecked = true;

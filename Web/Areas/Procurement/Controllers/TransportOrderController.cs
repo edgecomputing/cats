@@ -470,6 +470,16 @@ namespace Cats.Areas.Procurement.Controllers
                         {
                             if (transportOrderDetail.FDP.AdminUnitID == subTransporterOrders.WoredaID)
                             {
+                                var qty =
+                                    _transportOrderService.CheckIfCommodityIsDipatchedToThisFdp(
+                                        transportOrderDetail.FdpID, transportOrderDetail.TransportOrder.BidDocumentNo,
+                                        transportOrderDetail.TransportOrder.TransporterID,
+                                        transportOrderDetail.TransportOrderID,transportOrderDetail.CommodityID);
+
+                                if (qty<=0)
+                                {
+                                   continue;
+                                }
                                 //var qty = weightPref == "QTL"
                                 //                 ? transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount
                                 //                 : transportOrderDetail.QuantityQtl / transporterCount;
@@ -480,7 +490,7 @@ namespace Cats.Areas.Procurement.Controllers
                                         CommodityID = transportOrderDetail.CommodityID,
                                         FdpID = transportOrderDetail.FdpID,
                                         RequisitionID = transportOrderDetail.RequisitionID,
-                                        QuantityQtl = transportOrderDetail.QuantityQtl / transporterCount,
+                                        QuantityQtl = qty,
                                         TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                         SourceWarehouseID = transportOrderDetail.Hub.HubID,
                                         BidID = transportOrderDetail.BidID
