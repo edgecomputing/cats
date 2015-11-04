@@ -419,6 +419,7 @@ namespace Cats.Services.Procurement
                 transportOrder.StartDate = DateTime.Today.AddDays(3);
                 transportOrder.EndDate = DateTime.Today.AddDays(13);
                 transportOrder.StatusID = (int)TransportOrderStatus.Draft;
+                transportOrder.TransportRequiqsitionId = transportRequisitionId;
                
                 var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterID == transporter).Distinct();
                
@@ -624,12 +625,16 @@ namespace Cats.Services.Procurement
                foreach (var detail in transReq)
                {
                    var transportReq = _unitOfWork.TransReqWithoutTransporterRepository.FindById(detail.TransReqWithoutTransporterID);
+                   //transportOrder =
+                   //    _unitOfWork.TransportOrderDetailRepository.FindBy(
+                   //        t => t.RequisitionID == transportReq.ReliefRequisitionDetail.RequisitionID && t.TransportOrder.TransporterID == transporterId &&
+                   //    t.TransportOrder.StatusID == (int)TransportOrderStatus.Draft).Select(
+                   //            t => t.TransportOrder).FirstOrDefault();
+                   TransportRequisitionWithoutWinnerModel detail1 = detail;
                    transportOrder =
-                       _unitOfWork.TransportOrderDetailRepository.FindBy(
-                           t => t.RequisitionID == transportReq.ReliefRequisitionDetail.RequisitionID && t.TransportOrder.TransporterID == transporterId &&
-                       t.TransportOrder.StatusID == (int)TransportOrderStatus.Draft).Select(
-                               t => t.TransportOrder).FirstOrDefault();
-
+                     _unitOfWork.TransportOrderDetailRepository.FindBy(t=>t.TransportOrder.TransporterID == transporterId && t.TransportOrder.TransportRequiqsitionId == transportReq.TransportRequisitionDetail.TransportRequisitionID  &&
+                     t.TransportOrder.StatusID == (int)TransportOrderStatus.Draft).Select(
+                             t => t.TransportOrder).FirstOrDefault();
 
                    if (transportOrder == null) continue;
                    var transportOrderDetail = new TransportOrderDetail
@@ -704,6 +709,7 @@ namespace Cats.Services.Procurement
                     var transRequisition =
                         _unitOfWork.TransportRequisitionDetailRepository.FindById(
                             transReqWithTransporter.FirstOrDefault().TransportRequisitionID).TransportRequisition;
+                    transportOrder.TransportRequiqsitionId = transRequisition.TransportRequisitionID;
                     transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
                     //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                     transportOrder.ContractNumber = Guid.NewGuid().ToString();
