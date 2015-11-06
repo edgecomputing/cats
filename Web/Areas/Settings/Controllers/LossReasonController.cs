@@ -90,6 +90,14 @@ namespace Cats.Areas.Settings.Controllers
             }
             return Json(new[] { model }.ToDataSourceResult(request, ModelState));
         }
+        
+        public ActionResult LossReason_Delete(int id)
+        {
+            var original = _lossReasonService.FindById(id);
+            _lossReasonService.DeleteLossReason(original);
+
+            return RedirectToAction("Index");
+        }
 
     }
 }

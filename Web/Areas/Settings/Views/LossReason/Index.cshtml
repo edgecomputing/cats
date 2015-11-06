@@ -17,6 +17,7 @@
 @(Html.Kendo().Grid<LossReasonModel>()
     .Name("grid")
     .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Selectable(t => t.Mode(GridSelectionMode.Single))
     .Sortable()
     .Filterable()
     .HtmlAttributes(new { style = "height:450px;" })
@@ -30,9 +31,9 @@
         columns.Bound(t => t.LossReasonCodeAm).Title(Translator.Translate("Code AM"));
         columns.Bound(t => t.Description);
 
-        //columns.Command(command => command.Destroy());
-        //columns.Command(command => command.Custom("Delete").Click("onDelete"));
-
+       // columns.Command(command => command.Destroy());
+        columns.Command(command => command.Custom("Delete").Click("onDelete"));
+        
     })
     .DataSource(
         datasource =>datasource.Ajax()
@@ -40,7 +41,7 @@
             .Read("LossReason_Read", "LossReason")
             .Create("LossReason_Create", "LossReason")
             .Update("LossReason_Update", "LossReason")
-            
+            //.Destroy("LossReason_Delete","LossReason")
       ))
 
 
@@ -50,6 +51,25 @@
     <button id="no" class="k-button">No</button>
 </div>
 <script>
+    
+    function onDelete(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+     
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("LossReason_Delete", "LossReason")" + "/" + dataItem.LossReasonId;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+
+
     var wnd;
     $(document).ready(function () {
         wnd = $("#modalWindow").kendoWindow({
