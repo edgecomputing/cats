@@ -16,7 +16,7 @@ namespace Cats.Models.Mapping
 
            
             // Table & Column Mappings
-            this.ToTable("LoasReason");
+            this.ToTable("LossReason");
             this.Property(t => t.LossReasonId).HasColumnName("LossReasonId");
             this.Property(t => t.LossReasonEg).HasColumnName("LossReasonEg");
             this.Property(t => t.LossReasonAm).HasColumnName("LossReasonAm");

@@ -104,11 +104,14 @@
                       .Scrollable(t => t.Height(400))
                       //.Selectable(t => t.Mode(GridSelectionMode.Single))
                       .Navigatable()
+                      //.Selectable()
                       //.AutoBind(false)
-                              
+                      .Events(events => events.Edit("onChange"))
                       .DataSource(datasource =>
                                   datasource
                                       .Ajax()
+                                       
+                                      
                                       .PageSize(10)
                                       .Model(m =>
                                                  {
@@ -140,6 +143,52 @@
 
 
 <script>
+    
+    var initialLoad = true;
+
+    $(document).ready(function() {
+        initialLoad = false;
+
+    });
+        
+    function onChange(e) {
+        alert(e.sender);
+       var grid = e.sender;
+       var currentDataItem = grid.dataItem("tr:eq(1)");
+       
+    }
+    
+    function totalPsnpAndnonPsnp(data) {
+        
+        if (initialLoad) {
+            alert("Initial");
+            return 0;
+        } else {
+            if (data.LossAmount == 0 || data.LossAmount == null) {
+                if (data.ReceivedAmount > data.Quantity) {
+
+                    if (confirm("Received  '" + (data.ReceivedAmount) + "'  amount can not be greater than dipached amount!. Do you wish to continue?")) {
+                        return data.ReceivedAmount;
+                    }
+                    return 0;
+                }
+            } else {
+                if ((data.ReceivedAmount + data.LossAmount) > data.Quantity) {
+                    if (confirm("The sun of Received and loss amount '" + (data.ReceivedAmount + data.LossAmount) + "'  can not be greater than dipached amount! Do you wish to continue?")) {
+                        return data.ReceivedAmount;
+                    } else {
+                        return 0;
+                    }
+
+                }
+            }
+            if (data.ReceivedAmount == null) return 0;
+            return data.ReceivedAmount;
+        }
+        
+
+      
+    }
     var FDPID = 0;
     function onSelect(e) {
         var id = this.dataItem(e.node).id;
@@ -160,7 +209,7 @@
         return obj;
     }
     
-    @*var app = angular.module("MyApp", ["kendo.directives"]);
+            @*var app = angular.module("MyApp", ["kendo.directives"]);
 
     app.controller('TreeController', function ($scope, $http) {
 
@@ -193,5 +242,12 @@
 
     });*@
 
+    var rowCount = 0;
+    var gridData = [];
+    
+    function getRowNo(data) {
+        gridData[rowCount] = data;
+        return 1 + rowCount++;
+    }  
     
 </script>
