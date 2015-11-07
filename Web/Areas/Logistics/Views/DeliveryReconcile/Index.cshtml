@@ -85,17 +85,18 @@
                                    {
                                        columns.Bound(c => c.DispatchID).Visible(false);
                                        columns.Bound(c => c.RequisitionNo).Width(16);
-                                       columns.Bound(c => c.GIN).Width(8);
+                                       columns.Bound(c => c.GIN).Width(15);
                                        columns.Bound(c => c.DispatchDatePref).Width(17);
                                        columns.Bound(c => c.Commodity).Width(13);
                                        columns.Bound(c => c.Round).Width(10);
                                        columns.Bound(c => c.MonthYear).Width(12);
-                                       columns.Bound(c => c.Quantity).Width(22).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                       columns.Bound(c => c.Quantity).Width(12).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
                                        columns.Bound(c => c.GRN).Width(8);
                                        columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
-                                       columns.Bound(c => c.ReceivedAmount).Width(20).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
-                                       columns.Bound(c => c.LossAmount).Width(16).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
-                                       columns.Bound(c => c.LossReason).Width(15);
+                                       columns.Bound(c => c.ReceivedAmount).Width(10).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                       columns.Bound(c => c.LossAmount).Width(10).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
+                                       columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss Reason").Width(30);
+                                       //columns.Bound(c => c.LossReason).Width(15);
                                        //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 
                                    })
@@ -106,11 +107,12 @@
                       .Navigatable()
                       //.Selectable()
                       //.AutoBind(false)
-                      .Events(events => events.Edit("onChange"))
+                      //.Events(events => events.e("onChange"))
+                      .Filterable()
                       .DataSource(datasource =>
                                   datasource
                                       .Ajax()
-                                       
+                                       .Events(error=>error.Error("error_handler"))
                                       
                                       .PageSize(10)
                                       .Model(m =>
@@ -133,6 +135,7 @@
                       //.Update("ReconciledDeliveryUpdate", "DeliveryReconcile")
                       //.Destroy("FDP_Destroy","FDP")
                       )
+                       .Resizable(resize => resize.Columns(true))
                       )
 
             </div>
@@ -144,51 +147,26 @@
 
 <script>
     
-    var initialLoad = true;
 
-    $(document).ready(function() {
-        initialLoad = false;
-
-    });
-        
-    function onChange(e) {
-        alert(e.sender);
-       var grid = e.sender;
-       var currentDataItem = grid.dataItem("tr:eq(1)");
-       
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
     }
     
-    function totalPsnpAndnonPsnp(data) {
+   
         
-        if (initialLoad) {
-            alert("Initial");
-            return 0;
-        } else {
-            if (data.LossAmount == 0 || data.LossAmount == null) {
-                if (data.ReceivedAmount > data.Quantity) {
-
-                    if (confirm("Received  '" + (data.ReceivedAmount) + "'  amount can not be greater than dipached amount!. Do you wish to continue?")) {
-                        return data.ReceivedAmount;
-                    }
-                    return 0;
-                }
-            } else {
-                if ((data.ReceivedAmount + data.LossAmount) > data.Quantity) {
-                    if (confirm("The sun of Received and loss amount '" + (data.ReceivedAmount + data.LossAmount) + "'  can not be greater than dipached amount! Do you wish to continue?")) {
-                        return data.ReceivedAmount;
-                    } else {
-                        return 0;
-                    }
-
-                }
-            }
-            if (data.ReceivedAmount == null) return 0;
-            return data.ReceivedAmount;
-        }
-        
-
-      
-    }
+    
+    
+   
     var FDPID = 0;
     function onSelect(e) {
         var id = this.dataItem(e.node).id;
@@ -209,38 +187,6 @@
         return obj;
     }
     
-            @*var app = angular.module("MyApp", ["kendo.directives"]);
-
-    app.controller('TreeController', function ($scope, $http) {
-
-        $scope.Zones = [];
-        $scope.FDPs = [];
-        $http({
-            method: 'GET',
-            url: '/DeliveryReconcile/ReadFDPs?selectedWoreda=' + selectedWoreda
-        }).success(function (result) {
-            $scope.FDPs = result;
-        });
-        
-        $http({
-            method: 'GET',
-            url: '/DeliveryReconcile/ReadZones?regionID=' + @ViewBag.RegionID
-        }).success(function (result) {
-            $scope.Zones = result;
-        });
-        //for(var i=0; i<$scope.Zones.length;i++) {
-        //    var array = {};
-        //    array["text":]
-        //}
-        var things = {
-            data: $scope.Zones
-        };
-
-        $scope.thingsOptions = {
-            dataSource: things
-        };
-
-    });*@
 
     var rowCount = 0;
     var gridData = [];

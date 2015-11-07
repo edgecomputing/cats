@@ -37,6 +37,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly Cats.Services.EarlyWarning.IFDPService _fdpService;
         private readonly Cats.Services.Logistics.IDeliveryReconcileService _deliveryReconcileService;
         private readonly IUserAccountService _userAccountService;
+        private readonly ILossReasonService _lossReasonService;
 
         public DeliveryReconcileController(IDispatchAllocationService dispatchAllocationService,
                                       IDeliveryService deliveryService,
@@ -44,7 +45,7 @@ namespace Cats.Areas.Logistics.Controllers
             Cats.Services.EarlyWarning.ICommodityService commodityService, Cats.Services.EarlyWarning.IUnitService unitService, 
             Cats.Services.Transaction.ITransactionService transactionService,
             Cats.Services.EarlyWarning.IAdminUnitService adminUnitService, Cats.Services.EarlyWarning.IFDPService fdpService,
-            Cats.Services.Logistics.IDeliveryReconcileService deliveryReconcileService, IUserAccountService userAccountService)
+            Cats.Services.Logistics.IDeliveryReconcileService deliveryReconcileService, IUserAccountService userAccountService, ILossReasonService lossReasonService)
 
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -57,6 +58,7 @@ namespace Cats.Areas.Logistics.Controllers
             _fdpService = fdpService;
             _deliveryReconcileService = deliveryReconcileService;
             _userAccountService = userAccountService;
+            _lossReasonService = lossReasonService;
         }
 
         public ActionResult Index(int regionID)
@@ -64,7 +66,16 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.RegionID = regionID;
             ViewBag.Region = _adminUnitService.FindById(regionID).Name;
             var zonesList = _adminUnitService.GetAllZones(regionID);
-            ViewBag.ZoneCollection = BindZoneViewModel(zonesList); 
+            ViewBag.ZoneCollection = BindZoneViewModel(zonesList);
+            var lossReasons = _lossReasonService.GetAllLossReason().Select(t => new
+                                                                                    {
+                                                                                        name =
+                                                                                    t.LossReasonCodeEg + "-" +
+                                                                                    t.LossReasonEg,
+                                                                                        Id = t.LossReasonId
+                                                                                    });
+
+            ViewData["LossReasons"] = lossReasons;
             return View();
         }
 
@@ -86,7 +97,7 @@ namespace Cats.Areas.Logistics.Controllers
                     dispatchViewModelForReconcile.ReceivedAmount = deliveryReconcile.ReceivedAmount;
                     dispatchViewModelForReconcile.ReceivedDate = deliveryReconcile.ReceivedDate;
                     dispatchViewModelForReconcile.LossAmount = deliveryReconcile.LossAmount;
-                    dispatchViewModelForReconcile.LossReason = deliveryReconcile.LossReason;
+                    dispatchViewModelForReconcile.LossReasonId = (int) deliveryReconcile.LossReason;
                     dispatchViewModelForReconcile.TransactionGroupID = deliveryReconcile.TransactionGroupID;
                 }
                     
@@ -114,7 +125,7 @@ namespace Cats.Areas.Logistics.Controllers
                         deliveryReconcile.ReceivedAmount = (dispatchViewModelForReconcile.ReceivedAmount ?? 0);
                         deliveryReconcile.ReceivedDate = (dispatchViewModelForReconcile.ReceivedDate ?? DateTime.Now);
                         deliveryReconcile.LossAmount = dispatchViewModelForReconcile.LossAmount;
-                        deliveryReconcile.LossReason = dispatchViewModelForReconcile.LossReason;
+                        deliveryReconcile.LossReason = dispatchViewModelForReconcile.LossReasonId;
                         _deliveryReconcileService.EditDeliveryReconcile(deliveryReconcile);
                         ModelState.AddModelError("Success", @"Success: Delivery Reconcilation Data Updated.");
                     }
@@ -138,7 +149,7 @@ namespace Cats.Areas.Logistics.Controllers
                                 ReceivedDate =
                                     (dvmfr.ReceivedDate ?? DateTime.Now),
                                 LossAmount = dvmfr.LossAmount,
-                                LossReason = dvmfr.LossReason
+                                LossReason = dvmfr.LossReasonId
                             };
                             _deliveryReconcileService.AddDeliveryReconcile(deliveryReconcile);
                             _transactionService.PostDeliveryReconcileReceipt(deliveryReconcile.DeliveryReconcileID);

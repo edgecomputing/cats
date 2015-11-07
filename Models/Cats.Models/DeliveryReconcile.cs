@@ -19,7 +19,7 @@ namespace Cats.Models
         public decimal ReceivedAmount { get; set; }
         public System.DateTime ReceivedDate { get; set; }
         public Nullable<decimal> LossAmount { get; set; }
-        public string LossReason { get; set; }
+        public int? LossReason { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public virtual Dispatch Dispatch { get; set; }
         public virtual FDP FDP { get; set; }

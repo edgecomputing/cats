@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Cats.Areas.Logistics.Models
 {
-    public class DispatchViewModelForReconcile
+    public class DispatchViewModelForReconcile:IValidatableObject
     {
         public Guid DispatchID { get; set; }
 
@@ -140,7 +140,28 @@ namespace Cats.Areas.Logistics.Models
         public System.DateTime? ReceivedDate { get; set; }
         public Nullable<decimal> LossAmount { get; set; }
         public string LossReason { get; set; }
+        public int LossReasonId { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public string Hub { get; set; }
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Quantity < ReceivedAmount)
+            {
+                yield return new ValidationResult("Received amount can not be greater than Dispatched amount!");
+            }
+            if(Quantity < LossAmount)
+            {
+                yield return new ValidationResult("Loss Amount can not be greater than Dispatched amount");
+            }
+            if (LossAmount > 0)
+            {
+                if (Quantity < (ReceivedAmount + LossAmount))
+                {
+                    yield return
+                        new ValidationResult(
+                            "The sum of loss amount and received amount can not be greater than dispatched amount");
+                }
+            }
+        }
     }
 }
