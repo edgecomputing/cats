@@ -100,6 +100,13 @@ namespace Cats.Services.Common
            return _unitOfWork.PlanRepository.FindBy(m => planId.Contains(m.PlanID) && m.ProgramID == programID && m.Status == (int)PlanStatus.HRDCreated);
        }
 
+       public int GetWoredaBeneficiaryNo(int planId, int woredaId)
+       {
+           var result =
+               _unitOfWork.HRDDetailRepository.FindBy(p => p.HRD.PlanID == planId && p.WoredaID == woredaId).Sum(
+                   s => s.NumberOfBeneficiaries);
+           return result;
+       }
      public  List<Plan> GetPlans()
      {
          return _unitOfWork.PlanRepository.GetAll();

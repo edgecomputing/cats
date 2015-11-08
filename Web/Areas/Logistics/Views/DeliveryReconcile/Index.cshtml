@@ -95,7 +95,7 @@
                                        columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
                                        columns.Bound(c => c.ReceivedAmount).Width(10).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
                                        columns.Bound(c => c.LossAmount).Width(10).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
-                                       columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss Reason").Width(30);
+                                       columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(30);
                                        //columns.Bound(c => c.LossReason).Width(15);
                                        //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 

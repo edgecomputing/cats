@@ -117,10 +117,14 @@ namespace Cats.Areas.Logistics.Controllers
             woredaStockDistributionViewModel.WoredaID = Woreda;
             woredaStockDistributionViewModel.Month = month;
             woredaStockDistributionViewModel.ProgramID = programID;
+            woredaStockDistributionViewModel.ActualBeneficairies = getWoredaBeneficiaryNoFromHRD(planID, Woreda);
 
             return View(woredaStockDistributionViewModel);
         }
-
+        private int getWoredaBeneficiaryNoFromHRD(int planId, int woredaId)
+        {
+            return _commonService.GetWoredaBeneficiaryNo(planId, woredaId);
+        }
         public WoredaStockDistributionWithDetailViewModel CheckWoredaDistribution(int woredaID = -1, int planID = -1, int month = -1)
         {
             if (woredaID == -1 || planID == -1 || month == -1)
