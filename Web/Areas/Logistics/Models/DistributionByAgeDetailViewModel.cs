@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace Cats.Areas.Logistics.Models
 {
-    public class WoredaDistributionDetailViewModel
+    public class WoredaDistributionDetailViewModel:IValidatableObject
     {
         public int FdpId { get; set; }
         public string FDP { get; set; }
@@ -47,6 +48,24 @@ namespace Cats.Areas.Logistics.Models
         public int FemaleBetween5And18Years { get; set; }
         public int MaleAbove18Years { get; set; }
         public int FemaleAbove18Years { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (TotalOut > (TotalIn + BeginingBalance))
+            {
+                yield return new ValidationResult("Total out can not be greater than the stock available");
+            }
+
+            if (DistributedAmount > TotalOut)
+            {
+                yield return new ValidationResult("Amount to be distributed can not be greater than the 'Total out' amount");
+            }
+
+            if (LossAmount > DistributedAmount)
+            {
+                yield return new ValidationResult("Loss amount can not be greater than the amount allocated for distribution");
+            }
+        }
        
     }
     public class RequisitionDetailViewModel
