@@ -194,7 +194,7 @@
 
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
-                                                    
+                                                    .Events(error=>error.Error("error_handler"))
                                                      .Group(m => m.Add(t => t.CommodityName))
                           // .Events(e=>e.RequestEnd("onRequestEnd"))
                           // .ServerOperation(false)
@@ -228,6 +228,21 @@
     </div>
 }
 <script type="text/javascript">
+    
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    
     function index(dataItem) {
         var data = $("#RequisitionGridDetail").data("kendoGrid").dataSource.data();
 
