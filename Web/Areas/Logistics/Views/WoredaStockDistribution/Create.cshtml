@@ -168,20 +168,25 @@
                            columns.Bound(p => p.TotalOut)
                                 .ClientTemplate("#= TotalOut #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalOut' value='#= TotalOut #' />");
-                           columns.Bound(p => p.EndingBalance)
-                                .ClientTemplate("#= EndingBalance #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
-                          //// columns.Bound(p => p.DistributionStartDate);
-                          //// columns.Bound(p => p.DistributionEndDate);
+                           
                            columns.Bound(p => p.DistributedAmount)
                                 .ClientTemplate("#= DistributedAmount #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].DistributedAmount' value='#= DistributedAmount #' />");
+
+                          
+                           
                            columns.Bound(p => p.LossAmount)
                                 .ClientTemplate("#= LossAmount #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' value='#= LossAmount #' />");
                           columns.Bound(p => p.LossReason)
                               .ClientTemplate("#= LossReason #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossReason' value='#= LossReason #' />");
+
+                          columns.Bound(p => p.EndingBalance).ClientTemplate("#=TotalEndingBalance(data)#")
+                                .ClientTemplate("#= EndingBalance #" +
+                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
+                          //// columns.Bound(p => p.DistributionStartDate);
+                          //// columns.Bound(p => p.DistributionEndDate);
 
                       })
         //.ToolBar(toolBar=>toolBar.Save())
@@ -228,6 +233,11 @@
     </div>
 }
 <script type="text/javascript">
+    
+
+    function TotalEndingBalance(data) {
+        return (data.BeginingBalance + data.TotalIn) + (data.TotalOut - data.DistributedAmount) - data.LossAmount;
+    }
     
     function error_handler(e) {
         if (e.errors) {
