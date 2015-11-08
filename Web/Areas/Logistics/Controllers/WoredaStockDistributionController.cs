@@ -96,7 +96,7 @@ namespace Cats.Areas.Logistics.Controllers
            }
             var woredaStockDistributionViewModel = new WoredaStockDistributionWithDetailViewModel();
             //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels
-            var woredaStockDistribution = CheckWoredaDistribution(Woreda, planID, month);
+            var woredaStockDistribution = CheckWoredaDistribution(Woreda, planID, month,programID);
             if (woredaStockDistribution!=null)
             {
                 LookUps(woredaStockDistribution);
@@ -125,15 +125,26 @@ namespace Cats.Areas.Logistics.Controllers
         {
             return _commonService.GetWoredaBeneficiaryNo(planId, woredaId);
         }
-        public WoredaStockDistributionWithDetailViewModel CheckWoredaDistribution(int woredaID = -1, int planID = -1, int month = -1)
+        public WoredaStockDistributionWithDetailViewModel CheckWoredaDistribution(int woredaID = -1, int planID = -1, int month = -1,int programId=-1)
         {
-            if (woredaID == -1 || planID == -1 || month == -1)
+            if (woredaID == -1 || planID == -1 || month == -1 || programId == -1)
                 return null;
             //var woredaStockDistribution = _utilizationService.FindBy(m => m.WoredaID == woredaID && m.Month == month && m.PlanID == planID).FirstOrDefault();
             var zoneID = _commonService.GetZoneID(woredaID);
             var regionID = _commonService.GetRegion(zoneID);
-            var regionalRequest =_regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID==regionID).FirstOrDefault();
-            if (regionalRequest!=null)
+            RegionalRequest regionalRequest = null;
+            if (programId == (int)Programs.Releif)
+            {
+                 regionalRequest =
+                    _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID == regionID)
+                        .FirstOrDefault();
+            }
+            else if (programId == (int) Programs.PSNP)
+            {
+                regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Round == month && m.RegionID == regionID)
+                    .FirstOrDefault();
+            }
+            if (regionalRequest != null)
             {
                 var requisition =
                     _reliefRequisitionService.FindBy(
@@ -423,9 +434,16 @@ namespace Cats.Areas.Logistics.Controllers
         
          public void LookUps(WoredaStockDistributionWithDetailViewModel distributionInfo)
         {
-            
-             
-            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+
+
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            var regions = _commonService.GetRegions();
+            if (userRegionID != null)
+            {
+                regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
+
+            }
+            ViewBag.Region = new SelectList(regions, "AdminUnitID", "Name", "--Select Region--");
             ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
             ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name",distributionInfo.WoredaID);
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",distributionInfo.ProgramID);
@@ -606,27 +624,41 @@ namespace Cats.Areas.Logistics.Controllers
             var plans = _commonService.GetRequisitionGeneratedPlan(programId,zoneID);
             return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
         }
-       
-        public JsonResult GetMonth(string id,int zoneID)
+
+        public JsonResult GetMonth(string id, int zoneID, int programId)
         {
             try
             {
                 var planid = int.Parse(id);
                 var requisition = _reliefRequisitionService.FindBy(m => m.ZoneID == zoneID).Select(m => m.RegionalRequestID).Distinct();
+
                 var request = _regionalRequestService.FindBy(m => requisition.Contains(m.RegionalRequestID) && m.PlanID == planid) .ToList();
                 //var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                var month = from m in request
-                             select new {month = m.Month};
-                var distinctMonth = month.Distinct();
-                return Json(new SelectList(distinctMonth, "month", "month"), JsonRequestBehavior.AllowGet);
+               
+                if (programId == (int) Cats.Models.Constant.Programs.Releif) 
+                {
+                  var round  = from m in request
+                            select new { round = m.Round };
+                  var distinctRound = round.Distinct();
+                  return Json(new SelectList(distinctRound, "round", "round"), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                   var month = from m in request
+                            select new { month = m.Month };
+                   var distinctMonth = month.Distinct();
+                   return Json(new SelectList(distinctMonth, "month", "month"), JsonRequestBehavior.AllowGet);
+                }
+                
+               
             }
             catch (Exception)
             {
 
                 return null;
             }
-          
         }
+
         public JsonResult GetRound(string id)
         {
             try
