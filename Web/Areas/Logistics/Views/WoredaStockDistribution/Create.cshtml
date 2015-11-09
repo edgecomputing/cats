@@ -182,7 +182,7 @@
                               .ClientTemplate("#= LossReason #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossReason' value='#= LossReason #' />");
 
-                          columns.Bound(p => p.EndingBalance).ClientTemplate("#=TotalEndingBalance(data)#")
+                          columns.Bound(p => p.EndingBalance)
                                 .ClientTemplate("#= EndingBalance #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                           //// columns.Bound(p => p.DistributionStartDate);
@@ -236,9 +236,26 @@
     
 
     function TotalEndingBalance(data) {
+        alert("yes");
         return (data.BeginingBalance + data.TotalIn) + (data.TotalOut - data.DistributedAmount) - data.LossAmount;
     }
     
+    function validateNoOfBeneficiaries() {
+        var actualBeneficiaries = $("#ActualBeneficairies").val();
+        var maleLessThanfive = $("#MaleLessThan5Years").val();
+        var femaleLessThanFive = $("#FemaleLessThan5Years").val();
+        var maleBetween5and18 = $("#MaleBetween5And18Years").val();
+        var femaleBetween5and18 = $("#FemaleBetween5And18Years").val();
+        var maleAbove18 = $("#MaleAbove18Years").val();
+        var femaleAbove18 = $("#FemaleAbove18Years").val();
+
+        
+        if ((maleLessThanfive + maleBetween5and18 + maleAbove18 + femaleLessThanFive + femaleBetween5and18 + femaleAbove18) > actualBeneficiaries) {
+            alert("Number of beneficiaries can not be greater than actual beneficiary");
+            return false;
+        }
+        return true;
+    }
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
@@ -261,8 +278,10 @@
 
     $(function() {
         $("#SubmitButton").click(function () {
-            $(this).button('loading');
-            $("#frm_create_utilization").submit();
+            if (validateNoOfBeneficiaries()) {
+                $(this).button('loading');
+                $("#frm_create_utilization").submit();
+            }
         });
     });
 </script>
