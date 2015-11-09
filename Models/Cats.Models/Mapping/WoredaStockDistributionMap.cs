@@ -24,7 +24,8 @@ namespace Cats.Models.Mapping
             this.Property(t => t.WoredaID).HasColumnName("WoredaID");
             this.Property(t => t.ProgramID).HasColumnName("ProgramID");
             this.Property(t => t.PlanID).HasColumnName("PlanID");
-            this.Property(t => t.SupportTypeID).HasColumnName("SupportTypeID");
+            this.Property(t => t.DirectSupport).HasColumnName("DirectSupport");
+            this.Property(t => t.PublicSupport).HasColumnName("PublicSupport");
             this.Property(t => t.ActualBeneficairies).HasColumnName("ActualBeneficairies");
             this.Property(t => t.DistributionDate).HasColumnName("DistributionDate");
             this.Property(t => t.DistributedBy).HasColumnName("DistributedBy");
@@ -47,9 +48,7 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.AdminUnit)
                 .WithMany(t => t.WoredaStockDistributions)
                 .HasForeignKey(t => t.WoredaID);
-            this.HasRequired(t => t.SupportType)
-                .WithMany(t => t.WoredaStockDistributions)
-                .HasForeignKey(t => t.SupportTypeID);
+           
 
         }
     }

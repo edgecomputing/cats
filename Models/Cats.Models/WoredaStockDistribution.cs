@@ -19,7 +19,8 @@ namespace Cats.Models
         public int ProgramID { get; set; }
         public int PlanID { get; set; }
         public int  Month { get; set; }
-        public int SupportTypeID { get; set; }
+        public int? DirectSupport { get; set; }
+        public int? PublicSupport { get; set; }
         public int ActualBeneficairies { get; set; }
         //public int Round { get; set; }
         public DateTime DistributionDate { get; set; }
@@ -37,6 +38,6 @@ namespace Cats.Models
         public virtual ICollection<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
-        public virtual SupportType SupportType { get; set; }
+        //public virtual SupportType SupportType { get; set; }
     }
 }

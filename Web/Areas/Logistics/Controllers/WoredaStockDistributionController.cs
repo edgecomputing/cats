@@ -6,6 +6,7 @@ using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Administration;
 using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.Services.EarlyWarning;
@@ -34,6 +35,8 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IDispatchService _dispatchService;
         private readonly IDeliveryService _deliveryService;
         private readonly IProgramService _programService;
+        private readonly ILossReasonService _lossReasonService;
+
         public WoredaStockDistributionController(
             IUtilizationHeaderSerivce utilizationService,
             IProgramService programService,
@@ -43,7 +46,7 @@ namespace Cats.Areas.Logistics.Controllers
             IRegionalRequestService regionalRequestService,
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IReliefRequisitionService reliefRequisitionService,
-            ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService)
+            ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService, ILossReasonService lossReasonService)
         {
             _utilizationService = utilizationService;
             _programService = programService;
@@ -56,6 +59,7 @@ namespace Cats.Areas.Logistics.Controllers
             _transactionService = transactionService;
             _dispatchService = dispatchService;
             _deliveryService = deliveryService;
+            _lossReasonService = lossReasonService;
         }
 
         //
@@ -186,7 +190,8 @@ namespace Cats.Areas.Logistics.Controllers
                     ProgramID = woredaStockDistribution.ProgramID,
                     PlanID = woredaStockDistribution.PlanID,
                     Month = woredaStockDistribution.WoredaStockDistributionID,
-                    SupportTypeID = woredaStockDistribution.SupportTypeID,
+                    DirectSupport = woredaStockDistribution.DirectSupport,
+                    PublicSupport = woredaStockDistribution.PublicSupport,
                     ActualBeneficairies = woredaStockDistribution.ActualBeneficairies,
                     MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years,
                     FemaleLessThan5Years = woredaStockDistribution.FemaleLessThan5Years,
@@ -197,6 +202,8 @@ namespace Cats.Areas.Logistics.Controllers
                     WoredaDistributionDetailViewModels = (from woredaDistributionDetail in woredaStockDistribution.WoredaStockDistributionDetails
                                                           from reliefRequisition in requisition
                                                           where woredaDistributionDetail.CommodityID==reliefRequisition.CommodityID
+                                                          let lossReason = woredaDistributionDetail.LossReason
+                                                          where lossReason != null
                                                           select new WoredaDistributionDetailViewModel()
                                                               {
                                                                   WoredaStockDistributionDetailID = woredaDistributionDetail.WoredaStockDistributionDetailID,
@@ -218,7 +225,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   TotalIn = woredaDistributionDetail.TotalIn,
                                                                   TotalOut = woredaDistributionDetail.TotoalOut,
                                                                   LossAmount = woredaDistributionDetail.LossAmount,
-                                                                  LossReason = woredaDistributionDetail.LossReason,
+                                                                  LossReasonId = (int) lossReason,
                                                                   
 
 
@@ -260,7 +267,15 @@ namespace Cats.Areas.Logistics.Controllers
 
             return totaldispatched;
         }
-
+        public JsonResult getReasonName(int id)
+        {
+            var loss  = _lossReasonService.FindBy(l => l.LossReasonId == id).FirstOrDefault();
+            if (loss == null)
+                return Json("");
+           var  name = loss.LossReasonCodeEg;
+           
+            return Json(name,JsonRequestBehavior.AllowGet);
+        }
         private decimal GetDelivered(string reqNo,int fdpId)
         {
             var dispatchIds = _dispatchService.Get(t => t.DispatchAllocation.RequisitionNo == reqNo && t.FDPID == fdpId).Select(t => t.DispatchID).ToList();
@@ -286,7 +301,9 @@ namespace Cats.Areas.Logistics.Controllers
                         FemaleAbove18Years = distributionViewModel.FemaleAbove18Years,
                         FemaleBetween5And18Years = distributionViewModel.FemaleBetween5And18Years,
                         FemaleLessThan5Years = distributionViewModel.FemaleLessThan5Years,
-                        SupportTypeID = distributionViewModel.SupportTypeID
+                        DirectSupport = distributionViewModel.DirectSupport,
+                        PublicSupport = distributionViewModel.PublicSupport
+                        
 
                     };
                 return distributionModel;
@@ -332,7 +349,7 @@ namespace Cats.Areas.Logistics.Controllers
                                     TotalIn = woredaDistributionDetailViewModel.TotalIn,
                                     TotoalOut = woredaDistributionDetailViewModel.TotalOut,
                                     LossAmount = woredaDistributionDetailViewModel.LossAmount,
-                                    LossReason = woredaDistributionDetailViewModel.LossReason,
+                                    LossReason = woredaDistributionDetailViewModel.LossReasonId,
                                     DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount
 
 
@@ -371,7 +388,9 @@ namespace Cats.Areas.Logistics.Controllers
                     utilization.MaleLessThan5Years = woredaStockDistribution.MaleLessThan5Years;
                     utilization.MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years;
                     utilization.MaleAbove18Years = woredaStockDistribution.MaleAbove18Years;
-                    utilization.SupportTypeID = woredaStockDistribution.SupportTypeID;
+                    utilization.DirectSupport = woredaStockDistribution.DirectSupport;
+                    utilization.PublicSupport = woredaStockDistribution.PublicSupport;
+                   
                     _utilizationService.EditHeaderDistribution(utilization);
 
                     var woredaDistributionDetails = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == utilization.WoredaStockDistributionID);
@@ -388,7 +407,7 @@ namespace Cats.Areas.Logistics.Controllers
                                 woredaDistributionDetail.TotalIn = woredaDistributionDetailViewModel.TotalIn;
                                 woredaDistributionDetail.TotoalOut = woredaDistributionDetailViewModel.TotalOut;
                                 woredaDistributionDetail.LossAmount = woredaDistributionDetailViewModel.LossAmount;
-                                woredaDistributionDetail.LossReason = woredaDistributionDetailViewModel.LossReason;
+                                woredaDistributionDetail.LossReason = woredaDistributionDetailViewModel.LossReasonId;
                                 woredaDistributionDetail.DistributedAmount =woredaDistributionDetailViewModel.DistributedAmount;
                                 _utilizationDetailSerivce.EditDetailDistribution(woredaDistributionDetail);
 
@@ -428,6 +447,17 @@ namespace Cats.Areas.Logistics.Controllers
                 regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
 
             }
+
+            var lossReasons = _lossReasonService.GetAllLossReason().Select(t => new
+            {
+                name =
+            t.LossReasonCodeEg + "-" +
+            t.LossReasonEg,
+                Id = t.LossReasonId
+            });
+
+            ViewData["LossReasons"] = lossReasons;
+
             ViewBag.Region = new SelectList(regions, "AdminUnitID", "Name","--Select Region--");
             ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
             ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name");
@@ -447,6 +477,15 @@ namespace Cats.Areas.Logistics.Controllers
                 regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
 
             }
+            var lossReasons = _lossReasonService.GetAllLossReason().Select(t => new
+            {
+                name =
+            t.LossReasonCodeEg + "-" +
+            t.LossReasonEg,
+                Id = t.LossReasonId
+            });
+
+            ViewData["LossReasons"] = lossReasons;
             ViewBag.Region = new SelectList(regions, "AdminUnitID", "Name", "--Select Region--");
             ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
             ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name",distributionInfo.WoredaID);
@@ -742,7 +781,8 @@ namespace Cats.Areas.Logistics.Controllers
                 ProgramID = woredaStockDistribution.ProgramID,
                 PlanID = woredaStockDistribution.PlanID,
                 Month = woredaStockDistribution.Month,
-                SupportTypeID = woredaStockDistribution.SupportTypeID,
+                DirectSupport = woredaStockDistribution.DirectSupport,
+                PublicSupport = woredaStockDistribution.PublicSupport,
                 ActualBeneficairies = woredaStockDistribution.ActualBeneficairies,
                 MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years,
                 MaleAbove18Years = woredaStockDistribution.MaleAbove18Years,

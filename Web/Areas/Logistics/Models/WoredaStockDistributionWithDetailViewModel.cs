@@ -13,7 +13,8 @@ namespace Cats.Areas.Logistics.Models
         public int ProgramID { get; set; }
         public int PlanID { get; set; }
         public int Month { get; set; }
-        public int SupportTypeID { get; set; }
+        public int? DirectSupport { get; set; }
+        public int? PublicSupport { get; set; }
         public int ActualBeneficairies { get; set; }
         //public int Round { get; set; }
         public DateTime DistributionDate { get; set; }

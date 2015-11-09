@@ -9,13 +9,13 @@ namespace Cats.Models
    public class SupportType
     {
 
-       public SupportType()
-       {
-           this.WoredaStockDistributions=new List<WoredaStockDistribution>();
-       }
+       //public SupportType()
+       //{
+       //    this.WoredaStockDistributions=new List<WoredaStockDistribution>();
+       //}
        public int SupportTypeID { get; set; }
        public string Description { get; set; }
 
-       public virtual ICollection<WoredaStockDistribution> WoredaStockDistributions { get; set; } 
+      // public virtual ICollection<WoredaStockDistribution> WoredaStockDistributions { get; set; } 
     }
 }

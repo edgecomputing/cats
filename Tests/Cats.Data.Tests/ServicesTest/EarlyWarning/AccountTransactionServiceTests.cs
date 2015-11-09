@@ -646,7 +646,8 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                    ProgramID = 1,
                                                    PlanID = 1,
                                                    Month = 1,
-                                                   SupportTypeID = 1,
+                                                   DirectSupport = 1,
+                                                   PublicSupport = 1,
                                                    ActualBeneficairies = 500,
                                                    DistributionDate = DateTime.Now,
                                                    DistributedBy = 1,
@@ -672,7 +673,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                                    DistributionStartDate = DateTime.Now,
                                                                                                    DistributionEndDate = DateTime.Today.AddDays(10),
                                                                                                    LossAmount = 10,
-                                                                                                   LossReason = "Rat intrusion",
+                                                                                                   LossReason = 1,
                                                                                                    FDP = new FDP()
                                                                                                              {
                                                                                                                 FDPID = 1,

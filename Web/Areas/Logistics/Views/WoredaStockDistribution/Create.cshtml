@@ -40,14 +40,24 @@
                     <div id="div_Male" class="form-horizontal well" >
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.SupportTypeID, Html.Translate("Support Type"))
+                                @Html.LabelFor(m => m.PublicSupport, Html.Translate("Public support"))
                             </div>
                             <div class="controls">
-                                @Html.DropDownList("SupportTypeID")
-                                @Html.ValidationMessageFor(m => m.SupportTypeID)
+                                @Html.TextBoxFor(m=>m.PublicSupport)
+                                @Html.ValidationMessageFor(m => m.PublicSupport)
                             </div>
                         </div>
                       
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.DirectSupport, Html.Translate("Direct support"))
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m=>m.DirectSupport)
+                                @Html.ValidationMessageFor(m => m.DirectSupport)
+                            </div>
+                        </div>
+
                         <div class="control-group">
                             <div class="control-label">
                                 @Html.LabelFor(m => m.MaleLessThan5Years, Html.Translate("Male <5 Years"))
@@ -178,9 +188,9 @@
                            columns.Bound(p => p.LossAmount).Width(60)
                                 .ClientTemplate("#= LossAmount #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' value='#= LossAmount #' />");
-                          columns.Bound(p => p.LossReason).Width(80)
-                              .ClientTemplate("#= LossReason #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossReason' value='#= LossReason #' />");
+                          columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(70)
+                              .ClientTemplate("#= getName(data) #" +
+                           "<input  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
 
                           columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new { style = "overflow: visible; white-space: normal;" })
                                 .ClientTemplate("#= EndingBalance #" +
@@ -235,10 +245,27 @@
     </div>
 }
 <script type="text/javascript">
-    
+    var name;
+    function getName(data) {
 
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetReasonName","WoredaStockDistribution")",
+            data: { id: data.LossReasonId },
+
+            
+            success: function (returnValue) {
+                name = returnValue;
+                
+                return name;
+            },
+            error: function (request, error) {
+                alert('An error occurred attempting to get new e-number');
+               
+            }
+        });
+    }
     function TotalEndingBalance(data) {
-        alert("yes");
         return (data.BeginingBalance + data.TotalIn) + (data.TotalOut - data.DistributedAmount) - data.LossAmount;
     }
     

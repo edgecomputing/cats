@@ -36,6 +36,7 @@ namespace Cats.Areas.Logistics.Models
         public string DistributionEndDate { get; set; }
         public decimal LossAmount { get; set; }
         public string LossReason { get; set; }
+        public int LossReasonId { get; set; }
         public decimal dispatched { get; set; }
         public decimal delivered { get; set; }
 
