@@ -65,7 +65,7 @@ namespace Cats.Services.Common
         List<Hub> GetAllHubs();
         List<GiftCertificate> GetAllGiftCertificates();
         string GetCommditySourceName(int id);
-        int GetWoredaBeneficiaryNo(int planId, int woredaId);
+        int GetWoredaBeneficiaryNo(int planId, int woredaId, int roundOrMonth, int program);
 
 
     }

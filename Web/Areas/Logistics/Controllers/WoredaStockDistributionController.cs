@@ -105,11 +105,13 @@ namespace Cats.Areas.Logistics.Controllers
                 woredaStockDistributionViewModel.WoredaID = Woreda;
                 woredaStockDistributionViewModel.Month = month;
                 woredaStockDistributionViewModel.ProgramID = programID;
+                woredaStockDistributionViewModel.ActualBeneficairies = getWoredaBeneficiaryNoFromHRD(planID, Woreda, month, programID);
                 return View(woredaStockDistributionViewModel);
             }
             //ModelState.AddModelError("Errora",@"Request is Not Created for this plan");
             LookUps();
-            ViewBag.WoredaName =_commonService.GetAminUnits(m => m.AdminUnitID == woredaStockDistribution.WoredaID).FirstOrDefault().Name;
+
+            //ViewBag.WoredaName =_commonService.GetAminUnits(m => m.AdminUnitID == woredaStockDistribution.WoredaID).FirstOrDefault().Name;
             var distributionDetail = _commonService.GetFDPs(Woreda);
             //var listOfFdps = GetWoredaStockDistribution(distributionDetail);
             //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels = listOfFdps;
@@ -117,13 +119,13 @@ namespace Cats.Areas.Logistics.Controllers
             woredaStockDistributionViewModel.WoredaID = Woreda;
             woredaStockDistributionViewModel.Month = month;
             woredaStockDistributionViewModel.ProgramID = programID;
-            woredaStockDistributionViewModel.ActualBeneficairies = getWoredaBeneficiaryNoFromHRD(planID, Woreda);
+            woredaStockDistributionViewModel.ActualBeneficairies = getWoredaBeneficiaryNoFromHRD(planID, Woreda,month,programID);
 
             return View(woredaStockDistributionViewModel);
         }
-        private int getWoredaBeneficiaryNoFromHRD(int planId, int woredaId)
+        private int getWoredaBeneficiaryNoFromHRD(int planId, int woredaId,int roundOrMonth, int program)
         {
-            return _commonService.GetWoredaBeneficiaryNo(planId, woredaId);
+            return _commonService.GetWoredaBeneficiaryNo(planId, woredaId,roundOrMonth,program);
         }
         public WoredaStockDistributionWithDetailViewModel CheckWoredaDistribution(int woredaID = -1, int planID = -1, int month = -1,int programId=-1)
         {
@@ -136,12 +138,12 @@ namespace Cats.Areas.Logistics.Controllers
             if (programId == (int)Programs.Releif)
             {
                  regionalRequest =
-                    _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID == regionID)
+                    _regionalRequestService.FindBy(m => m.PlanID == planID && m.Round == month && m.RegionID == regionID)
                         .FirstOrDefault();
             }
             else if (programId == (int) Programs.PSNP)
             {
-                regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Round == month && m.RegionID == regionID)
+                regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID == regionID)
                     .FirstOrDefault();
             }
             if (regionalRequest != null)
@@ -413,7 +415,9 @@ namespace Cats.Areas.Logistics.Controllers
             }
             //ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
             TempData["CustomError2"] = "Unable to Save Distribution Information";
-            return View();
+            LookUps();
+            ViewBag.Errors = "errors";
+            return View(woredaStockDistribution);
         }
         public void LookUps()
         {

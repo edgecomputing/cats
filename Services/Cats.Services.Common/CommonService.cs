@@ -100,14 +100,33 @@ namespace Cats.Services.Common
            return _unitOfWork.PlanRepository.FindBy(m => planId.Contains(m.PlanID) && m.ProgramID == programID && m.Status == (int)PlanStatus.HRDCreated);
        }
 
-       public int GetWoredaBeneficiaryNo(int planId, int woredaId)
+       public int GetWoredaBeneficiaryNo(int planId, int woredaId,int roundOrMonth, int program)
        {
-           var result =
-               _unitOfWork.HRDDetailRepository.FindBy(p => p.HRD.PlanID == planId && p.WoredaID == woredaId).Sum(
-                   s => s.NumberOfBeneficiaries);
-           return result;
+           if (program == (int)Cats.Models.Constant.Programs.Releif)
+           {
+               var result =
+             _unitOfWork.ReliefRequisitionDetailRepository.FindBy(p => p.ReliefRequisition.RegionalRequest.PlanID == planId && p.FDP.AdminUnitID == woredaId && p.ReliefRequisition.Round == roundOrMonth).Sum(
+                 s => s.BenficiaryNo);
+               return result;
+           }
+           if (program == (int)Cats.Models.Constant.Programs.PSNP)
+           {
+               var result =
+                   _unitOfWork.ReliefRequisitionDetailRepository.FindBy(p => p.ReliefRequisition.RegionalRequest.PlanID == planId && p.FDP.AdminUnitID == woredaId && p.ReliefRequisition.Month == roundOrMonth).Sum(
+                       s => s.BenficiaryNo);
+               return result;
+           }
+           if (program == (int)Cats.Models.Constant.Programs.IDPS)
+           {
+               var result =
+                   _unitOfWork.ReliefRequisitionDetailRepository.FindBy(p => p.ReliefRequisition.RegionalRequest.PlanID == planId && p.FDP.AdminUnitID == woredaId && p.ReliefRequisition.Month == roundOrMonth).Sum(
+                       s => s.BenficiaryNo);
+               return result;
+           }
+           return 0;
        }
-     public  List<Plan> GetPlans()
+
+        public  List<Plan> GetPlans()
      {
          return _unitOfWork.PlanRepository.GetAll();
      }
