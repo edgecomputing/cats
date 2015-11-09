@@ -139,50 +139,50 @@
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].FdpId' value='#= FdpId #' />");
                           columns.Bound(p => p.FDP).Width(100).Title(Html.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.CommodityName).Width(100).Title(Html.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Round).Width(50).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Month).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.CommodityID).Hidden().ClientTemplate("#= CommodityID #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].CommodityID' value='#= CommodityID #' />");
 
-                          columns.Bound(p => p.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.AllocatedAmount).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= AllocatedAmount #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />");
 
 
-                          columns.Bound(p => p.dispatched).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.dispatched).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= dispatched #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].dispatched' value='#= dispatched #' />");
 
 
-                          columns.Bound(p => p.delivered).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.delivered).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= delivered #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].delivered' value='#= delivered #' />");
                           
-                          columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
-                           columns.Bound(p => p.BeginingBalance)
+                          columns.Bound(p => p.RequistionNo).Width(60).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                           columns.Bound(p => p.BeginingBalance).Width(60)
                               .ClientTemplate("#= BeginingBalance #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].BeginingBalance' value='#= BeginingBalance #' />");
-                           columns.Bound(p => p.TotalIn)
+                           columns.Bound(p => p.TotalIn).Width(60)
                                 .ClientTemplate("#= TotalIn #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalIn' value='#= TotalIn #' />");
-                           columns.Bound(p => p.TotalOut)
+                           columns.Bound(p => p.TotalOut).Width(60)
                                 .ClientTemplate("#= TotalOut #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalOut' value='#= TotalOut #' />");
                            
-                           columns.Bound(p => p.DistributedAmount)
+                           columns.Bound(p => p.DistributedAmount).Width(70)
                                 .ClientTemplate("#= DistributedAmount #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].DistributedAmount' value='#= DistributedAmount #' />");
 
                           
                            
-                           columns.Bound(p => p.LossAmount)
+                           columns.Bound(p => p.LossAmount).Width(60)
                                 .ClientTemplate("#= LossAmount #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' value='#= LossAmount #' />");
-                          columns.Bound(p => p.LossReason)
+                          columns.Bound(p => p.LossReason).Width(80)
                               .ClientTemplate("#= LossReason #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossReason' value='#= LossReason #' />");
 
-                          columns.Bound(p => p.EndingBalance)
+                          columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new { style = "overflow: visible; white-space: normal;" })
                                 .ClientTemplate("#= EndingBalance #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                           //// columns.Bound(p => p.DistributionStartDate);
@@ -228,7 +228,9 @@
         //.Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
 
 
-                      ))
+                      )
+                      .Resizable(re=>re.Columns(true))
+                      )
 
     </div>
 }
@@ -249,8 +251,9 @@
         var maleAbove18 = $("#MaleAbove18Years").val();
         var femaleAbove18 = $("#FemaleAbove18Years").val();
 
+
         
-        if ((maleLessThanfive + maleBetween5and18 + maleAbove18 + femaleLessThanFive + femaleBetween5and18 + femaleAbove18) > actualBeneficiaries) {
+        if ((parseInt(maleLessThanfive) + parseInt(maleBetween5and18) + parseInt(maleAbove18) + parseInt(femaleLessThanFive) + parseInt(femaleBetween5and18) + parseInt(femaleAbove18)) > parseInt(actualBeneficiaries)) {
             alert("Number of beneficiaries can not be greater than actual beneficiary");
             return false;
         }
