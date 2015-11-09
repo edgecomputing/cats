@@ -268,7 +268,19 @@
     function TotalEndingBalance(data) {
         return (data.BeginingBalance + data.TotalIn) + (data.TotalOut - data.DistributedAmount) - data.LossAmount;
     }
-    
+   
+    function validateDirectAndPublic() {
+        var publicSupport = $("#PublicSupport").val();
+        var directSupport = $("#DirectSupport").val();
+        var actualBeneficiaries = $("#ActualBeneficairies").val();
+        
+
+        if ((  parseInt(publicSupport) + parseInt(directSupport)) > parseInt(actualBeneficiaries) ) {
+            alert("The sum of direct and public support can not be greater than actual beneficiary number");
+            return false;
+        }
+        return true;
+    }
     function validateNoOfBeneficiaries() {
         var actualBeneficiaries = $("#ActualBeneficairies").val();
         var maleLessThanfive = $("#MaleLessThan5Years").val();
@@ -308,7 +320,7 @@
 
     $(function() {
         $("#SubmitButton").click(function () {
-            if (validateNoOfBeneficiaries()) {
+            if (validateNoOfBeneficiaries() ==true  && validateDirectAndPublic()==true) {
                 $(this).button('loading');
                 $("#frm_create_utilization").submit();
             }
