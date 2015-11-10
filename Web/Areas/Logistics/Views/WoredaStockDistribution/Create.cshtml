@@ -189,11 +189,11 @@
                                 .ClientTemplate("#= LossAmount #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' value='#= LossAmount #' />");
                           columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(70)
-                              .ClientTemplate("#= getName(data) #" +
+                              .ClientTemplate("#= LossReasonId #" +
                            "<input  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
 
                           columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new { style = "overflow: visible; white-space: normal;" })
-                                .ClientTemplate("#= EndingBalance #" +
+                                .ClientTemplate("#= TotalEndingBalance(data) #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                           //// columns.Bound(p => p.DistributionStartDate);
                           //// columns.Bound(p => p.DistributionEndDate);
@@ -245,10 +245,11 @@
     </div>
 }
 <script type="text/javascript">
-    var name;
+    var name="";
     function getName(data) {
 
         $.ajax({
+            async: false,
             type: "POST",
             url: "@Url.Action("GetReasonName","WoredaStockDistribution")",
             data: { id: data.LossReasonId },
@@ -256,19 +257,43 @@
             
             success: function (returnValue) {
                 name = returnValue;
-                
-                return name;
+                alert(name);
+                return data.LossReasonId.get;
             },
             error: function (request, error) {
+                
+                //return data.LossReasonId;
                 alert('An error occurred attempting to get new e-number');
                
             }
         });
     }
+    function validatEndingBalance()
+    {
+        var totalOut = $("TotalOut").val();
+        var lossamount = $("LossAmount").val();
+        var distributedamount = $("DistributedAmount").val();
+        var currentStock =parseInt($("BeginingBalance").val()) + parseInt($("TotalIn").val()) ;
+        
+        if (parseInt(lossamount) > parseInt(distributedamount)) {
+            alert("Loss amount can not be greater than distributed amount:  " + lossamount);
+            return false;
+        }
+        if (parseInt(distributedamount) > parseInt(totalOut)) {
+            alert("Distribution amount can not be greater than total out amount:   " + distributedamount);
+            return false;
+        }
+        if (parseInt(totalOut) > parseInt(currentStock)) {
+            alert("Total out can not be greater than available stock:  " + totalOut);
+            return false;
+        }
+        return true;
+    }
+
     function TotalEndingBalance(data) {
         return (data.BeginingBalance + data.TotalIn) + (data.TotalOut - data.DistributedAmount) - data.LossAmount;
     }
-   
+  
     function validateDirectAndPublic() {
         var publicSupport = $("#PublicSupport").val();
         var directSupport = $("#DirectSupport").val();
@@ -320,7 +345,7 @@
 
     $(function() {
         $("#SubmitButton").click(function () {
-            if (validateNoOfBeneficiaries() ==true  && validateDirectAndPublic()==true) {
+            if (validateNoOfBeneficiaries() == true && validateDirectAndPublic() == true && validatEndingBalance() == true) {
                 $(this).button('loading');
                 $("#frm_create_utilization").submit();
             }
