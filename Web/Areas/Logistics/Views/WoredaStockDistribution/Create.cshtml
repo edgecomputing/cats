@@ -33,6 +33,9 @@
 
 
     //@Html.HiddenFor(m=>m.WoredaDistributionDetailViewModels)
+    <div style="display: none" id="error" class='cats_error'>
+        
+    </div>
     <div class="form-horizontal">
         <table border="0">
             <tr>
@@ -169,32 +172,33 @@
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].delivered' value='#= delivered #' />");
                           
                           columns.Bound(p => p.RequistionNo).Width(60).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
-                           columns.Bound(p => p.BeginingBalance).Width(60)
-                              .ClientTemplate("#= BeginingBalance #" +
-                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].BeginingBalance' value='#= BeginingBalance #' />");
-                           columns.Bound(p => p.TotalIn).Width(60)
-                                .ClientTemplate("#= TotalIn #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalIn' value='#= TotalIn #' />");
-                           columns.Bound(p => p.TotalOut).Width(60)
-                                .ClientTemplate("#= TotalOut #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalOut' value='#= TotalOut #' />");
-                           
-                           columns.Bound(p => p.DistributedAmount).Width(70)
-                                .ClientTemplate("#= DistributedAmount #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].DistributedAmount' value='#= DistributedAmount #' />");
+                          columns.Bound(p => p.BeginingBalance).Width(60)
+                                .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>  #= BeginingBalance #</span>" +
+                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].BeginingBalance'  value='#= BeginingBalance #' />");
+                          columns.Bound(p => p.TotalIn).Width(60)
+                               .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#= TotalIn #</span>" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalIn' value='#= TotalIn #' />");
+                          columns.Bound(p => p.TotalOut).Width(60)
+                               .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#= TotalOut #</span>" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalOut' value='#= TotalOut #' />");
 
-                          
-                           
-                           columns.Bound(p => p.LossAmount).Width(60)
-                                .ClientTemplate("#= LossAmount #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' value='#= LossAmount #' />");
+                          columns.Bound(p => p.DistributedAmount).Width(70)
+                               .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#' > #=DistributedAmount#</span>" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].DistributedAmount'  value='#= DistributedAmount #' />");
+
+
+
+                          columns.Bound(p => p.LossAmount).Width(60)
+                               .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#= LossAmount #</span>" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' Id='LossAmount' value='#= LossAmount #' />");
                           columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(70)
-                              .ClientTemplate("#= LossReasonId #" +
-                           "<input  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
+                              .ClientTemplate("<span class='rowCount'>#= LossReasonId #</span>" +
+                           "<input  type='hidden'  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
+                          
 
-                          columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new { style = "overflow: visible; white-space: normal;" })
-                                .ClientTemplate("#= TotalEndingBalance(data) #" +
-                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
+                          columns.Template(c => { }).Title(Html.Translate("EndingBalance")).HtmlAttributes(new {@class = "calculated"}).ClientTemplate("<span class='rowCount EndingBalance' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=TotalEndingBalance(data)# </span> <input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
+                          //columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new { style = "overflow: visible; white-space: normal;" })
+                          //.ClientTemplate("<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                           //// columns.Bound(p => p.DistributionStartDate);
                           //// columns.Bound(p => p.DistributionEndDate);
 
@@ -206,9 +210,12 @@
         //.Selectable(t => t.Mode(GridSelectionMode.Single))
                       .Navigatable()
                       .HtmlAttributes(new { style = "height:450px;" })
-
+                       .Events(events => events.Change("onDataBound"))
+                        .Events(events => events.DataBound("onDataBound"))
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
+                                                    .Batch(true)
+                                                    .ServerOperation(false)
                                                     .Events(error=>error.Error("error_handler"))
                                                      .Group(m => m.Add(t => t.CommodityName))
                           // .Events(e=>e.RequestEnd("onRequestEnd"))
@@ -245,7 +252,43 @@
     </div>
 }
 <script type="text/javascript">
-    var name="";
+
+    var save = false;
+    var rowCount = 0;
+    var gridData = [];
+   
+    function getRowNo(data) {
+        gridData[rowCount] = data;
+        return 1 + rowCount++;
+    }
+    
+
+    function onDataBound(e) {
+        var grid = $("#RequisitionGridDetail").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+            $(this).change(function () {
+                var $rowCount = $(this).closest("tr").find(".rowCount");
+                var $EndingBalance = $(this).closest("tr").find(".EndingBalance");
+               var rowCount = $rowCount.attr("rowCount");
+               var data = gridData[rowCount];
+               var endingBalance = TotalEndingBalance(data);
+                
+               if (validatEndingBalance(data)) {
+                   save = true;
+                   $EndingBalance.html(endingBalance);
+               }
+                save = false;
+            });
+        });
+
+
+    }
+
+    var elem = document.getElementById('error');
+    var name = "";
     function getName(data) {
 
         $.ajax({
@@ -254,54 +297,66 @@
             url: "@Url.Action("GetReasonName","WoredaStockDistribution")",
             data: { id: data.LossReasonId },
 
-            
+
             success: function (returnValue) {
                 name = returnValue;
                 alert(name);
                 return data.LossReasonId.get;
             },
             error: function (request, error) {
-                
+
                 //return data.LossReasonId;
                 alert('An error occurred attempting to get new e-number');
-               
+
             }
         });
     }
-    function validatEndingBalance()
-    {
-        var totalOut = $("TotalOut").val();
-        var lossamount = $("LossAmount").val();
-        var distributedamount = $("DistributedAmount").val();
-        var currentStock =parseInt($("BeginingBalance").val()) + parseInt($("TotalIn").val()) ;
-        
+    function validatEndingBalance(data) {
+        var totalOut = data.TotalOut;
+        var lossamount = data.LossAmount;
+        var distributedamount = data.DistributedAmount;
+        var currentStock = parseInt(data.BeginingBalance) + parseInt(data.TotalIn);
+
         if (parseInt(lossamount) > parseInt(distributedamount)) {
-            alert("Loss amount can not be greater than distributed amount:  " + lossamount);
+            elem.innerHTML = "Loss amount can not be greater than distributed amount:  " + lossamount;
+            elem.style.display = "block";
+            //alert("Loss amount can not be greater than distributed amount:  " + lossamount);
             return false;
         }
         if (parseInt(distributedamount) > parseInt(totalOut)) {
-            alert("Distribution amount can not be greater than total out amount:   " + distributedamount);
+            elem.innerHTML = "Distribution amount can not be greater than total out amount:   " + distributedamount;
+            elem.style.display = "block";
+            //alert("Distribution amount can not be greater than total out amount:   " + distributedamount);
             return false;
         }
         if (parseInt(totalOut) > parseInt(currentStock)) {
-            alert("Total out can not be greater than available stock:  " + totalOut);
+            elem.innerHTML = "Total out can not be greater than available stock:  " + totalOut;
+            elem.style.display = "block";
+            // alert("Total out can not be greater than available stock:  " + totalOut);
             return false;
         }
         return true;
     }
 
     function TotalEndingBalance(data) {
-        return (data.BeginingBalance + data.TotalIn) + (data.TotalOut - data.DistributedAmount) - data.LossAmount;
+        var result = 0;
+        if (data.DistributedAmount == 0 || data.DistributedAmount==null) {
+            return (data.BeginingBalance + data.TotalIn) - data.TotalOut  - data.LossAmount;
+        }
+        
+        return (data.BeginingBalance + data.TotalIn)  - data.DistributedAmount - data.LossAmount;
     }
-  
+
     function validateDirectAndPublic() {
         var publicSupport = $("#PublicSupport").val();
         var directSupport = $("#DirectSupport").val();
         var actualBeneficiaries = $("#ActualBeneficairies").val();
-        
 
-        if ((  parseInt(publicSupport) + parseInt(directSupport)) > parseInt(actualBeneficiaries) ) {
-            alert("The sum of direct and public support can not be greater than actual beneficiary number");
+
+        if ((parseInt(publicSupport) + parseInt(directSupport)) > parseInt(actualBeneficiaries)) {
+            elem.innerHTML = "The sum of direct and public support can not be greater than actual beneficiary number";
+            elem.style.display = "block";
+            //alert("The sum of direct and public support can not be greater than actual beneficiary number");
             return false;
         }
         return true;
@@ -316,9 +371,11 @@
         var femaleAbove18 = $("#FemaleAbove18Years").val();
 
 
-        
+
         if ((parseInt(maleLessThanfive) + parseInt(maleBetween5and18) + parseInt(maleAbove18) + parseInt(femaleLessThanFive) + parseInt(femaleBetween5and18) + parseInt(femaleAbove18)) > parseInt(actualBeneficiaries)) {
-            alert("Number of beneficiaries can not be greater than actual beneficiary");
+            elem.innerHTML = "Number of beneficiaries can not be greater than actual beneficiary";
+            elem.style.display = "block";
+            // alert("Number of beneficiaries can not be greater than actual beneficiary");
             return false;
         }
         return true;
@@ -333,21 +390,25 @@
                     });
                 }
             });
+
             alert(message);
         }
     }
-    
+
     function index(dataItem) {
         var data = $("#RequisitionGridDetail").data("kendoGrid").dataSource.data();
 
         return data.indexOf(dataItem);
     }
 
-    $(function() {
+    $(function () {
         $("#SubmitButton").click(function () {
-            if (validateNoOfBeneficiaries() == true && validateDirectAndPublic() == true && validatEndingBalance() == true) {
+            
+            if (validateNoOfBeneficiaries() == true && validateDirectAndPublic() == true && save == true) {
+                save = false;
                 $(this).button('loading');
                 $("#frm_create_utilization").submit();
+                
             }
         });
     });

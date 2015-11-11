@@ -434,9 +434,19 @@ namespace Cats.Areas.Logistics.Controllers
             }
             //ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
             TempData["CustomError2"] = "Unable to Save Distribution Information";
+
             LookUps();
             ViewBag.Errors = "errors";
-            return View(woredaStockDistribution);
+            if (woredaStockDistribution != null)
+                return RedirectToAction("Create",
+                                        new
+                                            {
+                                                Woreda = woredaStockDistribution.WoredaID,
+                                                planID = woredaStockDistribution.PlanID,
+                                                programID = woredaStockDistribution.ProgramID,
+                                                month = woredaStockDistribution.Month
+                                            });
+             return RedirectToAction("Create");
         }
         public void LookUps()
         {

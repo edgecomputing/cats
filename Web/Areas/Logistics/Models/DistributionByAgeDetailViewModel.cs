@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Cats.Models;
 
 namespace Cats.Areas.Logistics.Models
 {
@@ -39,7 +40,6 @@ namespace Cats.Areas.Logistics.Models
         public int LossReasonId { get; set; }
         public decimal dispatched { get; set; }
         public decimal delivered { get; set; }
-
         public RequisitionDetailViewModel RequisitionDetailViewModel { get; set; }
         public int WoredaStockDistributionID { get; set; }
         public int WoredaStockDistributionDetailID { get; set; }
@@ -49,6 +49,7 @@ namespace Cats.Areas.Logistics.Models
         public int FemaleBetween5And18Years { get; set; }
         public int MaleAbove18Years { get; set; }
         public int FemaleAbove18Years { get; set; }
+       
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
