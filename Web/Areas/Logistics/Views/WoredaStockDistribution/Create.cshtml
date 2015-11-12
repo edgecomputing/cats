@@ -162,16 +162,18 @@
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />");
 
 
-                          columns.Bound(p => p.dispatched).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.dispatched).Title("Dispatched").Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= dispatched #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].dispatched' value='#= dispatched #' />");
 
 
-                          columns.Bound(p => p.delivered).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.delivered).Title("Delivered").Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= delivered #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].delivered' value='#= delivered #' />");
                           
                           columns.Bound(p => p.RequistionNo).Width(60).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.RequisitionId).Hidden(true)
+                              .ClientTemplate("<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].RequisitionId'  value='#= RequisitionId #' />");
                           columns.Bound(p => p.BeginingBalance).Width(60)
                                 .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>  #= BeginingBalance #</span>" +
                             "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].BeginingBalance'  value='#= BeginingBalance #' />");
@@ -191,13 +193,15 @@
                           columns.Bound(p => p.LossAmount).Width(60)
                                .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#= LossAmount #</span>" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' Id='LossAmount' value='#= LossAmount #' />");
-                          columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(70)
+                          columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(100)
                               .ClientTemplate("<span class='rowCount'>#= LossReasonId #</span>" +
                            "<input  type='hidden'  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
                           
 
-                          columns.Template(c => { }).Title(Html.Translate("EndingBalance")).HtmlAttributes(new {@class = "calculated"}).ClientTemplate("<span class='rowCount EndingBalance' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=TotalEndingBalance(data)# </span> <input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
-                          //columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new { style = "overflow: visible; white-space: normal;" })
+                          columns.Template(c => { }).Width(70).Title(Html.Translate("EndingBalance")).HtmlAttributes(new {@class = "calculated"}).ClientTemplate("<span class='rowCount EndingBalance' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=TotalEndingBalance(data)# </span>" + 
+                              " <input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
+                          
+                          //columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
                           //.ClientTemplate("<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                           //// columns.Bound(p => p.DistributionStartDate);
                           //// columns.Bound(p => p.DistributionEndDate);
@@ -209,7 +213,7 @@
                       .Scrollable()
         //.Selectable(t => t.Mode(GridSelectionMode.Single))
                       .Navigatable()
-                      .HtmlAttributes(new { style = "height:450px;" })
+                      .HtmlAttributes(new { style = "height:350px;" })
                        .Events(events => events.Change("onDataBound"))
                         .Events(events => events.DataBound("onDataBound"))
                       .DataSource(dataSource => dataSource
@@ -279,8 +283,9 @@
                if (validatEndingBalance(data)) {
                    save = true;
                    $EndingBalance.html(endingBalance);
+               } else {
+                   save = false;
                }
-                save = false;
             });
         });
 
@@ -316,25 +321,38 @@
         var lossamount = data.LossAmount;
         var distributedamount = data.DistributedAmount;
         var currentStock = parseInt(data.BeginingBalance) + parseInt(data.TotalIn);
-
+        var deliveredAmount = parseInt(data.delivered);
+        var totalIn = parseInt(data.TotalIn);
+        
         if (parseInt(lossamount) > parseInt(distributedamount)) {
+            
             elem.innerHTML = "Loss amount can not be greater than distributed amount:  " + lossamount;
             elem.style.display = "block";
             //alert("Loss amount can not be greater than distributed amount:  " + lossamount);
             return false;
         }
         if (parseInt(distributedamount) > parseInt(totalOut)) {
+           
             elem.innerHTML = "Distribution amount can not be greater than total out amount:   " + distributedamount;
             elem.style.display = "block";
             //alert("Distribution amount can not be greater than total out amount:   " + distributedamount);
             return false;
         }
         if (parseInt(totalOut) > parseInt(currentStock)) {
+            
             elem.innerHTML = "Total out can not be greater than available stock:  " + totalOut;
             elem.style.display = "block";
             // alert("Total out can not be greater than available stock:  " + totalOut);
             return false;
         }
+       
+        if (deliveredAmount < totalIn) {
+            
+            elem.innerHTML = "The amount received " + totalIn + " is greater than the amount delivered.FDP " + data.FDP;
+            elem.style.display = "block";
+            return false;
+        }
+        elem.style.display = "none";
         return true;
     }
 
@@ -403,12 +421,14 @@
 
     $(function () {
         $("#SubmitButton").click(function () {
-            
+           
             if (validateNoOfBeneficiaries() == true && validateDirectAndPublic() == true && save == true) {
                 save = false;
                 $(this).button('loading');
                 $("#frm_create_utilization").submit();
                 
+            } else {
+                alert("You haven't make any change or please correct the error and try again to save!");
             }
         });
     });

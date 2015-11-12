@@ -226,7 +226,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   TotalOut = woredaDistributionDetail.TotoalOut,
                                                                   LossAmount = woredaDistributionDetail.LossAmount,
                                                                   LossReasonId = (int) lossReason,
-                                                                  
+                                                                  RequisitionId = woredaDistributionDetail.RequisitionId
 
 
                                                               }
@@ -350,8 +350,8 @@ namespace Cats.Areas.Logistics.Controllers
                                     TotoalOut = woredaDistributionDetailViewModel.TotalOut,
                                     LossAmount = woredaDistributionDetailViewModel.LossAmount,
                                     LossReason = woredaDistributionDetailViewModel.LossReasonId,
-                                    DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount
-
+                                    DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount,
+                                    RequisitionId = woredaDistributionDetailViewModel.RequisitionId
 
 
                                 };
@@ -409,6 +409,7 @@ namespace Cats.Areas.Logistics.Controllers
                                 woredaDistributionDetail.LossAmount = woredaDistributionDetailViewModel.LossAmount;
                                 woredaDistributionDetail.LossReason = woredaDistributionDetailViewModel.LossReasonId;
                                 woredaDistributionDetail.DistributedAmount =woredaDistributionDetailViewModel.DistributedAmount;
+                                woredaDistributionDetail.RequisitionId = woredaDistributionDetailViewModel.RequisitionId;
                                 _utilizationDetailSerivce.EditDetailDistribution(woredaDistributionDetail);
 
                             }
@@ -622,7 +623,7 @@ namespace Cats.Areas.Logistics.Controllers
                             NumberOfBeneficiaries = detail.BenficiaryNo,
                             dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo, fdp.FDPID),
                             delivered = GetDelivered(reliefRequisition.RequisitionNo, fdp.FDPID),
-                                                                  
+                            RequisitionId = reliefRequisition.RequisitionID
 
                             //RequisitionDetailViewModel = new RequisitionDetailViewModel()
                             //    {

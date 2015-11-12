@@ -32,7 +32,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.DistributionEndDate).HasColumnName("DistributionEndDate");
             this.Property(t => t.LossAmount).HasColumnName("LossAmount");
             this.Property(t => t.LossReason).HasColumnName("LossReason");
-
+            this.Property(t => t.RequisitionId).HasColumnName("RequisitionId");
            
 
             // Relationships

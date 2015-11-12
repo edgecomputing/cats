@@ -27,6 +27,7 @@ namespace Cats.Areas.Logistics.Models
         public int FemaleBetween5And18Years { get; set; }
         public int MaleAbove18Years { get; set; }
         public int FemaleAbove18Years { get; set; }
+       
         public List<WoredaDistributionDetailViewModel> WoredaDistributionDetailViewModels { get; set; } 
     }
 

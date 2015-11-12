@@ -21,7 +21,7 @@ namespace Cats.Models
         public DateTime DistributionEndDate { get; set; }
         public decimal LossAmount { get; set; }
         public int?  LossReason { get; set; }
-
+        public int?  RequisitionId { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual WoredaStockDistribution WoredaStockDistribution { get; set; }
     }
