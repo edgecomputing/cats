@@ -54,7 +54,7 @@ namespace Cats.ViewModelBinder
             if (regionalRequest.UserProfile != null)
                 regionalRequestViewModel.RequestedBy = regionalRequest.UserProfile.FirstName + " " +
                                                        regionalRequest.UserProfile.LastName;
-            if (regionalRequest.UserProfile1 != null)
+            if (regionalRequest.UserProfile1 != null && regionalRequest.Status == (int) Cats.Models.Constant.RegionalRequestStatus.Approved)
                 regionalRequestViewModel.ApprovedBy = regionalRequest.UserProfile1.FirstName + " " +
                                                       regionalRequest.UserProfile1.LastName;
             return regionalRequestViewModel;
