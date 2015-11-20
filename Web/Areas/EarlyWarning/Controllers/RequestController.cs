@@ -190,7 +190,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var user = _userAccountService.GetUserDetail(HttpContext.User.Identity.Name);
             ViewBag.RegionID = user.RegionalUser ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
 
-            if (user.CaseTeam != null)
+            if (user.CaseTeam != null && user.CaseTeam != 0)
             {
                 switch (user.CaseTeam)
                 {
@@ -203,13 +203,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         break;
                 }
             }
-            else if (user.RegionalUser)
-            {
-                ViewBag.ProgramId =
-                    new SelectList(
-                        _commonService.GetPrograms().Where(p => p.ProgramID == (int)Programs.Releif).Take(2),
-                        "ProgramID", "Name");
-            }
+            //else if (user.RegionalUser)
+            //{
+            //    ViewBag.ProgramId =
+            //        new SelectList(
+            //            _commonService.GetPrograms().Take(2),
+            //            "ProgramID", "Name");
+            //}
             else
             {
                 ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");

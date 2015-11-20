@@ -2,6 +2,7 @@
 @using Cats.Areas.EarlyWarning.Models
 @model System.Data.DataTable
 @using Cats.Helpers
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 
@@ -171,28 +172,79 @@
                     {
                         <li><a class="btn green-haze-stripe" href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
                         <li><a class="btn green-haze-stripe" href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
-                        <li><a class="btn green-haze-stripe" href="@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID})">Approve</a></li>
+                        @*<li><a class="btn green-haze-stripe" href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>*@
+                        if (modelRequest.Program == "Relief")
+                        {
+                             <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem( @Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID }),
+                                        EarlyWarningConstants.Operation.Approve_Request,@Html.Translate("Approve Request"))</a></li>
+                        }
+                        else
+                        {
+                             <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Approve Request"),@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID }),
+                                        PsnpConstants.Operation.Approve_Request)</a></li>
+                        }
+                       
 
                     }
-                    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
+                    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == (int)Cats.Models.Constant.Programs.IDPS)
                     {
                         <li><a class="btn green-haze-stripe" id="btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID, programId = modelRequest.ProgramId })"><i class="icon-plus"></i>IDPS Requisiton</a></li>
-                        <li><a class="btn green-haze-stripe" href="@Url.Action("RejectRequest", "Request", new {id = modelRequest.RegionalRequestID})">Reject</a></li>
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("RejectRequest", "Request", new { id = modelRequest.RegionalRequestID })">Reject</a></li>
                     }
                     else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
                     {
+                          if (modelRequest.Program == "Relief")
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID }),
+                                                                                                       EarlyWarningConstants.Operation.New_requisition, @Html.Translate("Requisiton"))</a></li>
+                        
+                              <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("RejectRequest", "Request", new { id = modelRequest.RegionalRequestID }),
+                                                                                                       EarlyWarningConstants.Operation.Reject_Request, @Html.Translate("Reject"))</a></li>
+                          }
+                          else if (modelRequest.Program == "PSNP")
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Requisiton"), @Url.Action("CreateRequisiton", "ReliefRequisition", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID}),
+                                                                                               PsnpConstants.Operation.New_requisition)</a></li>
+
+                              <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Reject"), @Url.Action("RejectRequest", "Request", new {id = modelRequest.RegionalRequestID}),
+                                                                                               PsnpConstants.Operation.Reject_Request)</a></li>
+                          } @*
+                          
                         <li><a class="btn green-haze-stripe" href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i>Requisiton</a></li>
-                        <li><a class="btn green-haze-stripe" href="@Url.Action("RejectRequest", "Request", new {id = modelRequest.RegionalRequestID})">Reject</a></li>
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("RejectRequest", "Request", new { id = modelRequest.RegionalRequestID })">Reject</a></li>*@
                     }
                     else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Closed)
                     {
-                        <li><a class="btn green-haze-stripe" href="@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Revert Status</a></li>
+                        @*<li><a class="btn green-haze-stripe" href="@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Revert Status</a></li>*@
+
+                        switch (modelRequest.Program)
+                        {
+                            case "Relief":
+                                <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID }),
+                                                                                                         EarlyWarningConstants.Operation.Reverse_Request, @Html.Translate("Revert Status"))</a></li>
+                                break;
+                            case "PSNP":
+                                <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Revert Status"), @Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID }),
+                                                                                                 PsnpConstants.Operation.Reverse_Request)</a></li>
+                                break;
+                        }
                     }
                     else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Reject)
                     {
                         <li><a class="btn green-haze-stripe" href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
                         <li><a class="btn green-haze-stripe" href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
-                        <li><a class="btn green-haze-stripe" href="@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID})">Approve</a></li>
+                        
+                          if (modelRequest.Program == "Relief")
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID}),
+                                                                                                       EarlyWarningConstants.Operation.Approve_Request, @Html.Translate("Approve Request"))</a></li>
+                          }
+                          else
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Approve Request"), @Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID}),
+                                                                                               PsnpConstants.Operation.Approve_Request)</a></li>
+                          }
+                        @*<li><a class="btn green-haze-stripe" href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>*@
                     }
 
                 </ul>
@@ -209,7 +261,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => modelRequest.ReferenceNumber, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.ReferenceNumber, new { Disabled = true, @class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.ReferenceNumber, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -218,7 +270,7 @@
                         @Html.LabelFor(m => modelRequest.Program, new { @class = "col-md-4 control-label" })
                         @*@Html.Label(Html.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true, @class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true, @class = "form-control" })
                             @*<td>
                                 <b>@Html.Translate("Year"):</b>
                                 @modelRequest.Year*@
@@ -230,7 +282,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => modelRequest.RequestedBy, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.RequestedBy, new { Disabled = true, @class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.RequestedBy, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -245,7 +297,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => modelRequest.Region, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.Region, new { Disabled = true, @class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.Region, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -253,7 +305,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => modelRequest.MonthName, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.MonthName, new { Disabled = true,@class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.MonthName, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -262,7 +314,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => modelRequest.ApprovedBy, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.ApprovedBy, new { Disabled = true,@class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.ApprovedBy, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -280,7 +332,7 @@
                     <div class="form-group">
                         @Html.Label("Year(EC)", new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.Year, new { Disabled = true, @class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.Year, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -290,7 +342,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => modelRequest.Status, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
-                            @Html.TextBoxFor(m => modelRequest.Status, new { Disabled = true, @class="form-control" })
+                            @Html.TextBoxFor(m => modelRequest.Status, new { Disabled = true, @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -300,7 +352,7 @@
                         @Html.LabelFor(m => modelRequest.Ration, new { @class = "col-md-4 control-label" })
                         <div class="col-md-7">
                             <div class="input-group">
-                                @Html.TextBoxFor(m => modelRequest.Ration, new {Disabled = true, @class = "form-control"})
+                                @Html.TextBoxFor(m => modelRequest.Ration, new { Disabled = true, @class = "form-control" })
                                 <span class="input-group-addon">
                                     <a class="" id="pop" data-original-title="  Ration Detail  ">
                                         @*<a id="pop" class="" href="#" data-original-title="Ration Detail">*@
@@ -347,15 +399,15 @@
                   {
                       foreach (System.Data.DataColumn column in Model.Columns)
                       {
-                          if (column.DataType == typeof (decimal))
+                          if (column.DataType == typeof(decimal))
                           {
-                              columns.Bound(column.ColumnName).HtmlAttributes(new {align = "right"}).Format("{0:N2}");
+                              columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
                               //.HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" })
 
                           }
-                          else if (column.DataType == typeof (int))
+                          else if (column.DataType == typeof(int))
                           {
-                              columns.Bound(column.ColumnName).HtmlAttributes(new {align = "right"});
+                              columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
 
                           }
                           else

@@ -147,6 +147,11 @@ namespace Cats.Security
             {
                 return "Edit ration";
             }
+            if ((operation == Operation.New_requisition))
+            {
+                return "New requisition";
+            }
+
             if ((operation == Operation.Edit_request))
             {
                 return "Edit request";
@@ -191,6 +196,11 @@ namespace Cats.Security
             {
                 return "Gift-Add new item";
             }
+            if ((operation == Operation.Reject_Request))
+            {
+                return "Reject_Request";
+            }
+
             if ((operation == Operation.HRD_Summary))
             {
                 return "HRD Summary";
@@ -207,6 +217,11 @@ namespace Cats.Security
             {
                 return "New HRD";
             }
+            if ((operation == Operation.New_requisition))
+            {
+                return "New requisition";
+            }
+
             if ((operation == Operation.Number_of_Beneficiaries))
             {
                 return "Number of Beneficiaries";
@@ -246,6 +261,10 @@ namespace Cats.Security
             if ((operation == Operation.Requisition_exceptions))
             {
                 return "Requisition exceptions";
+            }
+            if ((operation == Operation.Reverse_Request))
+            {
+                return "Reverse_Request";
             }
             if ((operation == Operation.Set_Default_Ration))
             {
@@ -523,6 +542,11 @@ namespace Cats.Security
             /// </summary>
             Gift_Add_new_item,
             /// <summary>
+            /// Operation Reject_Request
+            /// </summary>
+            Reject_Request,
+
+            /// <summary>
             /// Operation HRD Summary
             /// </summary>
             HRD_Summary,
@@ -539,6 +563,9 @@ namespace Cats.Security
             /// </summary>
             New_HRD,
             /// <summary>
+            ///             /// Operation New requisition
+            /// </summary>
+            New_requisition,
             /// Operation Number of Beneficiaries
             /// </summary>
             Number_of_Beneficiaries,
@@ -578,6 +605,10 @@ namespace Cats.Security
             /// Operation Requisition exceptions
             /// </summary>
             Requisition_exceptions,
+            /// <summary>
+            /// Operation Reverse_Request
+            /// </summary>
+            Reverse_Request,
             /// <summary>
             /// Operation Set Default Ration
             /// </summary>
@@ -737,9 +768,18 @@ namespace Cats.Security
             {
                 return "PSNP plan history";
             }
+            if ((operation == Operation.Reject_Request))
+            {
+                return "Reject_Request";
+            }
+
             if ((operation == Operation.Remove_commodity))
             {
                 return "Remove commodity";
+            }
+            if ((operation == Operation.Reverse_Request))
+            {
+                return "Reverse_Request";
             }
             if ((operation == Operation.Select_default_ration))
             {
@@ -874,6 +914,10 @@ namespace Cats.Security
             /// </summary>
             Edit_ration,
             /// <summary>
+            /// Operation New requisition
+            /// </summary>
+            New_requisition,
+            /// <summary>
             /// Operation PSNP plan Ask approval
             /// </summary>
             PSNP_plan_Ask_approval,
@@ -882,9 +926,17 @@ namespace Cats.Security
             /// </summary>
             PSNP_plan_history,
             /// <summary>
+            /// Operation Reject_Request
+            /// </summary>
+            Reject_Request,
+            /// <summary>
             /// Operation Remove commodity
             /// </summary>
             Remove_commodity,
+            /// <summary>
+            /// Operation Reverse_Request
+            /// </summary>
+            Reverse_Request,
             /// <summary>
             /// Operation Select default ration
             /// </summary>
