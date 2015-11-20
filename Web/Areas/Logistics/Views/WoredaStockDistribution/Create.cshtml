@@ -346,12 +346,12 @@
             return false;
         }
        
-        if (deliveredAmount < totalIn) {
+        //if (deliveredAmount < totalIn) {
             
-            elem.innerHTML = "The amount received " + totalIn + " is greater than the amount delivered.FDP " + data.FDP;
-            elem.style.display = "block";
-            return false;
-        }
+        //    elem.innerHTML = "The amount received " + totalIn + " is greater than the amount delivered.FDP " + data.FDP;
+        //    elem.style.display = "block";
+        //    return false;
+        //}
         elem.style.display = "none";
         return true;
     }
@@ -428,7 +428,7 @@
                 $("#frm_create_utilization").submit();
                 
             } else {
-                alert("You haven't make any change or please correct the error and try again to save!");
+                alert("You haven't make any change or  \n There is an error on the page. \n please correct the error and try again to save!");
             }
         });
     });
