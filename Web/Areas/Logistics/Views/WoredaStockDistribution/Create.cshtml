@@ -24,7 +24,7 @@
 }
 
  @using (Html.BeginForm("Create", "WoredaStockDistribution", FormMethod.Post, FormMethod.Post, new { id = "frm_create_utilization" }))
-{
+ {
 @Html.HiddenFor(m => m.WoredaID)
 @Html.HiddenFor(m => m.PlanID)
 @Html.HiddenFor(m => m.Month)
@@ -32,8 +32,110 @@
 @Html.HiddenFor(m => m.WoredaStockDistributionID)
 
 
-    //@Html.HiddenFor(m=>m.WoredaDistributionDetailViewModels)
+     
+     <style>
+    .summaryview
+    {
+        /*   width:90%;
+        border:solid 1px #888;
+        border-radius:4px;
+     */
+        padding: 4px;
+    }
+
+        .summaryview .fldlabel
+        {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .summaryview .fldvalue
+        {
+        }
+
+    .section-hilite
+    {
+        border-radius: 4px;
+        background-color: #F8F8F8;
+        margin: 5px;
+    }
+
+    .flat-input, .token-inputs input
+    {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+        .flat-input:active, .flat-input:focus, .token-inputs input:active, .token-inputs input:focus
+        {
+            color: #666;
+            border: none;
+            box-shadow: none;
+        }
+    .token-inputs .token-input-token-facebook
+    {
+        padding:0px;
+        padding-left:5px;
+        padding-right:5px;
+
+        border-radius:2px;
+        color:#666;
+    }
+    .token-inputs .token-input-list-facebook
+    {
+        border:solid 1px #ccc;
+        border-radius:2px;
+        width:500px;
+
+    }
+    .activity_indicator
+    {
+        position:fixed;
+        left:50%;
+        top:45px;
+        width:100px;
+        height:30px;
+        line-height:30px;
+        margin-left:-50px;
+        border-radius:2px;
+        background:rgba(0,0,0,0.5);
+        text-align:center;
+        color:#FFF;
+    }
+    .pending-requests0 .activity_indicator
+    {
+        display:none;
+        opacity:0.2;
+    }
+    .k-grid tbody tr:nth-child(2n)
+    {
+        background:#EEE;
+    }
+</style>
+     //@Html.HiddenFor(m=>m.WoredaDistributionDetailViewModels)
     <div style="display: none" id="error" class='cats_error'>
+        
+    </div> 
+     
+      <div class="section-hilite summaryview" style="width:90%; background:#FFF">
+            <!--
+            <div class="loading"><i class="fa fa-book fa-fw fa-border"></i> loading</div>
+            -->
+                <table style="width:90%; background:#FFF">
+                <tr>
+                    <td class="fldlabel">@Html.Translate("Region"): </td><td class="fldvalue">@ViewBag.SelectedRegion</td>
+                    <td class="fldlabel">@Html.Translate("Zone"): </td><td class="fldvalue">@ViewBag.SelectedZone</td>
+                    <td class="fldlabel">@Html.Translate("Woreda") : </td><td class="fldvalue">@ViewBag.SelectedWoreda</td>
+                </tr>
+                <tr>
+                    <td class="fldlabel">@Html.Translate("HRD/Annual Plan") : </td><td class="fldvalue">@ViewBag.SelectedPlan</td>
+                    <td class="fldlabel">@Html.Translate("Month/Round") : </td><td class="fldvalue">@ViewBag.selectedmonth</td>
+                    <td class="fldlabel">@Html.Translate("Program") : </td><td class="fldvalue">@ViewBag.SelectedProgram </td>
+                </tr>
+            </table>
+        </div>
+    <div id="title">
         
     </div>
     <div class="form-horizontal">
@@ -46,7 +148,7 @@
                                 @Html.LabelFor(m => m.PublicSupport, Html.Translate("Public support"))
                             </div>
                             <div class="controls">
-                                @Html.TextBoxFor(m=>m.PublicSupport)
+                                @Html.TextBoxFor(m => m.PublicSupport)
                                 @Html.ValidationMessageFor(m => m.PublicSupport)
                             </div>
                         </div>
@@ -56,7 +158,7 @@
                                 @Html.LabelFor(m => m.DirectSupport, Html.Translate("Direct support"))
                             </div>
                             <div class="controls">
-                                @Html.TextBoxFor(m=>m.DirectSupport)
+                                @Html.TextBoxFor(m => m.DirectSupport)
                                 @Html.ValidationMessageFor(m => m.DirectSupport)
                             </div>
                         </div>
@@ -170,7 +272,7 @@
                           columns.Bound(p => p.delivered).Title("Delivered").Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= delivered #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].delivered' value='#= delivered #' />");
-                          
+
                           columns.Bound(p => p.RequistionNo).Width(60).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.RequisitionId).Hidden(true)
                               .ClientTemplate("<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].RequisitionId'  value='#= RequisitionId #' />");
@@ -188,30 +290,36 @@
                                .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#' > #=DistributedAmount#</span>" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].DistributedAmount'  value='#= DistributedAmount #' />");
 
+                          columns.Bound(p => p.DistributionStartDate).Width(100).Format("{0:MM-dd-yy}");
+                          columns.Bound(p => p.DistributionStartDate).Format("{0:mm-dd-yy}").ClientTemplate("  <input type='hidden'  id='WoredaDistributionDetailViewModels[#= index(data)#].DistributionStartDate'  name='WoredaDistributionDetailViewModels[#= index(data)#].DistributionStartDate'  value='#= DistributionStartDate #' />");
+                          columns.Bound(p => p.DistributionEndDate).Width(100).Format("{0:MM-dd-yy}");
+                          columns.Bound(p => p.DistributionEndDate).Format("{0:mm-dd-yy}")
+                                                       .ClientTemplate("<input  type='hidden'  id='WoredaDistributionDetailViewModels[#= index(data)#].DistributionEndDate'  name='WoredaDistributionDetailViewModels[#= index(data)#].DistributionEndDate'  value='#= DistributionEndDate #' />");
 
-
-                          columns.Bound(p => p.LossAmount).Width(60)
+                          columns.Bound(p => p.LossAmount).Width(80)
                                .ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#= LossAmount #</span>" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' Id='LossAmount' value='#= LossAmount #' />");
-                          columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(100)
-                              .ClientTemplate("<span class='rowCount'>#= LossReasonId #</span>" +
-                           "<input  type='hidden'  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
-                          
+                          columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(200);
 
-                          columns.Template(c => { }).Width(70).Title(Html.Translate("EndingBalance")).HtmlAttributes(new {@class = "calculated"}).ClientTemplate("<span class='rowCount EndingBalance' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=TotalEndingBalance(data)# </span>" + 
+
+                          columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason")
+                             .ClientTemplate("<span class='rowCount'>#= LossReasonId #</span>" +
+                          "<input  type='hidden'  name='WoredaDistributionDetailViewModels[#= index(data)#].LossReasonId' value='#= LossReasonId #' />");
+
+                          columns.Template(c => { }).Width(100).Title(Html.Translate("EndingBalance")).HtmlAttributes(new { @class = "calculated" }).ClientTemplate("<span class='rowCount EndingBalance' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=TotalEndingBalance(data)# </span>" +
                               " <input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
-                          
+
                           //columns.Bound(p => p.EndingBalance).Width(80).HtmlAttributes(new {style = "overflow: visible; white-space: normal;"});
                           //.ClientTemplate("<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                           //// columns.Bound(p => p.DistributionStartDate);
                           //// columns.Bound(p => p.DistributionEndDate);
 
                       })
-        //.ToolBar(toolBar=>toolBar.Save())
+         //.ToolBar(toolBar=>toolBar.Save())
                       .Editable(editable => editable.Mode(GridEditMode.InCell))
 
                       .Scrollable()
-        //.Selectable(t => t.Mode(GridSelectionMode.Single))
+         //.Selectable(t => t.Mode(GridSelectionMode.Single))
                       .Navigatable()
                       .HtmlAttributes(new { style = "height:350px;" })
                        .Events(events => events.Change("onDataBound"))
@@ -220,8 +328,8 @@
                                                     .Ajax()
                                                     .Batch(true)
                                                     .ServerOperation(false)
-                                                    .Events(error=>error.Error("error_handler"))
-                                                     .Group(m => m.Add(t => t.CommodityName))
+                                                    .Events(error => error.Error("error_handler"))
+                          //.Group(m => m.Add(t => t.CommodityName))
                           // .Events(e=>e.RequestEnd("onRequestEnd"))
                           // .ServerOperation(false)
                                                     .Model(model =>
@@ -246,15 +354,15 @@
                                                     .ServerOperation(false)
 
                    //.Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new {woredaStockDistributionID =Model.WoredaStockDistributionID, woredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month}))
-        //.Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
+         //.Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
 
 
                       )
-                      .Resizable(re=>re.Columns(true))
+                      .Resizable(re => re.Columns(true))
                       )
 
     </div>
-}
+ }
 <script type="text/javascript">
 
     var save = false;
@@ -269,16 +377,25 @@
 
     function onDataBound(e) {
         var grid = $("#RequisitionGridDetail").data("kendoGrid");
-        $(grid.tbody).on("focus", "input", function (e) {
+        $(grid.tbody).on("focus", "input", function (ex) {
             var input = $(this);
             setTimeout(function () { input.select(); }, 100);
 
             $(this).change(function () {
+                var r = $(this).closest("tr");
+                var rIndex = $("tr", grid.tbody).index(r);
+               
                 var $rowCount = $(this).closest("tr").find(".rowCount");
                 var $EndingBalance = $(this).closest("tr").find(".EndingBalance");
                var rowCount = $rowCount.attr("rowCount");
                var data = gridData[rowCount];
                var endingBalance = TotalEndingBalance(data);
+
+               
+               var distributionEndDate = document.getElementById("WoredaDistributionDetailViewModels[" + rIndex + "].DistributionEndDate");
+               var distributionStartDate = document.getElementById("WoredaDistributionDetailViewModels[" + rIndex + "].DistributionStartDate");
+               distributionStartDate.value = kendo.toString(kendo.parseDate(data.DistributionStartDate), "MM/dd/yy");
+               distributionEndDate.value = kendo.toString(kendo.parseDate(data.DistributionEndDate), "MM/dd/yy");
                 
                if (validatEndingBalance(data)) {
                    save = true;
@@ -299,7 +416,7 @@
         $.ajax({
             async: false,
             type: "POST",
-            url: "@Url.Action("GetReasonName","WoredaStockDistribution")",
+            url: "@Url.Action("GetReasonName", "WoredaStockDistribution")",
             data: { id: data.LossReasonId },
 
 

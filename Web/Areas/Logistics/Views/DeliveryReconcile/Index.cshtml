@@ -84,18 +84,18 @@
                       .Columns(columns =>
                                    {
                                        columns.Bound(c => c.DispatchID).Visible(false);
-                                       columns.Bound(c => c.RequisitionNo).Width(16);
-                                       columns.Bound(c => c.GIN).Width(15);
-                                       columns.Bound(c => c.DispatchDatePref).Width(17);
-                                       columns.Bound(c => c.Commodity).Width(13);
-                                       columns.Bound(c => c.Round).Width(10);
-                                       columns.Bound(c => c.MonthYear).Width(12);
-                                       columns.Bound(c => c.Quantity).Width(12).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
-                                       columns.Bound(c => c.GRN).Width(8);
-                                       columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
-                                       columns.Bound(c => c.ReceivedAmount).Width(10).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
-                                       columns.Bound(c => c.LossAmount).Width(10).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
-                                       columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(30);
+                                       columns.Bound(c => c.RequisitionNo).Width(30);
+                                       columns.Bound(c => c.GIN).Width(25);
+                                       columns.Bound(c => c.DispatchDatePref).Width(35).Title("Dis. Date");
+                                       columns.Bound(c => c.Commodity).Width(30);
+                                       columns.Bound(c => c.Round).Width(20);
+                                       columns.Bound(c => c.MonthYear).Width(30);
+                                       columns.Bound(c => c.Quantity).Width(40).Title("Dis. Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                       columns.Bound(c => c.GRN).Width(25);
+                                       columns.Bound(c => c.ReceivedDate).Width(40).Format("{0:dd-MMM-yyyy}");
+                                       columns.Bound(c => c.ReceivedAmount).Width(45).Title("Rec. Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                       columns.Bound(c => c.LossAmount).Width(25).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
+                                       columns.ForeignKey(c => c.LossReasonId, (System.Collections.IEnumerable)ViewData["LossReasons"], "Id", "name").Title("Loss code - Reason").Width(40);
                                        //columns.Bound(c => c.LossReason).Width(15);
                                        //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 

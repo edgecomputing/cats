@@ -14,6 +14,7 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using IAdminUnitService = Cats.Services.Administration.IAdminUnitService;
 using ICommonService = Cats.Services.Common.ICommonService;
 using IProgramService = Cats.Services.EarlyWarning.IProgramService;
 using ITransactionService = Cats.Services.Transaction.ITransactionService;
@@ -36,7 +37,8 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IDeliveryService _deliveryService;
         private readonly IProgramService _programService;
         private readonly ILossReasonService _lossReasonService;
-
+        private readonly IPlanService _planService;
+        private readonly IAdminUnitService _adminUnitService;
         public WoredaStockDistributionController(
             IUtilizationHeaderSerivce utilizationService,
             IProgramService programService,
@@ -46,7 +48,8 @@ namespace Cats.Areas.Logistics.Controllers
             IRegionalRequestService regionalRequestService,
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IReliefRequisitionService reliefRequisitionService,
-            ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService, ILossReasonService lossReasonService)
+
+            ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService, ILossReasonService lossReasonService, IPlanService planService, IAdminUnitService adminUnitService)
         {
             _utilizationService = utilizationService;
             _programService = programService;
@@ -60,6 +63,8 @@ namespace Cats.Areas.Logistics.Controllers
             _dispatchService = dispatchService;
             _deliveryService = deliveryService;
             _lossReasonService = lossReasonService;
+            _planService = planService;
+            _adminUnitService = adminUnitService;
         }
 
         //
@@ -75,6 +80,42 @@ namespace Cats.Areas.Logistics.Controllers
             if (ViewBag.Errors == "errors")
                 ModelState.AddModelError("Errors", @"Please Select values from the Left Side");
             return View();
+        }
+
+
+        private void selectedLookUps(int programId, int planId, int woredaId, int month)
+        {
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            
+            if (userRegionID != null)
+            {
+                var adminUnit = _commonService.FindBy(m => m.AdminUnitID == userRegionID).FirstOrDefault();
+                if (adminUnit != null)
+                    ViewBag.SelectedRegion =  adminUnit.Name;
+            }
+
+
+           
+           
+            var unit = _commonService.FindBy(a => a.AdminUnitID == woredaId).FirstOrDefault();
+            if (unit != null)
+            {
+                ViewBag.SelectedWoreda = unit.Name;
+                var adminUnit = _adminUnitService.FindBy(f => f.AdminUnitID == unit.ParentID).FirstOrDefault();
+                if (adminUnit != null)
+                {
+                    var orDefault = adminUnit.Name;
+                    ViewBag.SelectedZone = orDefault;
+                }
+            }
+            var firstOrDefault = _programService.FindBy(p => p.ProgramID == programId).FirstOrDefault();
+            if (firstOrDefault != null)
+                ViewBag.SelectedProgram = firstOrDefault.Name;
+           
+            var @default = _planService.FindBy(p => p.PlanID == planId).FirstOrDefault();
+            if (@default != null)
+                ViewBag.SelectedPlan = @default.PlanName;
+            ViewBag.selectedmonth = month;
         }
 
         public ActionResult Create(int Woreda = -1, int planID = -1,int programID=-1, int month = -1)
@@ -98,11 +139,15 @@ namespace Cats.Areas.Logistics.Controllers
                return RedirectToAction("Index");
 
            }
+
+           
+
             var woredaStockDistributionViewModel = new WoredaStockDistributionWithDetailViewModel();
             //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels
             var woredaStockDistribution = CheckWoredaDistribution(Woreda, planID, month,programID);
             if (woredaStockDistribution!=null)
             {
+                selectedLookUps(programID, planID , Woreda,month);
                 LookUps(woredaStockDistribution);
                 woredaStockDistributionViewModel = woredaStockDistribution;
                 woredaStockDistributionViewModel.PlanID = planID;
@@ -110,6 +155,7 @@ namespace Cats.Areas.Logistics.Controllers
                 woredaStockDistributionViewModel.Month = month;
                 woredaStockDistributionViewModel.ProgramID = programID;
                 woredaStockDistributionViewModel.ActualBeneficairies = getWoredaBeneficiaryNoFromHRD(planID, Woreda, month, programID);
+                
                 return View(woredaStockDistributionViewModel);
             }
             //ModelState.AddModelError("Errora",@"Request is Not Created for this plan");
@@ -226,7 +272,9 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   TotalOut = woredaDistributionDetail.TotoalOut,
                                                                   LossAmount = woredaDistributionDetail.LossAmount,
                                                                   LossReasonId = (int) lossReason,
-                                                                  RequisitionId = woredaDistributionDetail.RequisitionId
+                                                                  RequisitionId = woredaDistributionDetail.RequisitionId,
+                                                                  DistributionStartDate = woredaDistributionDetail.DistributionStartDate,
+                                                                  DistributionEndDate = woredaDistributionDetail.DistributionEndDate
 
 
                                                               }
@@ -313,7 +361,9 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpPost]
         public ActionResult Create(WoredaStockDistributionWithDetailViewModel woredaStockDistribution)
         {
-            if (woredaStockDistribution!=null && ModelState.IsValid)
+
+            
+            if (woredaStockDistribution!=null)
             {
                 var utilization = _utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID && 
                                                              m.PlanID == woredaStockDistribution.PlanID && 
@@ -351,8 +401,9 @@ namespace Cats.Areas.Logistics.Controllers
                                     LossAmount = woredaDistributionDetailViewModel.LossAmount,
                                     LossReason = woredaDistributionDetailViewModel.LossReasonId,
                                     DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount,
-                                    RequisitionId = woredaDistributionDetailViewModel.RequisitionId
-
+                                    RequisitionId = woredaDistributionDetailViewModel.RequisitionId,
+                                    DistributionStartDate  = woredaDistributionDetailViewModel.DistributionStartDate,
+                                    DistributionEndDate = woredaDistributionDetailViewModel.DistributionEndDate
 
                                 };
                             _utilizationDetailSerivce.AddDetailDistribution(distributionDetailModel);
@@ -401,6 +452,19 @@ namespace Cats.Areas.Logistics.Controllers
                             var woredaDistributionDetail =_utilizationDetailSerivce.FindById(woredaDistributionDetailViewModel.WoredaStockDistributionDetailID);
                             if (woredaDistributionDetail!=null)
                             {
+                                woredaDistributionDetail.DistributionStartDate =
+                                    woredaDistributionDetailViewModel.DistributionStartDate != null
+                                        ? (DateTime?)
+                                          Convert.ToDateTime(
+                                              (woredaDistributionDetailViewModel.DistributionStartDate.ToString()))
+                                        : null;
+                                woredaDistributionDetail.DistributionEndDate =
+                                    woredaDistributionDetailViewModel.DistributionEndDate != null
+                                        ? (DateTime?)
+                                          Convert.ToDateTime(
+                                              woredaDistributionDetailViewModel.DistributionEndDate.ToString())
+                                        : null;
+
                                 woredaDistributionDetail.CommodityID = woredaDistributionDetailViewModel.CommodityID;
                                 woredaDistributionDetail.StartingBalance =woredaDistributionDetailViewModel.BeginingBalance;
                                 woredaDistributionDetail.EndingBalance = woredaDistributionDetailViewModel.EndingBalance;
@@ -449,6 +513,8 @@ namespace Cats.Areas.Logistics.Controllers
                                             });
              return RedirectToAction("Create");
         }
+
+
         public void LookUps()
         {
             var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
