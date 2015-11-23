@@ -26,6 +26,7 @@
                         </div>
                         <div class="col-sm-7">
                             @Html.TextBoxFor(m => m.SiNumber, String.Empty, new { @class = "form-control" })
+                            <input type="button" onclick="return getNewSINo()" name="new si" value="New SI" id="btnNewSINo"/>
                             <span class="help-block">@Html.ValidationMessageFor(m => m.SiNumber)</span>
                         </div>
                     </div>
@@ -180,6 +181,29 @@
 </div>
 <script>
 
+    function getNewSINo(data) {
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "@Url.Action("GetMaxSINo", "ReciptPlanForLoan")",
+           
+
+
+            success: function (returnValue) {
+                var SiNumber = document.getElementById("SiNumber");
+                SiNumber.value = returnValue;
+             
+                return returnValue;
+            },
+            error: function (request, error) {
+
+                //return data.LossReasonId;
+                alert('An error occurred attempting to get new e-number');
+
+            }
+        });
+    }
 
     $(document).ready(function () {
 

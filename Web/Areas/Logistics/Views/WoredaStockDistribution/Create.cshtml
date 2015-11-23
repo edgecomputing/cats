@@ -259,17 +259,17 @@
                           columns.Bound(p => p.CommodityID).Hidden().ClientTemplate("#= CommodityID #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].CommodityID' value='#= CommodityID #' />");
 
-                          columns.Bound(p => p.AllocatedAmount).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.AllocatedAmount).Width(80).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= AllocatedAmount #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />");
 
 
-                          columns.Bound(p => p.dispatched).Title("Dispatched").Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.dispatched).Title("Dispatched").Width(80).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= dispatched #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].dispatched' value='#= dispatched #' />");
 
 
-                          columns.Bound(p => p.delivered).Title("Delivered").Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          columns.Bound(p => p.delivered).Title("Delivered").Width(80).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= delivered #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].delivered' value='#= delivered #' />");
 

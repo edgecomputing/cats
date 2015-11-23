@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
@@ -232,6 +234,20 @@ namespace Cats.Areas.Logistics.Controllers
             if (firstOrDefault != null) loan.Donor = firstOrDefault.Name;
             loan.StatusID = loanReciptPlan.StatusID;
             return View(loan);
+        }
+        public JsonResult GetMaxSINo()
+        {
+            var siList = new List<int>();
+            var result =
+                _loanReciptPlanService.GetAllLoanReciptPlan().Select(m => m.ShippingInstruction.Value);
+            foreach (var si in result)
+            {
+                var data = Regex.Match(si, @"\d+").Value;
+                siList.Add(Convert.ToInt32(data));                
+            }
+            //var resultString = new String(result.Where(Char.IsDigit).ToArray());
+            int resultInt = siList.Max() + 1;
+           return Json(resultInt, JsonRequestBehavior.AllowGet);
         }
         public ActionResult LoanReciptPlanDetail_Read([DataSourceRequest] DataSourceRequest request, int loanReciptPlanID)
         {
