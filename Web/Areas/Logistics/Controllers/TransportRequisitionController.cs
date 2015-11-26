@@ -378,6 +378,8 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult ConfirmGenerateTransportOrder(int id)
         {
             ViewBag.RequisistionId = id;
+                                           
+            ViewBag.BidId = new SelectList(_transportRequisitionService.ReturnBids(id), "BidId", "BidNo");
             if (!_transportRequisitionService.CheckIfBidIsCreatedForAnOrder(id))
             {
                 ViewBag.Msg = "Winner transporter is not created for this Requisition!";

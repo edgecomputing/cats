@@ -155,6 +155,39 @@ namespace Cats.Services.Logistics
             _notificationService.AddNotificationForProcurementFromLogistics(destinationURl, transportRequisition);
         }
 
+        public List<BidNumber> ReturnBids(int transportRequisitionId)
+        {
+            List<BidNumber> bids = new List<BidNumber>();
+            List<BidNumber> distinctbids = new List<BidNumber>();
+            var transportRequision = _unitOfWork.TransportRequisitionDetailRepository.Get(
+                t => t.TransportRequisitionID == transportRequisitionId, null, null).Select(t => t.RequisitionID);
+
+            var reqDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => transportRequision.Contains(t.RequisitionID));
+           
+            foreach (var reliefRequisitionDetail in reqDetails)
+            {
+                var hubId =_unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;
+                var woredaId = reliefRequisitionDetail.FDP.AdminUnitID;
+                var regionId = reliefRequisitionDetail.ReliefRequisition.RegionID;
+
+                var bidWinner =
+                    _unitOfWork.BidWinnerRepository.Get(
+                        t => t.SourceID == hubId && t.DestinationID == woredaId && t.Position == 1 &&
+                             t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionId).Distinct();
+                var result = from bid in bidWinner
+                             select new BidNumber
+                                        {
+                                            BidId = bid.BidID,
+                                            BidNo = bid.Bid.BidNumber
+                                        };
+
+
+               bids.AddRange(result.Except(bids));
+
+            }
+            
+            return bids;
+        }
         public bool CheckIfBidIsCreatedForAnOrder(int transportRequisitionId)
         {
 

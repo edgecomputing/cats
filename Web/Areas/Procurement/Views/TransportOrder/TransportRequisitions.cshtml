@@ -22,6 +22,13 @@
 
 @*<a class="btn toolbar-btn" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"><i class="ui-icon-cancel"></i></a>*@
 
+<div style="display: none" id="error" class='cats_error'>
+        @if(ViewBag.Error!=null)
+        {
+            @ViewBag.Error
+        }  
+</div> 
+
 <div class="portlet light bordered bg-inverse">
     <div class="portlet-title">
         <div class="caption font-green-sharp"><i class="fa fa-list font-green-sharp"></i> @Html.Translate("Approved Transport Requisition Lists")</div>
@@ -79,7 +86,16 @@
     </div>
 </div>
 
-        <script>
+<script>
+
+    $(document).ready(function () {
+        var error = '@ViewBag.Error';
+        if (error != "" && error!=null) {
+            var elem = document.getElementById('error');
+            elem.style.display = "block";
+        }
+    });
+
     function searchIndexObj() {
         //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
         var searchIndexValue = $("#searchIndex").val();
@@ -92,7 +108,7 @@
         var grid = $("#Grid").data("kendoGrid");
         grid.dataSource.read();
     }
-        </script>
+</script>
         @*<script type="text/javascript">
                 $(function () {
 

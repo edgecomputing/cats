@@ -61,6 +61,11 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpGet]
         public ViewResult TransportRequisitions()
         {
+            if (TempData["Error"]!=null)
+            {
+                ModelState.AddModelError("Error", TempData["Error"].ToString());
+                ViewBag.Error = TempData["Error"].ToString();
+            }
             return View();
         }
 
@@ -78,22 +83,22 @@ namespace Cats.Areas.Procurement.Controllers
             return File(result.RenderBytes, result.MimeType);
         }
 
-       
-        public ActionResult CreateTransportOrder(string saveButton, string cancelButton,int id)
+
+        public ActionResult CreateTransportOrder(string saveButton, string cancelButton, int id, int BidId=-1)
         {
             try
             {
+                if (BidId == -1 && cancelButton == null)
+                {
+                    TempData["Error"] = "Transport order not created. Please select Bid and try again";
+                    return RedirectToAction("TransportRequisitions");
+                }
                 if (saveButton != null)
                 {
 
 
-                    _transportOrderService.CreateTransportOrder(id);
+                    _transportOrderService.CreateTransportOrder(id,BidId);
                     return RedirectToAction("Index", "TransportOrder");
-                }
-                if (cancelButton != null)
-                {
-                    return RedirectToAction("TransportRequisitions");
-
                 }
                 return RedirectToAction("TransportRequisitions");
             }

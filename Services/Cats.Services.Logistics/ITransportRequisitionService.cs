@@ -29,5 +29,6 @@ namespace Cats.Services.Logistics
         List<RequisitionToDispatch> GetTransportRequisitionDetail(List<int> requIds);
         List<TransportRequisitionDetail> GetTransportRequsitionDetails(int programId);
         List<TransportRequisitionDetail> GetTransportRequsitionDetails();
+        List<BidNumber> ReturnBids(int transportRequisitionId);
     }
 }

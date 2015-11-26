@@ -87,6 +87,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        
+                        <div class="col-md-6 form-group">
+                            <div class="control-label col-md-5">
+                                @Html.LabelFor(model => model.BidId)
+                            </div>
+                            <div class="col-md-7">
+                                  @Html.DropDownList("BidId", null,"--Select Bid--", new {@id = "cmb_BidId", @class = "form-control"})
+                                    <span class="help-block">@Html.ValidationMessageFor(model => model.BidId)</span>
+                                
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

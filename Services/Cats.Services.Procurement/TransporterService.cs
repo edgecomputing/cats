@@ -63,14 +63,14 @@ namespace Cats.Services.Procurement
         #endregion
 
        
-        public List<BidWinner> GetBidWinner(int sourceID, int DestinationID)
+        public List<BidWinner> GetBidWinner(int sourceID, int DestinationID, int bidId)
         {
             List<BidWinner> Winners = new List<BidWinner>();
           
             var bidWinner =
                 _unitOfWork.BidWinnerRepository.Get(
                     t => t.SourceID == sourceID && t.DestinationID == DestinationID && t.Position == 1 &&
-                        t.Bid.StatusID == 5).FirstOrDefault();
+                        t.Bid.BidID == bidId).FirstOrDefault();
            
             if (bidWinner == null)
             {
@@ -91,9 +91,9 @@ namespace Cats.Services.Procurement
         }
 
        
-        public BidWinner GetCurrentBidWinner(int sourceID,int DestincationID)
+        public BidWinner GetCurrentBidWinner(int sourceID,int DestincationID,int bidId)
         {
-           var winners =GetBidWinner(sourceID, DestincationID);
+           var winners =GetBidWinner(sourceID, DestincationID, bidId);
            if (winners.Count < 1) return null;
             return winners[0];
         }

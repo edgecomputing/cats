@@ -37,7 +37,8 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                    SourceID= 1,
                                                    DestinationID= 1,
                                                    Tariff= 100,
-                                                   TransporterID = 1
+                                                   TransporterID = 1,
+                                                   BidID = 1
                                                }
                                        };
             
@@ -70,7 +71,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                                       {   
                                                                         
                                                                                                              RequisitionID = 1,
-            
+            RegionID = 1,
                                                                                                              RegionalRequestID = 1,
                                                                                                              TransportRequisitionDetails = new List<TransportRequisitionDetail>()
                                                                                                                  {
@@ -257,26 +258,16 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
              sipcAllocationRepository.Setup(t => t.FindBy(It.IsAny<Expression<Func<SIPCAllocation, bool>>>())).Returns(new List<SIPCAllocation>());
              mockUnitOfWork.Setup(t => t.SIPCAllocationRepository).Returns(sipcAllocationRepository.Object);
              var transporterService = new Mock<ITransporterService>();
-            transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new BidWinner()
+            transporterService.Setup(t => t.GetBidWinner(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(new List<BidWinner>()
                                                                                                                {
-                                                                                                                   BidID
-                                                                                                                       =
-                                                                                                                       1,
-                                                                                                                   DestinationID
-                                                                                                                       =
-                                                                                                                       1,
-                                                                                                                   Position
-                                                                                                                       =
-                                                                                                                       1,
-                                                                                                                   SourceID
-                                                                                                                       =
-                                                                                                                       1,
-                                                                                                                   Tariff
-                                                                                                                       =
-                                                                                                                       1,
-                                                                                                                   TransporterID
-                                                                                                                       =
-                                                                                                                       1
+                                                                                                                   new BidWinner(){
+                                                                                                                   BidID=1,
+                                                                                                                   DestinationID=1,
+                                                                                                                   Position=1,
+                                                                                                                   SourceID=1,
+                                                                                                                   Tariff=1,
+                                                                                                                   TransporterID=1
+                                                                                                                   }
                                                                                                                });
             _notificationService = new NotificationService(unitOfWorkNotify.Object);
             _transportOrderService = new TransportOrderService(mockUnitOfWork.Object, transporterService.Object, _notificationService);
@@ -337,7 +328,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
             //Act 
 
            
-            var result = _transportOrderService.CreateTransportOrder(1);
+            var result = _transportOrderService.CreateTransportOrder(1,1);
 
             //Assert
 

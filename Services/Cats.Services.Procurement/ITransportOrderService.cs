@@ -33,7 +33,7 @@ namespace Cats.Services.Procurement
 
         //IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         //IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
-       bool CreateTransportOrder(int requisitionId);
+       bool CreateTransportOrder(int requisitionId,int bidId);
        int ReAssignTransporter(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter,int transporterID);
        bool ApproveTransportOrder(TransportOrder transportOrder);
        bool SignTransportOrder(TransportOrder transportOrder);

@@ -46,6 +46,9 @@ namespace Cats.Areas.Logistics.Models
         public string DateCertified { get; set; }
         public string Remark { get; set; }
         public int StatusID { get; set; }
+         [Display(Name = "Bid")]
+        [Required(ErrorMessage = "Please select Bid")]
+        public int BidId { get; set; }
         public List<TransportRequisitionDetailViewModel> TransportRequisitionDetailViewModels { get; set; }
     }
 }

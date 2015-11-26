@@ -35,4 +35,23 @@ namespace Cats.Models
         public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
         //public virtual ICollection<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; } 
     }
+
+    public class BidNumber
+    {
+        public int BidId { get; set; }
+        public string BidNo { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            BidNumber other = obj as BidNumber;
+            if (other == null) return false;
+            return other.BidId == this.BidId;
+        }
+
+        public override int GetHashCode()
+        {
+            return BidId.GetHashCode();
+        }
+    }
 }
