@@ -54,8 +54,9 @@
                                       .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
          
                                       )
+                                 <input type="button" class="btn green" style="float: left"  onclick="return getNewSINo()" name="new si" value="New SI" id="btnNewSINo"/>
                             </div>
-
+                             
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -245,6 +246,31 @@
     </div>
 }
 <script type="text/javascript">
+    
+    function getNewSINo(data) {
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "@Url.Action("GetMaxSINo", "LocalPurchase")",
+
+
+
+            success: function (returnValue) {
+                var SiNumber = document.getElementById("SINumber");
+                SiNumber.value = returnValue;
+                SiNumber.readOnly = true;
+                return returnValue;
+            },
+            error: function (request, error) {
+
+                //return data.LossReasonId;
+                alert('An error occurred attempting to get new e-number');
+
+            }
+        });
+    }
+    
     function onAdditionalData(e) {
       
         return {
@@ -258,9 +284,9 @@
         return data.indexOf(dataItem);
     }
    
-$(document).ready(function () {
+    $(document).ready(function () {
  
-    $.getJSON('@Url.Action("JsonParentCommodities","Transfer")', { commodityTypeID: 1, editModval: '@Model.CommodityID' }, function (result) {
+        $.getJSON('@Url.Action("JsonParentCommodities","Transfer")', { commodityTypeID: 1, editModval: '@Model.CommodityID' }, function (result) {
             //for (var i = 0; i < 2; i++)
             //    alert(result[i].Text);
             if (result != "" && result != null) {
@@ -275,37 +301,37 @@ $(document).ready(function () {
         });
         $('#CommodityTypeID').change(function () {
             var url = '@Url.Action("JsonParentCommodities","Transfer")';
-        $.getJSON(url, { commodityTypeID: $('#CommodityTypeID').val(), editModval: '@Model.CommodityID' }, function (result) {
-            //for (var i = 0; i < 2; i++)
-            //    alert(result[i].Text);
-            if (result != "" && result != null) {
-                //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">@Html.Translate("-- Select a Parent Commodity")</option>';
-                for (var i = 0; i < result.length; i++) {
-                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+            $.getJSON(url, { commodityTypeID: $('#CommodityTypeID').val(), editModval: '@Model.CommodityID' }, function (result) {
+                //for (var i = 0; i < 2; i++)
+                //    alert(result[i].Text);
+                if (result != "" && result != null) {
+                    //$('#StoreID').data('tComboBox').value(result[0]);
+                    var options = '<option value="">@Html.Translate("-- Select a Parent Commodity")</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                    }
+                    $("#ParentCommodityID").html(options);
+
                 }
-                $("#ParentCommodityID").html(options);
-
-            }
+            });
+            $("#CommodityID").html('');
         });
-        $("#CommodityID").html('');
-    });
-    $('#ParentCommodityID').change(function () {
-        var url = '@Url.Action("JsonCommodities","Transfer")';
-        $.getJSON(url, { parentCommodityID: $('#ParentCommodityID').val(), editModval: '@Model.ParentCommodityID' }, function (result) {
-            //for (var i = 0; i < 2; i++)
-            //    alert(result[i].Text);
-            if (result != "" && result != null) {
-                //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">@Html.Translate("-- Select a Commodity")</option>';
-                for (var i = 0; i < result.length; i++) {
-                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+        $('#ParentCommodityID').change(function () {
+            var url = '@Url.Action("JsonCommodities","Transfer")';
+            $.getJSON(url, { parentCommodityID: $('#ParentCommodityID').val(), editModval: '@Model.ParentCommodityID' }, function (result) {
+                //for (var i = 0; i < 2; i++)
+                //    alert(result[i].Text);
+                if (result != "" && result != null) {
+                    //$('#StoreID').data('tComboBox').value(result[0]);
+                    var options = '<option value="">@Html.Translate("-- Select a Commodity")</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                    }
+                    $("#CommodityID").html(options);
+
                 }
-                $("#CommodityID").html(options);
-
-            }
+            });
         });
-    });
 
-});
-    </script>
+    });
+</script>

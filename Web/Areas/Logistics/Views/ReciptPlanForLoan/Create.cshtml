@@ -25,8 +25,8 @@
                             @Html.LabelFor(m => m.SiNumber, @Html.Translate("SI Number"))
                         </div>
                         <div class="col-sm-7">
-                            @Html.TextBoxFor(m => m.SiNumber, String.Empty, new { @class = "form-control", size=25 })
-                            <input type="button"class="btn green" style="float: left"  onclick="return getNewSINo()" name="new si" value="New SI" id="btnNewSINo"/>
+                            @Html.TextBoxFor(m => m.SiNumber, String.Empty, new { @class = "form-control" })
+                            <input type="button" class="btn green" style="float: left"  onclick="return getNewSINo()" name="new si" value="New SI" id="btnNewSINo"/>
                             <span class="help-block">@Html.ValidationMessageFor(m => m.SiNumber)</span>
                         </div>
                     </div>

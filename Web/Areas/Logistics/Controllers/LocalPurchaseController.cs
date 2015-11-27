@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
@@ -126,7 +127,14 @@ namespace Cats.Areas.Logistics.Controllers
             PopulateLookUps();
             return View(localPurchaseWithDetailViewModel);
         }
-
+        public JsonResult GetMaxSINo()
+        {
+            var result =
+                _localPurchaseService.GetAllLocalPurchase().Select(m => m.ShippingInstruction.Value);
+            var siList = result.Select(si => Regex.Match(si, @"\d+").Value).Select(data => Convert.ToInt32(data)).ToList();
+            int resultInt = siList.Max() + 1;
+            return Json("LP-" + resultInt, JsonRequestBehavior.AllowGet);
+        }
         private bool SaveNewLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel, int sippingInstractionID)
         {
             try
