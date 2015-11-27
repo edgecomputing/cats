@@ -247,7 +247,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             //var resultString = new String(result.Where(Char.IsDigit).ToArray());
             int resultInt = siList.Max() + 1;
-           return Json(resultInt, JsonRequestBehavior.AllowGet);
+           return Json("NWFP-" + resultInt, JsonRequestBehavior.AllowGet);
         }
         public ActionResult LoanReciptPlanDetail_Read([DataSourceRequest] DataSourceRequest request, int loanReciptPlanID)
         {
