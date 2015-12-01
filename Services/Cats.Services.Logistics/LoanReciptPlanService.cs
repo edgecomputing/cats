@@ -67,12 +67,16 @@ namespace Cats.Services.Logistics
                loanReciptPlan.StatusID = (int)LocalPurchaseStatus.Approved;
                _unitOfWork.LoanReciptPlanRepository.Edit(loanReciptPlan);
                _unitOfWork.Save();
-               foreach (var loan in loanReciptPlan.LoanReciptPlanDetails)
-               {
-                   var parentID = _unitOfWork.CommodityRepository.FindById(loanReciptPlan.CommodityID).ParentID ??
-                                  loanReciptPlan.CommodityID;
+               var loanReceiptPlanDetail =
+                   _unitOfWork.LoanReciptPlanDetailRepository.FindBy(
+                       l => l.LoanReciptPlanID == loanReciptPlan.LoanReciptPlanID);
+               if (loanReceiptPlanDetail != null)
+                   foreach (var loan in loanReceiptPlanDetail)
+                   {
+                       var parentID = _unitOfWork.CommodityRepository.FindById(loanReciptPlan.CommodityID).ParentID ??
+                                      loanReciptPlan.CommodityID;
 
-                   var reciptAllocaltion = new ReceiptAllocation()
+                       var reciptAllocaltion = new ReceiptAllocation()
                                                    {
                                                        ReceiptAllocationID = Guid.NewGuid(),
                                                        ProgramID = loanReciptPlan.ProgramID,
@@ -93,8 +97,8 @@ namespace Cats.Services.Logistics
 
                        _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
                    
-                   _unitOfWork.Save();
-               }
+                       _unitOfWork.Save();
+                   }
                return true;
 
            }
