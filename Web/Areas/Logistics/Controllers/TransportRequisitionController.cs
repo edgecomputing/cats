@@ -98,7 +98,12 @@ namespace Cats.Areas.Logistics.Controllers
         private TransportRequisitionViewModel BindTransportRequisitionViewModel(TransportRequisition transportRequisition)
         {
             string userPreference = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            
+            int? round = -1;
+            if (transportRequisition.TransportRequisitionDetails.FirstOrDefault().ReliefRequisition.Round != null)
+            {
+                round = (int)transportRequisition.TransportRequisitionDetails.FirstOrDefault().ReliefRequisition.Round;
+            }
+
             TransportRequisitionViewModel transportRequisitionViewModel = null;
             if (transportRequisition != null)
             {
@@ -120,6 +125,7 @@ namespace Cats.Areas.Logistics.Controllers
                 transportRequisitionViewModel.TransportRequisitionNo = transportRequisitionObj.TransportRequisitionNo;
                 transportRequisitionViewModel.Region = _adminUnitService.FindById(transportRequisitionObj.RegionID).Name;
                 transportRequisitionViewModel.Program = _programService.FindById(transportRequisitionObj.ProgramID).Name;
+                transportRequisitionViewModel.Round = round != -1 ? round : round = null;
 
             }
             return transportRequisitionViewModel;
