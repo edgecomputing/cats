@@ -549,7 +549,7 @@
                 var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList;
                 for(var c=0;c<transportersStanding.length;c++){
                     var k = param.id.indexOf("_");
-                    alert(param.id.substring(k+1));
+                   // alert(param.id.substring(k+1));
                     if (woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c].TransporterID == param.id.substring(k+1) ) {
                         var checked = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c];
                         if (document.getElementById(param.id).checked) {
