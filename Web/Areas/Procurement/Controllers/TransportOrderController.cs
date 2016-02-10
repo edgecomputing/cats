@@ -491,7 +491,8 @@ namespace Cats.Areas.Procurement.Controllers
                                         QuantityQtl = transportOrderDetail.QuantityQtl,
                                         TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                         SourceWarehouseID = transportOrderDetail.Hub.HubID,
-                                        BidID = transportOrderDetail.BidID
+                                        BidID = transportOrderDetail.BidID,
+                                        WinnerAssignedByLogistics = true
                                     };
                                     _transportOrderService.UpdateTransporterOrder(transportOrderDetail.TransportOrderID, subTransporterOrders.WoredaID);
                                     //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;

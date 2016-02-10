@@ -294,11 +294,11 @@ namespace Cats.Areas.Hub.Controllers
 
 
                 //check if it is loan and not a false GRN
-                if (viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOAN && !viewModel.IsFalseGRN && viewModel.SelectedGRN !=null)// this means it is the orginal GRN
-                {
-                    _transactionService.ReceiptTransactionForLoanFromNGOs(viewModel);
-                    return RedirectToAction("Index", "Receive");
-                }
+                //if (viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOAN && !viewModel.IsFalseGRN && viewModel.SelectedGRN !=null)// this means it is the orginal GRN
+                //{
+                //    _transactionService.ReceiptTransactionForLoanFromNGOs(viewModel);
+                //    return RedirectToAction("Index", "Receive");
+                //}
 
                 //Save transaction 
                 if (viewModel.ReceiveId != Guid.Empty)
