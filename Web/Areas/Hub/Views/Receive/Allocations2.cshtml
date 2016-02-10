@@ -39,7 +39,14 @@
         columns.Bound(dis => dis.ProjectNumber).Title(Html.Translate("Project Code")).Filterable(true);
         columns.Bound(dis => dis.QuantityInMT).Title(Html.Translate("Allocated In " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(QuantityInMT)#");
         columns.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(ReceivedQuantityInMT)#");
-        columns.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(RemainingBalanceInMT)#");
+        columns.Bound(dis => dis.RemainingBalanceInMT).ClientTemplate(
+    "# if (RemainingBalanceInMT < 0) { #" +
+        "#: RemainingBalanceInMT * -1 #"   + "  <span style='font-weight: bold;'>  (over received) </span>" +
+    "# } else { #" +
+        "#: RemainingBalanceInMT #" +
+    "# } #"
+);
+        //columns.Bound(dis => dis.RemainingBalanceInMT).Visible(false).Title(Html.Translate("Remaining in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(RemainingBalanceInMT)#");
         columns.Bound(dis => dis.ReceiptAllocationID).Title("").ClientTemplate("<a href='" +
             @Url.Action("Create", "ReceiveNew", new { @ReceiptAllocationID = "#=ReceiptAllocationID#", @type = allocationType }) +
             "'>Recieve  </a> &nbsp; " +

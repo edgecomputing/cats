@@ -269,14 +269,14 @@ namespace Cats.Areas.Hub.Controllers
 
                 #region Validate receive amount
 
-                if (_receiveService.IsReceiveExcedeAllocation(viewModel.ReceiveDetailNewViewModel,
-                    viewModel.ReceiptAllocationId))
-                {
-                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
-                    ModelState.AddModelError("ReceiveId", "Hey you are trying to receive more than allocated");
-                    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
-                    return View(viewModel);
-                }
+                //if (_receiveService.IsReceiveExcedeAllocation(viewModel.ReceiveDetailNewViewModel,
+                //    viewModel.ReceiptAllocationId))
+                //{
+                //    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                //    ModelState.AddModelError("ReceiveId", "you are trying to receive more than allocated");
+                //    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+                //    return View(viewModel);
+                //}
 
                 #endregion
 
