@@ -142,6 +142,24 @@ namespace Cats.Services.Logistics
             return psnpRequisition;
         }
 
+         public decimal GetTotalIn(int fdpId, int requisitionId)
+         {
+             var releifRequisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionId);
+             
+
+             if (releifRequisition != null)
+             {
+                 var fdpReceipt =
+                     _unitOfWork.DeliveryReconcileRepository.FindBy(
+                         r => r.FDPID == fdpId && r.RequsitionNo == releifRequisition.RequisitionNo).FirstOrDefault();
+                 if (fdpReceipt != null)
+                 {
+                     return fdpReceipt.ReceivedAmount;
+                 }
+             }
+             return 0;
+        }
+
         #endregion
 
         public void Dispose()

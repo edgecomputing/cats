@@ -204,6 +204,7 @@ namespace Cats.Areas.Logistics.Controllers
                      
                 if (requisition != null)
                 {
+                   
                     var woredaStockDistribution = _utilizationService.FindBy(m => m.WoredaID == woredaID && m.Month == month && m.PlanID == planID).FirstOrDefault();
                     if (woredaStockDistribution==null)
                     {
@@ -268,7 +269,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   BeginingBalance = woredaDistributionDetail.StartingBalance,
                                                                   EndingBalance = woredaDistributionDetail.EndingBalance,
                                                                   DistributedAmount = woredaDistributionDetail.DistributedAmount,
-                                                                  TotalIn = woredaDistributionDetail.TotalIn,
+                                                                  TotalIn =  woredaDistributionDetail.TotalIn,
                                                                   TotalOut = woredaDistributionDetail.TotoalOut,
                                                                   LossAmount = woredaDistributionDetail.LossAmount,
                                                                   LossReasonId = (int) lossReason,
@@ -689,7 +690,8 @@ namespace Cats.Areas.Logistics.Controllers
                             NumberOfBeneficiaries = detail.BenficiaryNo,
                             dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo, fdp.FDPID),
                             delivered = GetDelivered(reliefRequisition.RequisitionNo, fdp.FDPID),
-                            RequisitionId = reliefRequisition.RequisitionID
+                            RequisitionId = reliefRequisition.RequisitionID,
+                            TotalIn = _utilizationService.GetTotalIn(fdp.FDPID, (int)reliefRequisition.RequisitionID) != 0 ? _utilizationService.GetTotalIn(fdp.FDPID, (int)reliefRequisition.RequisitionID) : 0,
 
                             //RequisitionDetailViewModel = new RequisitionDetailViewModel()
                             //    {
@@ -744,7 +746,7 @@ namespace Cats.Areas.Logistics.Controllers
             var plans = _commonService.GetRequisitionGeneratedPlan(programId,zoneID);
             return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
         }
-
+        
         public JsonResult GetMonth(string id, int zoneID, int programId)
         {
             try
