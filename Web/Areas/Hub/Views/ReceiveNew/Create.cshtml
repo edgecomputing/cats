@@ -297,7 +297,7 @@
                               .DataTextField("CommodityName")
                               .DataValueField("CommodityId")
                               .Filter(FilterType.Contains)
-                              
+                              .Enable(false)
                               .DataSource(source => source.Read(read => read.Action("GetCommodities", "ReceiveNew", new { @receiptAllocationId = Model.ReceiptAllocationId }))))
                         
                         
