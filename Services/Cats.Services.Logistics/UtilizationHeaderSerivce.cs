@@ -150,12 +150,8 @@ namespace Cats.Services.Logistics
              if (releifRequisition != null)
              {
                  var fdpReceipt =
-                     _unitOfWork.DeliveryReconcileRepository.FindBy(
-                         r => r.FDPID == fdpId && r.RequsitionNo == releifRequisition.RequisitionNo).FirstOrDefault();
-                 if (fdpReceipt != null)
-                 {
-                     return fdpReceipt.ReceivedAmount;
-                 }
+                     _unitOfWork.DeliveryReconcileRepository.FindBy(r=>r.RequsitionNo == releifRequisition.RequisitionNo && r.FDPID == fdpId).Sum(s=>s.ReceivedAmount);
+                 return fdpReceipt;
              }
              return 0;
         }
