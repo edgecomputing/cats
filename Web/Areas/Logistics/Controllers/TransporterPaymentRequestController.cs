@@ -142,8 +142,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public List<TransporterViewModel> TransporterListViewModelBinder(List<Transporter> transporters)
         {
-
-          var r= transporters.Select(transporter =>
+            return transporters.Select(transporter =>
                                            {
                                                var firstOrDefault =
                                                    _bidWinnerService.Get(
@@ -156,9 +155,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                     TransporterName = transporter.Name,
                                                                     BidContract = firstOrDefault.Bid.BidNumber
                                                                 }
-                                                          : new TransporterViewModel();
+                                                          : null;
                                            }).ToList();
-            return r;
         }
 
         public ActionResult PaymentRequests(int transporterID)
