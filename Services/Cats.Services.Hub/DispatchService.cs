@@ -287,7 +287,7 @@ namespace Cats.Services.Hub
            // dispatch.PartitionId = 0;
 
             //dispatch.DispatchDetails.Add(dispatchDetail);
-
+            dispatch.plannedAmount = dispatchAllocation.Amount;
             return dispatch;
         }
 

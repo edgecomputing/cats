@@ -325,27 +325,35 @@
 
 }
 <script>
-  
+    
     jQuery('#txtQtl').on('input', function () {
+        var amountEntered = $('#txtQtl').val();
+        var amountPlanned = "@ViewBag.plannedAmount";
+        if ((amountEntered / 10) > amountPlanned) {
+            alert("Dispatch amount must be less than the planned amount [ " + (amountPlanned*10) + " Qtl ]!");
+            $('#txtQtl').val(0);
+            $('#Quantity').val(0);
+        }
+
         if ($('#txtQtl').val() > 410) {
-           
-           
+
+
             var response = window.confirm('Quintal value can not be greater than 410! : Continue?');
 
             if (response) {
                 $('#Quantity').val($('#txtQtl').val() / 10);
             }
             else {
-                
+
                 $('#txtQtl').val(0);
                 $('#Quantity').val(0);
             }
-          
+
         }
         $('#Quantity').val($('#txtQtl').val() / 10);
-        
+
     });
-    
+
     function OnComOpen(e) {
         var combo = $('#CommodityID').data('tComboBox');
         var comboType = $('#CommodityTypeID').data('tComboBox').value();
