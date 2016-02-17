@@ -324,6 +324,36 @@
                 </div>
                 <div class="control-group">
                     <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit,new{onkeyup="convertToMT()"})
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                </div>
+                
+            </div>
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                    <div class="controls">
+                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
                         @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
                     </div>
                     <div class="controls">
@@ -339,36 +369,7 @@
                         @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
                         @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
                     </div>
-                </div>
-            </div>
-            <div class="span4" style="vertical-align: top">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
-                    </div>
-                    <div class="controls">
-                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                    </div>
-                </div>
+                </div> 
 
             </div>
             <div class="span4" style="vertical-align: top">
@@ -550,7 +551,22 @@
 
         });
     });*@
-
+    function  convertToMT() {
+        var mesarement = $('#ReceiveDetailNewViewModel_UnitId').val();
+        var sentValue = $('#ReceiveDetailNewViewModel_SentQuantityInMt').val();
+        if (mesarement == "Bag")
+        {
+            $('#ReceiveDetailNewViewModel_SentQuantityInMt').val = sentValue * (1 / 20);
+        }
+        else if (mesarement == "Kg")
+        {
+            $('#ReceiveDetailNewViewModel_SentQuantityInMt').val = sentValue * (1 / 1000);
+        }
+        else if (mesarement == "Qunital")
+        {
+            $('#ReceiveDetailNewViewModel_SentQuantityInMt').val = sentValue * (1 / 10);
+        }
+    }
     function index(dataItem) {
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();
 
