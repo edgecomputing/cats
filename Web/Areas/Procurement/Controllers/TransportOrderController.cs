@@ -378,7 +378,7 @@ namespace Cats.Areas.Procurement.Controllers
                foreach (var subTransporterOrders in listOfSubTransporterOrders)
             {
                 if (subTransporterOrders.TransportersStandingList.All(t => t.IsChecked == false))
-                    break; // No transporter is checked
+                    continue; // No transporter is checked
                 var filteredTransporterList = from transporters in subTransporterOrders.TransportersStandingList
                                                where transporters.IsChecked
                                                select transporters;
@@ -480,29 +480,35 @@ namespace Cats.Areas.Procurement.Controllers
                                         transportOrderDetail.FdpID, transportOrderDetail.TransportOrder.BidDocumentNo,
                                         transportOrderDetail.TransportOrder.TransporterID,
                                         transportOrderDetail.TransportOrderID,transportOrderDetail.CommodityID);
-
-                                if (qty<=0)
+                                if (qty == null)
                                 {
-                                   continue;
-                                }
-                                //var qty = weightPref == "QTL"
-                                //                 ? transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount
-                                //                 : transportOrderDetail.QuantityQtl / transporterCount;
-
-                                var transportOrderDetailObj = new TransportOrderDetail
+                                    var transportOrderDetailObj = new TransportOrderDetail
                                     {
                                         TransportOrderID = transportOrderObj.TransportOrderID,
                                         CommodityID = transportOrderDetail.CommodityID,
                                         FdpID = transportOrderDetail.FdpID,
                                         RequisitionID = transportOrderDetail.RequisitionID,
-                                        QuantityQtl = qty,
+                                        QuantityQtl = transportOrderDetail.QuantityQtl,
                                         TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                         SourceWarehouseID = transportOrderDetail.Hub.HubID,
-                                        BidID = transportOrderDetail.BidID
+                                        BidID = transportOrderDetail.BidID,
+                                        WinnerAssignedByLogistics = true
                                     };
-                                _transportOrderService.UpdateTransporterOrder(transportOrderDetail.TransportOrderID, subTransporterOrders.WoredaID);
-                                //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
-                                _transportOrderDetailService.AddTransportOrderDetail(transportOrderDetailObj);
+                                    _transportOrderService.UpdateTransporterOrder(transportOrderDetail.TransportOrderID, subTransporterOrders.WoredaID);
+                                    //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
+                                    _transportOrderDetailService.AddTransportOrderDetail(transportOrderDetailObj);
+                                }
+                                else if (qty <= 0)
+                                {
+                                    continue;
+                                }
+
+                               
+                                //var qty = weightPref == "QTL"
+                                //                 ? transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount
+                                //                 : transportOrderDetail.QuantityQtl / transporterCount;
+
+                                
                             }
                         }
                         

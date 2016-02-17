@@ -1090,7 +1090,7 @@ namespace Cats.Services.Procurement
             _unitOfWork.Save();
         }
 
-        public decimal CheckIfCommodityIsDipatchedToThisFdp(int fdpId, string bidNo, int transporterId, int transportOrderId,int commodityId)
+        public decimal? CheckIfCommodityIsDipatchedToThisFdp(int fdpId, string bidNo, int transporterId, int transportOrderId,int commodityId)
         {
             var firstOrDefault = _unitOfWork.DispatchAllocationRepository.FindBy(d => d.TransportOrderID == transportOrderId && d.TransporterID == transporterId && d.BidRefNo == bidNo && d.FDPID == fdpId && d.CommodityID == commodityId).FirstOrDefault();
             if (firstOrDefault != null)
@@ -1110,7 +1110,7 @@ namespace Cats.Services.Procurement
                 }
                 return firstOrDefault.Amount - sumOfdispatchedQty;
             }
-            return 0;
+            return null;
 
         }
         public List<ReliefRequisition> GetRequsitionsToBeReverted()

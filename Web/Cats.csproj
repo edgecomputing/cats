@@ -717,6 +717,7 @@
     <Content Include="Areas\Logistics\Views\Swap\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\Swap\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\Swap\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\DetailNonFoodItems.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />

@@ -269,14 +269,14 @@ namespace Cats.Areas.Hub.Controllers
 
                 #region Validate receive amount
 
-                if (_receiveService.IsReceiveExcedeAllocation(viewModel.ReceiveDetailNewViewModel,
-                    viewModel.ReceiptAllocationId))
-                {
-                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
-                    ModelState.AddModelError("ReceiveId", "Hey you are trying to receive more than allocated");
-                    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
-                    return View(viewModel);
-                }
+                //if (_receiveService.IsReceiveExcedeAllocation(viewModel.ReceiveDetailNewViewModel,
+                //    viewModel.ReceiptAllocationId))
+                //{
+                //    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                //    ModelState.AddModelError("ReceiveId", "you are trying to receive more than allocated");
+                //    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+                //    return View(viewModel);
+                //}
 
                 #endregion
 
@@ -294,11 +294,11 @@ namespace Cats.Areas.Hub.Controllers
 
 
                 //check if it is loan and not a false GRN
-                if (viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOAN && !viewModel.IsFalseGRN && viewModel.SelectedGRN !=null)// this means it is the orginal GRN
-                {
-                    _transactionService.ReceiptTransactionForLoanFromNGOs(viewModel);
-                    return RedirectToAction("Index", "Receive");
-                }
+                //if (viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOAN && !viewModel.IsFalseGRN && viewModel.SelectedGRN !=null)// this means it is the orginal GRN
+                //{
+                //    _transactionService.ReceiptTransactionForLoanFromNGOs(viewModel);
+                //    return RedirectToAction("Index", "Receive");
+                //}
 
                 //Save transaction 
                 if (viewModel.ReceiveId != Guid.Empty)
