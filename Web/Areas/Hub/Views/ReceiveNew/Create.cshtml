@@ -327,7 +327,7 @@
                         @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
                     </div>
                     <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit,new{onkeyup="convertToMT()"})
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
                         @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
                     </div>
                 </div>
@@ -551,22 +551,54 @@
 
         });
     });*@
-    function  convertToMT() {
-        var mesarement = $('#ReceiveDetailNewViewModel_UnitId').val();
-        var sentValue = $('#ReceiveDetailNewViewModel_SentQuantityInMt').val();
-        if (mesarement == "Bag")
-        {
-            $('#ReceiveDetailNewViewModel_SentQuantityInMt').val = sentValue * (1 / 20);
-        }
-        else if (mesarement == "Kg")
-        {
-            $('#ReceiveDetailNewViewModel_SentQuantityInMt').val = sentValue * (1 / 1000);
-        }
-        else if (mesarement == "Qunital")
-        {
-            $('#ReceiveDetailNewViewModel_SentQuantityInMt').val = sentValue * (1 / 10);
-        }
-    }
+    $(document).ready(function () {
+        $("#ReceiveDetailNewViewModel_SentQuantityInUnit").on('input',function () {
+           
+                
+                var mesarement = $('#ReceiveDetailNewViewModel_UnitId').val();
+                
+                var sentValue = $('#ReceiveDetailNewViewModel_SentQuantityInUnit').val();
+                if (mesarement == 1) {
+                    //alert(sentValue);
+                    $('#ReceiveDetailNewViewModel_SentQuantityInMt').val(sentValue * (1 / 20));
+                }
+                else if (mesarement == 8) {
+                    $('#ReceiveDetailNewViewModel_SentQuantityInMt').val(sentValue * (1 / 1000));
+                }
+                else if (mesarement == 9) {
+                    $('#ReceiveDetailNewViewModel_SentQuantityInMt').val(sentValue * (1 / 10));
+                }
+                
+            });
+            
+
+
+        
+    });
+    $(document).ready(function () {
+        $("#ReceiveDetailNewViewModel_ReceivedQuantityInUnit").on('input', function () {
+
+
+            var mesarement = $('#ReceiveDetailNewViewModel_UnitId').val();
+
+            var sentValue = $('#ReceiveDetailNewViewModel_ReceivedQuantityInUnit').val();
+            if (mesarement == 1) {
+                //alert(sentValue);
+                $('#ReceiveDetailNewViewModel_ReceivedQuantityInMt').val(sentValue * (1 / 20));
+            }
+            else if (mesarement == 8) {
+                $('#ReceiveDetailNewViewModel_ReceivedQuantityInMt').val(sentValue * (1 / 1000));
+            }
+            else if (mesarement == 9) {
+                $('#ReceiveDetailNewViewModel_ReceivedQuantityInMt').val(sentValue * (1 / 10));
+            }
+
+        });
+
+
+
+
+    });
     function index(dataItem) {
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();
 
