@@ -71,6 +71,7 @@
         });
 
         function TreeView_onSelect(e) {
+            saveSelectedAdminUnitNodes(e.item);
             // `this` is the DOM element of the treeview
             var treeview = $(this).data('AdminUnitTree');
             $("#showAllAdminUnits").removeAttr('checked');
@@ -98,18 +99,77 @@
    
     <tr>    
         <td style="vertical-align: top">
-            <div style="max-height: 350px; overflow-y: auto;width: 215px">
+            <div style=" overflow-y: auto; width: 215px">
                 @(Html.Telerik().TreeView().ClientEvents(events => events.OnSelect("TreeView_onSelect"))
-           .Name("AdminUnitTree")
-           .BindTo(Model.AdminUnits, (item, AdminUnits) =>
-                                         {
-                                             // bind initial data - can be omitted if there is none
-                                             item.Text = AdminUnits.Name;
-                                             item.Value = AdminUnits.AdminUnitID.ToString();
-                                             item.LoadOnDemand = AdminUnits.AdminUnit1.Count > 0;
-                                         }).ShowLines(true)
-           .DataBinding(dataBinding => dataBinding.Ajax().Select("GetTreeElts", "AdminUnit")))
+                      .Name("AdminUnitTree")
+                        .BindTo(Model.AdminUnits, (item, AdminUnits) =>
+                        {
+                            item.Text = AdminUnits.Name;
+                            item.Value = AdminUnits.AdminUnitID.ToString();
+                            item.LoadOnDemand = AdminUnits.AdminUnit1.Count > 0;
+                            item.Expanded = true;
+                        })
+                      .ShowLines(true).Effects(e=>e.Slide())
+                      .DataBinding(dataBinding => dataBinding.Ajax().Select("GetTreeElts", "AdminUnit"))
+                      .ClientEvents(c => c.OnDataBound("expandTree").OnLoad("onLoadTree")) 
+                      )
+                <script type="text/javascript">
+                    /* 
+                    Persist the selected tree structure path of the TreeView @@engbiruk
+                    */
+                    var isOnLoading = true;
+
+                    var nodeToExpandPath = localStorage.selectedAdminUnits !== null ? localStorage.selectedAdminUnits.split(',') : [];
+
+                    function onLoadTree(e) {
+                        if (isOnLoading) {
+                            $("#AdminUnitTree li.t-item.t-first.t-last").children("div").children('span.t-icon').click();
+                        }
+                    }
+                    
+                    function expandTree(e) {
+                        if (isOnLoading) {
+                            expandAdminUnitsNode(e.item);
+                        }
+                    }
+
+                    function saveSelectedAdminUnitNodes(selectedNode) {
+                        var list = new Array();
+                        if ($(selectedNode) !== "undefined") {
+                            localStorage.selectedAdminUnits = new Array();localStorage.selectedAdminUnit = 0;
+                            var selectedAdmin = $(selectedNode).children("div").children("input.t-input").val();
+                            list.push(selectedAdmin);
+                            $(selectedNode).parents("li").each(function (index, item) {
+                                var adminVal = $(item).children("div").children("input.t-input").val();
+                                list.push(adminVal);
+                            });
+                            list.pop(); // to remove federal record path
+                            localStorage.selectedAdminUnits = list;
+                            localStorage.selectedAdminUnit = selectedAdmin;
+                        }
+                    }
+                    
+                    function expandAdminUnitsNode(expandingNode) {
+                        var nodeToExpand = nodeToExpandPath.pop();
+                        if (nodeToExpand !== null) {
+                            if (typeof nodeToExpand === 'undefined') {
+                                $(expandingNode).children("div").children('span.t-in').click();
+                                isOnLoading = false;
+                            }
+                            $(expandingNode).find('li').each(function(index, item) {
+                                if ($(item).children("div").children("input.t-input").val() === nodeToExpand) { // Federal
+                                    $(item).children("div").children('span.t-icon').click();
+                                }
+                            });
+                        } else {
+                            isOnLoading = false;
+                        }
+
+                    }
+
+                </script>
             </div>
+            
         </td>
         <td style="vertical-align: top">
 
@@ -736,14 +796,14 @@
         var form = $(button).closest("form");
         if (form.valid()) {
             $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
-                //rebind the GRID
-                //                    var gr = $('#ReceiveAllocationGrid' + response).data('tGrid');
-                //                    gr.rebind();
-                //$.getJSON(updateUrl);
-                var gr = $('#DispatchAllocationGrid' + response.gridNum).data('tGrid');
-                gr.rebind();
-                $('#DispatchAllocationDialog').data('tWindow').close();
-            }
+                    //rebind the GRID
+                    //                    var gr = $('#ReceiveAllocationGrid' + response).data('tGrid');
+                    //                    gr.rebind();
+                    //$.getJSON(updateUrl);
+                    var gr = $('#DispatchAllocationGrid' + response.gridNum).data('tGrid');
+                    gr.rebind();
+                    $('#DispatchAllocationDialog').data('tWindow').close();
+                }
             });
         }
         return false;
@@ -757,9 +817,9 @@
         var form = $(button).closest("form");
         if (form.valid()) {
             $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
-                $('#DispatchAllocationDialog').data('tWindow').close();
-                // reloadGrid();
-            }
+                    $('#DispatchAllocationDialog').data('tWindow').close();
+                    // reloadGrid();
+                }
             });
         }
         return false;
