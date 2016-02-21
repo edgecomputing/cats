@@ -180,7 +180,7 @@
                 </div>
                 }
                 
-                @if (!Model.IsFalseGRN && CommoditySource.Constants.LOAN == Model.CommoditySourceTypeId)
+              @*  @if (!Model.IsFalseGRN && CommoditySource.Constants.LOAN == Model.CommoditySourceTypeId)
                 {
                     <div class="control-group">
                         <div class="control-label">
@@ -204,7 +204,7 @@
                             @Html.ValidationMessageFor(model => model.SelectedGRN)
                         </div>
                     </div>
-                }
+                }*@
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.StackNumber)
@@ -324,35 +324,6 @@
                 </div>
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
-                    </div>
-                </div>
-            </div>
-            <div class="span4" style="vertical-align: top">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
-                    </div>
-                    <div class="controls">
-                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
                         @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
                     </div>
                     <div class="controls">
@@ -369,6 +340,36 @@
                         @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
                     </div>
                 </div>
+                
+            </div>
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                    <div class="controls">
+                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
+                    </div>
+                </div> 
 
             </div>
             <div class="span4" style="vertical-align: top">
@@ -550,7 +551,54 @@
 
         });
     });*@
+    $(document).ready(function () {
+        $("#ReceiveDetailNewViewModel_SentQuantityInUnit").on('input',function () {
+           
+                
+                var mesarement = $('#ReceiveDetailNewViewModel_UnitId').val();
+                
+                var sentValue = $('#ReceiveDetailNewViewModel_SentQuantityInUnit').val();
+                if (mesarement == 1) {
+                    //alert(sentValue);
+                    $('#ReceiveDetailNewViewModel_SentQuantityInMt').val(sentValue * (1 / 20));
+                }
+                else if (mesarement == 8) {
+                    $('#ReceiveDetailNewViewModel_SentQuantityInMt').val(sentValue * (1 / 1000));
+                }
+                else if (mesarement == 9) {
+                    $('#ReceiveDetailNewViewModel_SentQuantityInMt').val(sentValue * (1 / 10));
+                }
+                
+            });
+            
 
+
+        
+    });
+    $(document).ready(function () {
+        $("#ReceiveDetailNewViewModel_ReceivedQuantityInUnit").on('input', function () {
+
+
+            var mesarement = $('#ReceiveDetailNewViewModel_UnitId').val();
+
+            var sentValue = $('#ReceiveDetailNewViewModel_ReceivedQuantityInUnit').val();
+            if (mesarement == 1) {
+                //alert(sentValue);
+                $('#ReceiveDetailNewViewModel_ReceivedQuantityInMt').val(sentValue * (1 / 20));
+            }
+            else if (mesarement == 8) {
+                $('#ReceiveDetailNewViewModel_ReceivedQuantityInMt').val(sentValue * (1 / 1000));
+            }
+            else if (mesarement == 9) {
+                $('#ReceiveDetailNewViewModel_ReceivedQuantityInMt').val(sentValue * (1 / 10));
+            }
+
+        });
+
+
+
+
+    });
     function index(dataItem) {
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();
 

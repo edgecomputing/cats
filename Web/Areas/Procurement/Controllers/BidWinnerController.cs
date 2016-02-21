@@ -33,10 +33,11 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IUserAccountService _userAccountService;
         private readonly ILog _log;
+        private readonly ITransportOrderDetailService _transportOrderDetailService;
 
         public BidWinnerController(IBidService bidService, ITransporterService transporterService, IBidWinnerService bidWinnerService,
             IUnitOfWork unitofwork, ITransporterAgreementVersionService transporterAgreementVersionService, IWorkflowStatusService workflowStatusService, 
-            IUserAccountService userAccountService, ILog log)
+            IUserAccountService userAccountService, ILog log, ITransportOrderDetailService transportOrderDetailService)
         {
             _bidService = bidService;
             //_applicationSettingService = applicationSettingService;
@@ -48,6 +49,7 @@ namespace Cats.Areas.Procurement.Controllers
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
             _log = log;
+            _transportOrderDetailService = transportOrderDetailService;
         }
 
         public ActionResult Index()

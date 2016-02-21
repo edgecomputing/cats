@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-sm-7">
                             @Html.TextBoxFor(m => m.SiNumber, String.Empty, new { @class = "form-control" })
-                            <input type="button" onclick="return getNewSINo()" name="new si" value="New SI" id="btnNewSINo"/>
+                            <input type="button" class="btn green" style="float: left"  onclick="return getNewSINo()" name="new si" value="New SI" id="btnNewSINo"/>
                             <span class="help-block">@Html.ValidationMessageFor(m => m.SiNumber)</span>
                         </div>
                     </div>
@@ -153,7 +153,7 @@
 
             <div class="modal-footer">
                 <div class="col-sm-3 form-group pull-left">
-                    <div class="md-checkbox-inline">
+                    @*<div class="md-checkbox-inline">
                         <div class="md-checkbox">
                             @Html.CheckBoxFor(m => m.IsFalseGRN, new { @checked = Model.IsFalseGRN, @class = "md-check" })
                             <label for="IsFalseGRN">
@@ -163,13 +163,8 @@
                                 @Html.Translate("Receivable")
                             </label>
                         </div>
-                    </div>
-                    @*<div class="col-sm-5">
-                        @Html.CheckBoxFor(m => m.IsFalseGRN, new {@checked = Model.IsFalseGRN, @class = "form-control"})
                     </div>*@
-                    @*<div class="control-label col-sm-7">
-                        @Html.LabelFor(m => m.ProjectCode, @Html.Translate("False GRN"))
-                    </div>*@
+                
                 </div>
                 <button class="btn green" type="submit">@Html.Translate("Save")</button>
                 <button class="btn red" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
@@ -193,7 +188,7 @@
             success: function (returnValue) {
                 var SiNumber = document.getElementById("SiNumber");
                 SiNumber.value = returnValue;
-             
+                SiNumber.readOnly = true;
                 return returnValue;
             },
             error: function (request, error) {

@@ -237,17 +237,11 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public JsonResult GetMaxSINo()
         {
-            var siList = new List<int>();
             var result =
                 _loanReciptPlanService.GetAllLoanReciptPlan().Select(m => m.ShippingInstruction.Value);
-            foreach (var si in result)
-            {
-                var data = Regex.Match(si, @"\d+").Value;
-                siList.Add(Convert.ToInt32(data));                
-            }
-            //var resultString = new String(result.Where(Char.IsDigit).ToArray());
+            var siList = result.Select(si => Regex.Match(si, @"\d+").Value).Select(data => Convert.ToInt32(data)).ToList();
             int resultInt = siList.Max() + 1;
-           return Json(resultInt, JsonRequestBehavior.AllowGet);
+           return Json("LOAN-" + resultInt, JsonRequestBehavior.AllowGet);
         }
         public ActionResult LoanReciptPlanDetail_Read([DataSourceRequest] DataSourceRequest request, int loanReciptPlanID)
         {

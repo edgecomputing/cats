@@ -217,10 +217,7 @@ namespace Cats.Security
             {
                 return "New HRD";
             }
-            if ((operation == Operation.New_requisition))
-            {
-                return "New requisition";
-            }
+         
 
             if ((operation == Operation.Number_of_Beneficiaries))
             {
@@ -759,6 +756,10 @@ namespace Cats.Security
             if ((operation == Operation.Edit_ration))
             {
                 return "Edit ration";
+            }
+            if ((operation == Operation.New_requisition))
+            {
+                return "New requisition";
             }
             if ((operation == Operation.PSNP_plan_Ask_approval))
             {

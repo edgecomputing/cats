@@ -1,0 +1,498 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
+@using Cats.Security
+
+@using Kendo.Mvc.UI
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "DetailNonFoodItems";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+}
+
+@{
+    var modelRequest = (RegionalRequestViewModel)ViewData["Request_main_data"];
+}
+
+<h2>DetailNonFoodItems</h2>
+
+ <a class="btn btn-fit-height grey-salt" href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="fa fa-list"></i> @Html.Translate("Back to List")</a>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnEditPlan').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+        $('#btnAddFDP').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+
+
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+@if (ViewBag.message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.message
+    </div>
+}
+
+@if (ViewBag.msg != null)
+{
+    <div class="alert alert-error">
+        @ViewBag.msg
+    </div>
+}
+
+<div class="portlet light bordered bg-inverse">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list-alt font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Request Header")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            @*<a href="javascript:;" class="remove" data-original-title="" title=""></a>*@
+        </div>
+        <div class="actions">
+            <div class="btn-group">
+                <button class="btn green dropdown-toggle" data-toggle="dropdown" type="button"><i class="fa fa-ellipsis"></i> Action <i class="fa fa-angle-down"></i></button>
+                <ul class="dropdown-menu pull-right" style="-moz-min-width: 120px; -ms-min-width: 120px; -o-min-width: 120px; -webkit-min-width: 120px; min-width: 120px;">
+                    @*<li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>*@
+                    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+                    {
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                        @*<li><a class="btn green-haze-stripe" href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>*@
+                        if (modelRequest.Program == "Relief")
+                        {
+                             <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem( @Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID }),
+                                        EarlyWarningConstants.Operation.Approve_Request,@Html.Translate("Approve Request"))</a></li>
+                        }
+                        else
+                        {
+                             <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Approve Request"),@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID }),
+                                        PsnpConstants.Operation.Approve_Request)</a></li>
+                        }
+                       
+
+                    }
+                    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == (int)Cats.Models.Constant.Programs.IDPS)
+                    {
+                        <li><a class="btn green-haze-stripe" id="btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID, programId = modelRequest.ProgramId })"><i class="icon-plus"></i>IDPS Requisiton</a></li>
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("RejectRequest", "Request", new { id = modelRequest.RegionalRequestID })">Reject</a></li>
+                    }
+                    else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+                    {
+                          if (modelRequest.Program == "Relief")
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID }),
+                                                                                                       EarlyWarningConstants.Operation.New_requisition, @Html.Translate("Requisiton"))</a></li>
+                        
+                              <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("RejectRequest", "Request", new { id = modelRequest.RegionalRequestID }),
+                                                                                                       EarlyWarningConstants.Operation.Reject_Request, @Html.Translate("Reject"))</a></li>
+                          }
+                          else if (modelRequest.Program == "PSNP")
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Requisiton"), @Url.Action("CreateRequisiton", "ReliefRequisition", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID}),
+                                                                                               PsnpConstants.Operation.New_requisition)</a></li>
+
+                              <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Reject"), @Url.Action("RejectRequest", "Request", new {id = modelRequest.RegionalRequestID}),
+                                                                                               PsnpConstants.Operation.Reject_Request)</a></li>
+                          } @*
+                          
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i>Requisiton</a></li>
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("RejectRequest", "Request", new { id = modelRequest.RegionalRequestID })">Reject</a></li>*@
+                    }
+                    else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Closed)
+                    {
+                        @*<li><a class="btn green-haze-stripe" href="@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Revert Status</a></li>*@
+
+                        switch (modelRequest.Program)
+                        {
+                            case "Relief":
+                                <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID }),
+                                                                                                         EarlyWarningConstants.Operation.Reverse_Request, @Html.Translate("Revert Status"))</a></li>
+                                break;
+                            case "PSNP":
+                                <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Revert Status"), @Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID }),
+                                                                                                 PsnpConstants.Operation.Reverse_Request)</a></li>
+                                break;
+                        }
+                    }
+                    else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Reject)
+                    {
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                        <li><a class="btn green-haze-stripe" href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                        
+                          if (modelRequest.Program == "Relief")
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.EarlyWarningOperationMenuItem(@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID}),
+                                                                                                       EarlyWarningConstants.Operation.Approve_Request, @Html.Translate("Approve Request"))</a></li>
+                          }
+                          else
+                          {
+                              <li><a class="btn green-haze-stripe">@Html.PSNPOperationMenuItem(@Html.Translate("Approve Request"), @Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID}),
+                                                                                               PsnpConstants.Operation.Approve_Request)</a></li>
+                          }
+                        @*<li><a class="btn green-haze-stripe" href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>*@
+                    }
+
+                </ul>
+            </div>
+            <a class="btn green dropdown-toggle toolbar-btn" href="@Url.Action("Print", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" target="_blank" id="toolbar_button_print" title="Print"><i class="fa fa-print"></i> @Html.Translate("Print")</a>
+            @*<a class="btn btn-circle btn-default btn-sm green-stripe" data-buttontype="btn_new_record" href="@Url.Action("New", "Request")"><i class="fa fa-plus-circle"></i> @Html.Translate("New Request")</a>*@
+            @*<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>*@
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.ReferenceNumber, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.ReferenceNumber, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.Program, new { @class = "col-md-4 control-label" })
+                        @*@Html.Label(Html.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true, @class = "form-control" })
+                            @*<td>
+                                <b>@Html.Translate("Year"):</b>
+                                @modelRequest.Year*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.RequestedBy, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.RequestedBy, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                @* <div class="span3">
+                        <div style="float: right">
+
+                        </div>
+                    </div>*@
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.Region, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.Region, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.MonthName, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.MonthName, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.ApprovedBy, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.ApprovedBy, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.RequestDate, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.RequestDate, new { Disabled = true, @class = "cats-date-pref form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.Label("Year(EC)", new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.Year, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.Status, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(m => modelRequest.Status, new { Disabled = true, @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => modelRequest.Ration, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => modelRequest.Ration, new { Disabled = true, @class = "form-control" })
+                                <span class="input-group-addon">
+                                    <a class="" id="pop" data-original-title="  Ration Detail  ">
+                                        @*<a id="pop" class="" href="#" data-original-title="Ration Detail">*@
+                                        <i class="icon-question"></i>
+                                        @*</a>*@
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div>
+                        <a id="pop" class="btn btn-sm" href="#" data-original-title="Ration Detail"><i class="icon-question"></i></a>
+                    </div>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+@*<div id='dialogDiv' class='modal hide fade in'>
+        <div id='dialogContent'></div>
+    </div>*@
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Details")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+        <div class="actions">
+            @*<a class="btn btn-circle btn-default btn-sm green-stripe" data-buttontype="btn_new_record" href="@Url.Action("New", "Request")"><i class="fa fa-plus-circle"></i> @Html.Translate("New Request")</a>*@
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            @(Html.Kendo().Grid<dynamic>()
+                  .Name("Grid")
+                  .Columns(columns =>
+                  {
+                      foreach (System.Data.DataColumn column in Model.Columns)
+                      {
+                          if (column.DataType == typeof(decimal))
+                          {
+                              columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
+                              //.HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" })
+
+                          }
+                          else if (column.DataType == typeof(int))
+                          {
+                              columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
+
+                          }
+                          else
+                          {
+                              columns.Bound(column.ColumnName);
+                          }
+
+                      }
+                      columns.Command(cmd => cmd.Edit());
+                  })
+
+                  .Pageable()
+    .Sortable()
+    .Editable(ed => ed.Mode(GridEditMode.PopUp))
+    .Filterable()
+    .Groupable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+                        .Model(model =>
+                            {
+                                var id = Model.Columns["RequestId"].ColumnName;
+                                var requestId = model.Field(Model.Columns["RequestId"].ColumnName, Model.Columns["RequestId"].DataType);
+                                var zone = model.Field(Model.Columns["Zone"].ColumnName, Model.Columns["Zone"].DataType);
+                                var woreda = model.Field(Model.Columns["Woreda"].ColumnName, Model.Columns["Woreda"].DataType);
+                                var beneficiaries = model.Field(Model.Columns["Beneficiaries"].ColumnName, Model.Columns["Beneficiaries"].DataType);
+                                var plaannedBeneficiaries = model.Field(Model.Columns["PlannedBeneficiaries"].ColumnName, Model.Columns["PlannedBeneficiaries"].DataType);
+                                var differnce = model.Field(Model.Columns["Difference"].ColumnName, Model.Columns["Difference"].DataType);
+
+
+                                requestId.Editable(false);
+                                zone.Editable(false);
+                                woreda.Editable(false);
+                                beneficiaries.Editable(false);
+                                plaannedBeneficiaries.Editable(false);
+                                differnce.Editable(false);
+                                
+                                model.Id(id);
+
+
+                            })
+
+        .Read(read => read.Action("Read", "Request", new { id = @ViewBag.Id }))
+        .Update(update => update.Action("Update", "Request"))
+
+                   )
+
+            )
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var tblbody;
+
+    $("#pop").popover({
+        placement: 'right', //placement of the popover. also can use top, bottom, left or     right
+        html: 'true', //needed to show html of course
+        content: gett(this),// hope this should be link
+        trigger: 'hover'
+    });
+
+
+
+
+
+    function gett(t) {
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "@Url.Action("RationDetail", "Ration")",
+            data: "{id:'@modelRequest.RationID'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (data) {
+                tblbody = "<table style='margin: 0px;' class='table table-striped table-condensed'>";
+                for (var i = 0; i < data.length; i++) {
+                    //tblbody += "<table>";
+                    tblbody += "<tr>";
+                    tblbody += "<td>" + data[i].Name + "</td>";
+                    tblbody += "<td align='right'>" + data[i].Amount + "</td>";
+                    tblbody += "</tr>";
+                }
+                tblbody += "</table>";
+
+            },
+
+        });
+        return tblbody;
+    };
+
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            //alert(message);
+        }
+    }
+
+
+    function onDataBound(e) {
+
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+        );
+    }
+
+    function update_ui(rowIdx, row) {
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var plannedBeneficiaries = firstItem.get('PlannedBeneficiaries');
+        var beneficiaries = firstItem.get('Beneficiaries');
+
+        alert("planned: " + plannedBeneficiaries);
+        alert("Benefi : " + beneficiaries);
+        if (plannedBeneficiaries < beneficiaries) {
+            row.addClass("surplus");
+        } else {
+            row.removeClass("surplus");
+        }
+    }
+
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
+</script>
+
+<style>
+    .surplus * {
+        color: red;
+    }
+
+    .surplus {
+        color: red;
+    }
+
+    .popover-content {
+        padding: 5px;
+    }
+
+    .popover-title {
+        padding: 5px 2px;
+    }
+    .k-grid-content {
+        min-height: 500px;
+    }
+</style>
