@@ -37,6 +37,7 @@
         columns.Bound(dis => dis.CommodityName).Title(Html.Translate("Commodity")).Filterable(true);
         columns.Bound(dis => dis.SINumber).Title(Html.Translate("SINumber")).Filterable(true);
         columns.Bound(dis => dis.ProjectNumber).Title(Html.Translate("Project Code")).Filterable(true);
+        columns.Bound(dis => dis.GRN).Title(Html.Translate("GRN")).Filterable(true);
         columns.Bound(dis => dis.QuantityInMT).Title(Html.Translate("Allocated In " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(QuantityInMT)#");
         columns.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(ReceivedQuantityInMT)#");
         columns.Bound(dis => dis.RemainingBalanceInMT).ClientTemplate(

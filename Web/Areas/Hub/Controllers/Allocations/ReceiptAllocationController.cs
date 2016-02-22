@@ -17,6 +17,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
        
         private readonly IReceiptAllocationService _receiptAllocationService;
         private readonly IUserProfileService _userProfileService;
+        private readonly IReceiveService _receiveService;
         private readonly ICommoditySourceService _commoditySourceService;
         private readonly IGiftCertificateService _giftCertificateService;
         private readonly ICommodityService _commodityService;
@@ -207,7 +208,8 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commoditySources = _commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var viewModel = new ReceiptAllocationViewModel(commodities, donors, hubs, programs, commoditySources, commodityTypes, user);
+            var recivesList = _receiveService.GetAllReceive().DefaultIfEmpty().OrderBy(o => o.GRN).ToList(); ;
+            var viewModel = new ReceiptAllocationViewModel(commodities, donors, hubs, programs, commoditySources, commodityTypes, user, recivesList);
             viewModel.HubID = user.DefaultHub.Value;
             return viewModel;
         }

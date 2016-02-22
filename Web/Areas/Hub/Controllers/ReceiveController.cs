@@ -129,6 +129,7 @@ namespace Cats.Areas.Hub.Controllers
             //TODO perform type specification here
             //Just return an empty list and bind it later
             var list = new List<ReceiptAllocationViewModel>();
+            
             ViewBag.CommoditySourceType = type;
             ViewBag.CommodityTypes = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name", 1); //make the inital binding a food type
             return PartialView("Allocations2", list);

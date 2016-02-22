@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
 
 namespace Cats.Models.Hubs
 {
@@ -14,7 +15,7 @@ namespace Cats.Models.Hubs
     public class ReceiptAllocationViewModel
     {
         //todo:code smell 
-        //  private IUnitOfWork _Repository = new UnitOfWork();
+         // private IUnitOfWork _Repository = new UnitOfWork();
         private UserProfile _UserProfile = null;
 
         public List<Commodity> Commodities { get; set; }
@@ -26,14 +27,16 @@ namespace Cats.Models.Hubs
         public List<Program> Programs { get; set; }
         public List<CommoditySource> CommoditySources { get; set; }
         public List<CommodityType> CommodityTypes { get; set; }
-
+       
         public Nullable<int> UnitID { get; set; }
         public bool IsClosed { get; set; }
         public Decimal ReceivedQuantityInMT { get; set; }
-
+        //public string GRN { get; set; }
         public Decimal RemainingBalanceInMT { get; set; }
         public decimal ReceivedQuantityInUnit { get; set; }
         public decimal RemainingBalanceInUnit { get; set; }
+        public List<Receive> Receives { get; set; }
+        public List<Receive> ReceivesList { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ReceiptAllocationViewModel"/> class.
         /// </summary>
@@ -42,7 +45,7 @@ namespace Cats.Models.Hubs
             //Commodities = _Repository.Commodity.GetAll().OrderBy(o => o.Name).ToList();
             //Donors = _Repository.Donor.GetAll().OrderBy(o => o.Name).ToList();
             //Hubs = _Repository.Hub.GetAll().OrderBy(o => o.Name).ToList();
-
+           // GRN = ReceivedQuantityInMT.ToString();
         }
 
         /// <summary>
@@ -50,17 +53,17 @@ namespace Cats.Models.Hubs
         /// </summary>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userProfile">The user profile.</param>
-        public ReceiptAllocationViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes, UserProfile user)
+        public ReceiptAllocationViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes, UserProfile user, List<Receive> receiveList)
         {
             //_Repository = unitOfWork;
             _UserProfile = user;
-            InitalizeViewModel(commodities, donors, allHubs, programs, commoditySources, commodityTypes);
+            InitalizeViewModel(commodities, donors, allHubs, programs, commoditySources, commodityTypes,  receiveList);
         }
 
         /// <summary>
         /// Initalizes the view model.
         /// </summary>
-        public void InitalizeViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes)
+        public void InitalizeViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes, List<Receive> receiveList )
         {
             Commodities = commodities;//_Repository.Commodity.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             Donors = donors;// _Repository.Donor.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
@@ -79,6 +82,7 @@ namespace Cats.Models.Hubs
             //        _Repository.Hub.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             //}
             Hubs = allHubs;
+            ReceivesList = receiveList; 
             Programs = programs;// _Repository.Program.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommoditySources = commoditySources;// _Repository.CommoditySource.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommodityTypes = commodityTypes;// _Repository.CommodityType.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
@@ -100,6 +104,7 @@ namespace Cats.Models.Hubs
                 QuantityInMT = this.QuantityInMT,
                 CommodityID = this.CommodityID,
                 HubID = this.HubID,
+                 
                 ETA = this.ETA,
                 DonorID = this.DonorID == null ? (int?)null : this.DonorID.Value,
                 GiftCertificateDetailID = this.GiftCertificateDetailID,
@@ -112,13 +117,14 @@ namespace Cats.Models.Hubs
                 SupplierName = this.SupplierName,
                 OtherDocumentationRef = this.OtherDocumentationRef,
                 QuantityInUnit = this.QuantityInUnit,
+                Receives = this.Receives,
                 Remark = this.Remark
             };
             if (this.ReceiptAllocationID.HasValue)
             {
                 receiptAllocation.ReceiptAllocationID = this.ReceiptAllocationID.Value;
             }
-
+            
             return receiptAllocation;
         }
 
@@ -151,8 +157,9 @@ namespace Cats.Models.Hubs
             receiptAllocationViewModel.SupplierName = receiptAllocation.SupplierName;
             receiptAllocationViewModel.OtherDocumentationRef = receiptAllocation.OtherDocumentationRef;
             receiptAllocationViewModel.Remark = receiptAllocation.Remark;
+            receiptAllocationViewModel.Receives = receiptAllocation.Receives.ToList();
             receiptAllocationViewModel.CommodityTypeID = receiptAllocation.Commodity.CommodityTypeID;
-
+            
             receiptAllocationViewModel.ProgramID = receiptAllocation.ProgramID;
             receiptAllocationViewModel.CommoditySourceID = receiptAllocation.CommoditySourceID;
             return receiptAllocationViewModel;
@@ -208,6 +215,7 @@ namespace Cats.Models.Hubs
         [Required(ErrorMessage = "Program is required")]
         public Int32 ProgramID { get; set; }
 
+        
         [Required(ErrorMessage = "Commodity Source is required")]
         //[Remote("SINotUnique", "ReceiptAllocation", AdditionalFields = "SINumber", ErrorMessage = "The SInumber given is Not valid for this Commodity Source")]
         public Int32 CommoditySourceID { get; set; }
@@ -240,9 +248,34 @@ namespace Cats.Models.Hubs
         [Required]
         public int CommodityTypeID { get; set; }
 
+        private string grn ;
         public string CommodityTypeText { get; set; }
         public string CommodityText { get; set; }
+        public string GRN{
+            get
+            {
+                
+                grn = ReceiptAllocationID.ToString();
+                //var d = ReceiveDetailViewModelDto(x => x.ReceiptAllocationID == ReceiptAllocationID) 
+                //var list = new List<Receive>().FindAll(x => x.ReceiptAllocationID == ReceiptAllocationID);
 
+
+                
+                 //var list  = ReceivesList.FindAll((x => x.ReceiptAllocationID == ReceiptAllocationID));
+                return grn;
+            }
+            
+            set
+            {
+                
+                for (int i = 0; i < Receives.ToArray().Length; i++)
+                {
+                    // grn + Receives.ToArray()[i].GRN;
+
+                }
+                
+            }
+        }
         //public string CommodityTypeText
         //{
         //    get { return _Repository.CommodityType.FindById(CommodityTypeID).Name; }
