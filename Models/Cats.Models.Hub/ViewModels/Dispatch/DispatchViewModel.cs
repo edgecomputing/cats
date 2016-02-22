@@ -815,5 +815,7 @@ namespace Cats.Models.Hubs
         public Guid DeliveryID { get; set; }
         [Display(Name="Quantity Per Unit")]
         public decimal? QuantityPerUnit  { get; set; }
+
+        public decimal plannedAmount { get; set; }
     }
 }
